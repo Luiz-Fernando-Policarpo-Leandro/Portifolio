@@ -1,142 +1,459 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luiz Fernando</title>
-<style>
-  body {
-    font-family: "Inter", sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #111;
-    background: #fff;
-    line-height: 1.6;
-  }
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 48px 20px;
-  }
-  header {
-    text-align: center;
-    margin-bottom: 56px;
-  }
-  .avatar {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 auto 24px auto;
-    border: 4px solid #ddd;
-  }
-  .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  h1 {
-    margin-bottom: 12px;
-    font-size: 2.4rem;
-    font-weight: 700;
-  }
-  p.lead {
-    font-size: 1.15rem;
-    color: #555;
-  }
-  section {
-    margin-top: 56px;
-  }
-  h2 {
-    font-size: 1.8rem;
-    margin-bottom: 16px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 8px;
-  }
-  .project {
-    margin-bottom: 32px;
-  }
-  .project-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-  }
-  .project-desc {
-    color: #444;
-    margin-top: 8px;
-  }
-  .links a {
-    color: #0366d6;
-    text-decoration: none;
-    margin-right: 16px;
-  }
-  .links a:hover {
-    text-decoration: underline;
-  }
-  footer {
-    text-align: center;
-    color: #888;
-    margin-top: 60px;
-    font-size: 0.9rem;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luiz Fernando — Desenvolvedor</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0b0d10;
+      color: #e5e7eb;
+      line-height: 1.7;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #matrix {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(circle at top, #020617, #000);
+      opacity: 0.35;
+    }
+
+    a { color: #7dd3fc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 96px 24px;
+    }
+
+    /* HERO */
+    header {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-bottom: 120px;
+    }
+
+    .avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #111827;
+      background: #020617;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: #9ca3af;
+      max-width: 640px;
+    }
+
+    .links {
+      margin-top: 28px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-weight: 500;
+    }
+
+    /* SECTIONS */
+    section { margin-bottom: 120px; }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 32px;
+      letter-spacing: -0.02em;
+    }
+
+    .muted { color: #9ca3af; }
+
+    /* ABOUT */
+    .about {
+      max-width: 720px;
+      font-size: 1.05rem;
+    }
+
+    /* PROJECTS */
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .project-card {
+      background: linear-gradient(180deg, #0f172a, #020617);
+      border-radius: 18px;
+      padding: 28px;
+      border: 1px solid #111827;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+    }
+
+    .project-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .project-summary {
+      color: #9ca3af;
+      font-size: 0.95rem;
+    }
+
+    .project-details {
+      display: none;
+    }
+
+    /* MODAL */
+    .project-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .project-modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: linear-gradient(180deg, #0f172a, #020617);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 640px;
+      width: 90%;
+      border: 1px solid #1e293b;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      animation: scaleIn 0.25s ease;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-content h3 { margin-bottom: 12px; }
+    .modal-content p { margin-bottom: 8px; }
+
+    .close-btn {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      font-size: 1.5rem;
+      color: #9ca3af;
+      cursor: pointer;
+    }
+
+    .tags {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+
+    /* SKILLS */
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-box {
+      padding: 24px;
+      background: #020617;
+      border-radius: 14px;
+    }
+
+    .skill-box h4 { margin-bottom: 8px; }
+
+    /* EXPERIENCE & CERTS */
+    .list {
+      max-width: 720px;
+    }
+
+    .list-item {
+      margin-bottom: 24px;
+    }
+
+    /* CONTACT */
+    .contact {
+      font-size: 1.1rem;
+    }
+
+    footer {
+      margin-top: 120px;
+      padding-top: 32px;
+      border-top: 1px solid #111827;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      header {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .avatar { margin: 0 auto; }
+      .links { justify-content: center; }
+    }
+  </style>
 </head>
 <body>
+  <canvas id="matrix"></canvas>
+  <div class="container">
 
-<div class="container">
+    <!-- HERO -->
+    <header>
+      <div class="avatar">
+        <img src="https://avatars.githubusercontent.com/u/105563531?v=4" alt="Luiz Fernando" />
+      </div>
+      <div>
+        <h1>Luiz Fernando</h1>
+        <p class="subtitle">
+          Desenvolvedor focado em backend e produtos web, com ênfase em Ruby on Rails e Python.
+        </p>
+        <div class="links">
+          <a href="https://github.com/Luiz-Fernando-Policarpo-Leandro" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/luiz-fernando-policarpo-leandro/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:fasfernandoal@outlook.com.br">Email</a>
+        </div>
+      </div>
+    </header>
 
-  <header>
-    <div class="avatar">
-      <img src="https://avatars.githubusercontent.com/u/105563531?v=4" alt="Foto de perfil de Luiz Fernando">
-    </div>
-    <h1>Luiz Fernando Policarpo Leandro</h1>
-    <p class="lead">Desenvolvedor backend e web focado em soluções práticas com Ruby on Rails, Go e Node.js.</p>
-    <div class="links">
-      <a href="https://github.com/Luiz-Fernando-Policarpo-Leandro">GitHub</a>
-      <a href="https://www.linkedin.com/in/luiz-fernando-policarpo-leandro/">LinkedIn</a>
-      <a href="fasfernandoal@outlook.com.br">Email</a>
-    </div>
-  </header>
+    <!-- ABOUT -->
+    <section>
+      <h2>Sobre mim</h2>
+      <p class="about">
+        Sou estudante de Ciência da Computação com foco claro em desenvolvimento backend. Tenho interesse em projetar APIs e sistemas web que sejam fáceis de manter, evoluir e escalar. Gosto de entender o problema antes de escrever código, tomar decisões técnicas conscientes e justificar trade-offs. Meu objetivo atual é atuar como desenvolvedor backend em ambientes onde código, produto e aprendizado contínuo caminham juntos.
+      </p>
+    </section>
 
-  <section>
-    <h2>Projetos em Destaque</h2>
+    <!-- PROJECTS -->
+    <section>
+      <h2>Projetos em destaque</h2>
+      <div class="projects" id="projectsContainer"></div>
+    </section>
 
-    <div class="project">
-      <div class="project-title">Projeto A</div>
-      <div class="project-desc">
-        API REST em Ruby on Rails para gerenciar dados de clientes com autenticação, testes e deploy em cloud.
+    <!-- PROJECT MODAL -->
+    <div class="project-modal" id="projectModal">
+      <div class="modal-content" id="modalContent">
+        <div class="close-btn" id="closeModal">×</div>
       </div>
     </div>
 
-    <div class="project">
-      <div class="project-title">Projeto B</div>
-      <div class="project-desc">
-        Serviço backend em Go com integração a banco relacional e processamento de filas.
+    <!-- EXPERIENCE -->
+    <section>
+      <h2>Experiência</h2>
+      <div class="list">
+        <div class="list-item">
+          <strong>Projetos acadêmicos e pessoais</strong>
+          <p class="muted">Construção de APIs, aplicações web e ferramentas focadas em backend, com atenção a estrutura, legibilidade e decisões técnicas.</p>
+        </div>
+        <div class="list-item">
+          <strong>Objetivo profissional</strong>
+          <p class="muted">Atuar como desenvolvedor backend júnior ou estagiário, aprofundando conhecimentos em arquitetura, domínio de negócio e boas práticas de engenharia.</p>
+        </div>
       </div>
-    </div>
+    </section>
 
-  </section>
+    <!-- SKILLS -->
+    <section>
+      <h2>Habilidades</h2>
+      <div class="skills">
+        <div class="skill-box">
+          <h4>Backend</h4>
+          <p class="muted">Ruby on Rails, Python, APIs REST</p>
+        </div>
+        <div class="skill-box">
+          <h4>Dados</h4>
+          <p class="muted">MySQL, modelagem relacional</p>
+        </div>
+        <div class="skill-box">
+          <h4>Outros</h4>
+          <p class="muted">Git, Linux, fundamentos de arquitetura</p>
+        </div>
+      </div>
+    </section>
 
-  <section>
-    <h2>Sobre Mim</h2>
-    <p>
-      Estudante de Ciência da Computação com foco em desenvolvimento backend, apaixonado por
-      escrever código que resolve problemas reais. Estou sempre aprendendo e aplicando novas
-      tecnologias em projetos práticos.
-    </p>
-  </section>
+    <!-- CERTS -->
+    <section>
+      <h2>Certificados</h2>
+      <div class="list">
+        <div class="list-item">
+          <strong>AWS Well-Architected Framework</strong>
+          <p class="muted">Estudo focado em trade-offs de custo, confiabilidade e escalabilidade.</p>
+        </div>
+      </div>
+    </section>
 
-  <section>
-    <h2>Certificados Relevantes</h2>
-    <p>
-      AWS Well-Architected Framework — foco em decisões de arquitetura e trade-offs em sistemas distribuídos.
-    </p>
-  </section>
+    <!-- CONTACT -->
+    <section>
+      <h2>Contato</h2>
+      <p class="contact">
+        Interessado em conversar sobre oportunidades ou projetos? Me encontre no
+        <a href="https://www.linkedin.com/in/luiz-fernando-policarpo-leandro/" target="_blank" rel="noopener">LinkedIn</a>
+        ou envie um <a href="mailto:fasfernandoal@outlook.com.br">email</a>.
+      </p>
+    </section>
 
-  <footer>
-    © 2025 — Luiz Fernando
-  </footer>
+    <footer>
+      © 2025 — Luiz Fernando
+    </footer>
 
-</div>
+  </div>
+  
+  <script>
+  const projectsContainer = document.getElementById('projectsContainer');
+  const modal = document.getElementById('projectModal');
+  const modalContent = document.getElementById('modalContent');
 
+  async function loadProjects() {
+    let projects;
+    try {
+      const response = await fetch('./data/projects.json');
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
+      }
+      projects = await response.json();
+    } catch (error) {
+      console.warn('Falha ao carregar projects.json. Usando fallback.', error);
+      projects = [
+        {
+          title: 'Portfolio Pessoal',
+          summary: 'Site pessoal para apresentação de projetos e habilidades.',
+          problem: 'Necessidade de apresentar projetos de forma clara.',
+          solution: 'Aplicação estática com dados desacoplados em JSON.',
+          learning: 'Separação entre dados e interface.',
+          tags: ['HTML', 'CSS', 'JavaScript'],
+          github: 'https://github.com/Luiz-Fernando-Policarpo-Leandro',
+          demo: null
+        }
+      ];
+    }
+
+    projectsContainer.innerHTML = '';
+
+    projects.forEach(project => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+
+      card.innerHTML = `
+        <h3>${project.title}</h3>
+        <p class="project-summary">${project.summary}</p>
+      `;
+
+      card.addEventListener('click', () => openModal(project));
+      projectsContainer.appendChild(card);
+    });
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  function openModal(project) {
+    modalContent.innerHTML = `
+      <div class="close-btn" id="closeModal">×</div>
+      <h3>${project.title}</h3>
+      <p class="muted">${project.summary}</p>
+      <p><strong>Problema:</strong> ${project.problem}</p>
+      <p><strong>Solução:</strong> ${project.solution}</p>
+      <p><strong>Aprendizado:</strong> ${project.learning}</p>
+      <div class="tags">${project.tags.join(' · ')}</div>
+      <div style="margin-top:16px">
+        ${project.github ? `<a href="${project.github}" target="_blank">Ver código</a>` : ''}
+        ${project.demo ? ` · <a href="${project.demo}" target="_blank">Ver demo</a>` : ''}
+      </div>
+    `;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    modalContent.querySelector('#closeModal').onclick = closeModal;
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  loadProjects();
+
+// MATRIX BACKGROUND
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+
+const letters = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*+-/<>=[]{}()';
+const fontSize = 14;
+let columns;
+let drops;
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  columns = Math.floor(canvas.width / fontSize);
+  // inicia cada coluna em um ponto aleatório acima da tela para evitar "chuva em bloco"
+  drops = Array.from({ length: columns }, () => -Math.floor(Math.random() * canvas.height / fontSize));
+}
+
+resize();
+window.addEventListener('resize', resize);
+
+function drawMatrix() {
+  ctx.fillStyle = 'rgba(2,6,23,0.08)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = 'rgba(34,197,94,0.6)';
+  ctx.font = fontSize + 'px monospace';
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+
+let matrixInterval;
+
+// inicia a animação imediatamente, sem fase de "preenchimento"
+matrixInterval = setInterval(drawMatrix, 80);
+</script>
 </body>
 </html>

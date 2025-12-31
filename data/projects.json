@@ -1,0 +1,24 @@
+[
+  {
+    "id": "gestao-api",
+    "title": "Sistema de Gestão",
+    "summary": "API backend para centralização de processos e dados.",
+    "problem": "Necessidade de centralizar processos e dados de múltiplos sistemas.",
+    "solution": "API REST em Ruby on Rails com autenticação e banco relacional.",
+    "learning": "Modelagem de domínio, validações e estruturação de APIs.",
+    "tags": ["Ruby on Rails", "MySQL", "REST"],
+    "github": "https://github.com/SEU_REPO",
+    "demo": null
+  },
+  {
+    "id": "backend-python",
+    "title": "Serviço Backend em Python",
+    "summary": "Serviço backend focado em clareza e processamento de dados.",
+    "problem": "Processar e expor dados de forma simples e consistente.",
+    "solution": "Aplicação backend em Python com separação clara de responsabilidades.",
+    "learning": "Arquitetura simples, integração com banco e APIs.",
+    "tags": ["Python", "API", "Banco de Dados"],
+    "github": "https://github.com/SEU_REPO",
+    "demo": null
+  }
+]
