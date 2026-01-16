@@ -326,7 +326,7 @@
     </section>
 
     <footer>
-      © 2025 — Luiz Fernando
+      © <span id="year"></span> — Luiz Fernando
     </footer>
 
   </div>
@@ -454,6 +454,10 @@ let matrixInterval;
 
 // inicia a animação imediatamente, sem fase de "preenchimento"
 matrixInterval = setInterval(drawMatrix, 80);
+
+// data span
+
+document.getElementById("year").innerHTML = new Date().getFullYear();
 </script>
 </body>
 </html>
