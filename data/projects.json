@@ -1,35 +1,28 @@
 [
   {
-    "id": "delivery-routes-optimizer",
-    "title": "Delivery Routes Optimizer — REST API",
-    "summary": "API REST para otimização de rotas de entrega considerando restrições logísticas e capacidade.",
-    "problem": "Necessidade de calcular rotas de entrega eficientes respeitando limitações de capacidade, fluxo e distribuição entre pontos.",
-    "solution": "Desenvolvimento de uma API REST em Python utilizando modelagem de domínio clara e implementação do algoritmo de fluxo máximo (Ford-Fulkerson) para otimização das rotas.",
-    "learning": "Aplicação prática de algoritmos em grafos, separação de camadas (domínio, serviços e infraestrutura), construção de APIs RESTful e uso de integração contínua para validação automática do código.",
-    "tags": ["Python", "API REST", "Algoritmos em Grafos", "Ford-Fulkerson", "CI/CD"],
-    "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/delivery-routes-optimizer",
-    "demo": null
-  },
-  {
-    "id": "conference-talk-organizer",
-    "title": "Conference Talk Organizer — CLI Application",
-    "summary": "Aplicação de linha de comando para organização automática de palestras em conferências.",
-    "problem": "Dificuldade em organizar palestras em múltiplas trilhas respeitando restrições de tempo e agenda.",
-    "solution": "Implementação de uma aplicação CLI em Python utilizando algoritmos gulosos para distribuir palestras de forma eficiente, maximizando o aproveitamento das agendas.",
-    "learning": "Uso prático de algoritmos gulosos, estruturas de dados, manipulação eficiente de strings e horários, com foco em clareza, legibilidade e raciocínio algorítmico.",
-    "tags": ["Python", "CLI", "Algoritmos", "Estruturas de Dados"],
-    "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/conference-talk-organizer",
-    "demo": null
-  },
-  {
-    "id": "onibus-app",
-    "title": "Ônibus App — Trabalho de Conclusão de Curso",
+    "id": "onibus_app",
+    "title": "Ônibus App",
     "summary": "Aplicação web para auxiliar estudantes universitários no planejamento de rotas até o campus.",
     "problem": "Falta de uma solução centralizada para planejamento e visualização de rotas de transporte universitário.",
     "solution": "Desenvolvimento de backend em Ruby on Rails seguindo arquitetura MVC, com autenticação e autorização de usuários, integração com API externa de rotas e persistência em banco relacional.",
     "learning": "Modelagem de aplicações Rails, desenvolvimento de APIs REST, escrita de testes automatizados com RSpec, integração contínua com ferramentas de qualidade e foco em confiabilidade e manutenibilidade.",
     "tags": ["Ruby on Rails", "API REST", "RSpec", "CI/CD", "PostgreSQL"],
     "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/onibus_app",
-    "demo": null
+    "demo": null,
+    "img_folder": null,
+    "images": []
+  },
+  {
+    "id": "data_analisys",
+    "title": "Data Analisys - Sitemas de despesas e arrecadações da ANS",
+    "summary": "Pipeline completo de engenharia de dados para ingestão, normalização, validação e análise de dados públicos da ANS.",
+    "problem": "Dados públicos distribuídos em múltiplos formatos, inconsistentes e sem padronização, dificultando análise confiável.",
+    "solution": "Construção de pipeline idempotente com extração automatizada, normalização dinâmica, validação de regras de negócio e carga em PostgreSQL para análise estruturada.",
+    "learning": "Engenharia de dados real (ETL), tratamento de inconsistência, paralelismo, modelagem relacional e construção de APIs para exposição de dados.",
+    "tags": ["Python", "Pandas", "  PostgreSQL", "NodeJs"],
+    "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/data_analisys_test",
+    "demo": "https://data-analisys-test-luiz-fernando-policarpo-leandros-projects.vercel.app/?_vercel_share=ZL1E8XlFVdzXcPwLn6HX5rpWY9BKEFLc",
+    "img_folder": "data_analisys",
+    "images": ["0.png", "1.png", "2.png","3.png"]
   }
 ]
