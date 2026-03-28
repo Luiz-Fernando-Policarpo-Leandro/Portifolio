@@ -109,7 +109,6 @@
 
       /* ABOUT */
       .about {
-        max-width: 720px;
         font-size: 1.05rem;
       }
 
@@ -159,13 +158,18 @@
       .project-modal {
         position: fixed;
         inset: 0;
+
+        display: none;
+        justify-content: center;
+        align-items: flex-start;
+
         background: rgba(2, 6, 23, 0.75);
         backdrop-filter: blur(6px);
-        display: none;
-        align-items: flex-start;
-        justify-content: center;
-        z-index: 50;
+
         overflow-y: auto;
+
+        padding: 40px 0;
+        
       }
 
       .project-modal.active {
@@ -180,17 +184,18 @@
         width: 90%;
         border: 1px solid #1e293b;
         box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-        animation: scaleIn 0.25s ease;
+        animation: scaleIn 0.5s ease;
 
-        margin: 60px auto; /* importante */
+        margin: 0 auto;
       }
 
-      .carousel {
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+.carousel {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centraliza */
+  gap: 15px;
+}
 
       .carousel img {
         max-width: 100%;
@@ -198,13 +203,22 @@
         border-radius: 10px;
       }
 
-      .carousel button {
-        font-size: 24px;
-        cursor: pointer;
-        background: none;
-        border: none;
-        color: white;
-      }
+    .carousel button {
+      height: auto; /* Deixe o botão se ajustar ao conteúdo */
+      padding: 10px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05); /* Um fundo leve ajuda a ver o botão */
+      border-radius: 5px;
+      border: none;
+      color: white;
+      font-size: 2rem; /* Aumente o tamanho da fonte em vez de usar scaleY */
+      transition: background 0.2s;
+    }
+
+    .carousel button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
 
       @keyframes scaleIn {
         from {
@@ -481,6 +495,8 @@
 
       function closeModal() {
         modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+        modal.scrollTop = 0;
       }
 
       function openModal(project) {
@@ -495,14 +511,14 @@
     <p><strong>Aprendizado:</strong> ${project.learning}</p>
     <div class="tags">${project.tags.join(" · ")}</div>
 
-    <div style="margin-top:16px">
+    <div style="display: flex; justify-content: center; flex;margin-top:16px; gap: 120px">
       ${project.github ? `<a href="${project.github}" target="_blank">Ver código</a>` : ""}
-      ${project.demo ? ` · <a href="${project.demo}" target="_blank">Ver demo</a>` : ""}
+      ${project.demo ? ` - <a href="${project.demo}" target="_blank">Ver demo</a>` : ""}
     </div>
 
   `;
 
-        if (project.images.length > 0) {
+        if (project.images && project.images.length > 0) {
           modalContent.innerHTML += `<div class="carousel">
             <button class="prev">‹</button>
               <img id="carousel-img" src="assets/${project.id}/${project.images[0]}" />
@@ -532,7 +548,7 @@
 
         modal.classList.add("active");
         document.body.style.overflow = "hidden";
-
+        modal.scrollTop = 0;
       }
       modal.addEventListener("click", (e) => {
         if (e.target === modal) closeModal();
