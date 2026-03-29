@@ -10,7 +10,7 @@
     "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/onibus_app",
     "demo": null,
     "img_folder": null,
-    "images": []
+    "images": ["0","1"]
   },
   {
     "id": "data_analisys",
@@ -23,6 +23,6 @@
     "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/data_analisys_test",
     "demo": "https://data-analisys-test-luiz-fernando-policarpo-leandros-projects.vercel.app/?_vercel_share=ZL1E8XlFVdzXcPwLn6HX5rpWY9BKEFLc",
     "img_folder": "data_analisys",
-    "images": ["0.png", "1.png", "2.png","3.png"]
+    "images": ["0","1","2","3"]
   }
 ]
