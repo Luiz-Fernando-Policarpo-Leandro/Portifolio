@@ -7,11 +7,58 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
     />
     <title>Luiz Fernando — Desenvolvedor</title>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>"
+    />
+
+    <!-- Meta Tags SEO -->
+    <meta
+      name="description"
+      content="Portfólio de Luiz Fernando - Desenvolvedor Web e Cientista de Dados. Especializado em Backend, APIs e desenvolvimento full-stack."
+    />
+    <meta
+      name="keywords"
+      content="desenvolvedor, desenvolvedor web, programador, backend, fullstack, python, javascript, portfolio, Luiz Fernando"
+    />
+    <meta name="author" content="Luiz Fernando Policarpo Leandro" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Luiz Fernando — Desenvolvedor" />
+    <meta
+      property="og:description"
+      content="Portfólio de desenvolvedor especializado em Backend e APIs escaláveis."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://luiz-fernando-policarpo-leandro.github.io/portifolio/"
+    />
+    <meta
+      property="og:image"
+      content="https://avatars.githubusercontent.com/u/105563531?v=4"
+    />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Luiz Fernando — Desenvolvedor" />
+    <meta
+      name="twitter:description"
+      content="Portfólio de desenvolvedor especializado em Backend e APIs escaláveis."
+    />
+    <meta
+      name="twitter:image"
+      content="https://avatars.githubusercontent.com/u/105563531?v=4"
+    />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+      href="https://cdn.jsdelivr.net/npm/devicon@2.16.0/devicon.min.css"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"
@@ -27,6 +74,115 @@
 
       html {
         scroll-behavior: smooth;
+      }
+
+      /* =========================
+         NAVEGAÇÃO
+       ========================= */
+
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 24px;
+        border-bottom: 1px solid rgba(125, 211, 252, 0.08);
+      }
+
+      .nav-logo {
+        position: absolute;
+        left: 24px;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        color: #fff;
+        font-size: 0.9rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: #9ca3af;
+        text-decoration: none;
+        font-family: "Space Mono", monospace;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        transition: color 0.3s;
+        padding: 8px 0;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: #7dd3fc;
+        transition: width 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #7dd3fc;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .nav-toggle {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .nav-toggle {
+          display: block;
+          background: none;
+          border: none;
+          color: #7dd3fc;
+          font-size: 1.3rem;
+          cursor: pointer;
+          padding: 4px;
+        }
+
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 50px;
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          background: rgba(0, 0, 0, 0.95);
+          padding: 20px;
+          gap: 0;
+          border-bottom: 1px solid rgba(125, 211, 252, 0.08);
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .nav-links a {
+          padding: 12px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a::after {
+          display: none;
+        }
       }
 
       body {
@@ -80,8 +236,9 @@
       }
 
       p {
-        font-size: clamp(1rem, 2vw, 1.1rem);
-        color: #d1d5db;
+        font-size: clamp(1.05rem, 2vw, 1.2rem);
+        color: #cbd5e1;
+        line-height: 1.75;
       }
 
       /* =========================
@@ -95,9 +252,36 @@
           opacity 1s cubic-bezier(0.215, 0.61, 0.355, 1),
           transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
         will-change: transform, opacity;
+        scroll-margin-top: 100px;
       }
 
       .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .slide-down {
+        opacity: 0;
+        transform: translateY(-40px);
+        transition:
+          opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .slide-down.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .anim-init {
+        opacity: 0;
+        transform: translateY(-40px);
+        transition:
+          opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .anim-init.visible {
         opacity: 1;
         transform: translateY(0);
       }
@@ -302,51 +486,107 @@
       }
 
       .project-card {
-        background: rgba(15, 23, 42, 0.4);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 18px;
-        padding: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        cursor: pointer;
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden;
         transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
+        cursor: pointer;
+        aspect-ratio: 16 / 10;
       }
 
       .project-card:hover {
-        transform: translateY(-8px);
-        border-color: rgba(125, 211, 252, 0.5);
-        background: rgba(15, 23, 42, 0.75);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        border-color: rgba(125, 211, 252, 0.3);
+        transform: translateY(-4px);
+        box-shadow:
+          0 12px 24px rgba(0, 0, 0, 0.4),
+          0 0 0 1px rgba(125, 211, 252, 0.1);
       }
 
       .project-card img {
         width: 100%;
-        border-radius: 12px;
-        margin-bottom: 24px;
-        filter: grayscale(0.4);
-        transition:
-          transform 0.4s ease,
-          filter 0.4s ease;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.4s;
       }
 
-      .project-card:hover img {
-        filter: grayscale(0);
-        transform: scale(1.02);
+      .project-card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(15, 23, 42, 0.98) 0%,
+          rgba(15, 23, 42, 0.85) 60%,
+          rgba(15, 23, 42, 0.7) 100%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 24px;
+        opacity: 0;
+        transition: all 0.4s;
+      }
+
+      .project-card:hover .project-card-overlay {
+        opacity: 1;
       }
 
       .project-card h3 {
-        margin-bottom: 12px;
-        font-size: 1.25rem;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
         color: #f3f4f6;
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.3s;
+      }
+
+      .project-card:hover h3 {
+        transform: translateY(0);
+        opacity: 1;
+        color: #7dd3fc;
       }
 
       .project-summary {
-        max-width: 95%;
         font-size: 0.95rem;
+        color: #94a3b8;
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 12px;
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.3s 0.1s;
+      }
+
+      .project-card:hover .project-summary {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .project-card .view-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        background: rgba(125, 211, 252, 0.15);
+        border-radius: 6px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: #7dd3fc;
+        border: 1px solid rgba(125, 211, 252, 0.2);
+        transform: translateY(10px);
+        opacity: 0;
+        transition: all 0.3s 0.2s;
+      }
+
+      .project-card:hover .view-btn {
+        transform: translateY(0);
+        opacity: 1;
+        background: #7dd3fc;
+        color: #0f172a;
       }
 
       /* =========================
@@ -371,9 +611,10 @@
       }
 
       .modal-content {
-        background: #0f172a;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
+        background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+        border: 1px solid rgba(125, 211, 252, 0.15);
+        border-top: 3px solid #7dd3fc;
+        border-radius: 16px;
         width: 100%;
         max-width: 900px;
         max-height: 85vh;
@@ -381,7 +622,21 @@
         position: relative;
         overflow-y: auto;
         scrollbar-width: none;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        box-shadow:
+          0 25px 50px -12px rgba(0, 0, 0, 0.7),
+          0 0 40px rgba(125, 211, 252, 0.1);
+        animation: modalFadeIn 0.3s ease-out;
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95) translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
       }
 
       .modal-content::-webkit-scrollbar {
@@ -397,6 +652,34 @@
       .modal-content p {
         margin-bottom: 20px;
         text-align: left;
+        color: #cbd5e1;
+        line-height: 1.85;
+        font-size: 1rem;
+      }
+
+      .modal-content strong {
+        color: #7dd3fc;
+        font-weight: 600;
+      }
+
+      .modal-link {
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: #7dd3fc;
+        text-decoration: none;
+        padding: 12px 24px;
+        border: 1px solid rgba(125, 211, 252, 0.3);
+        border-radius: 8px;
+        background: rgba(125, 211, 252, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .modal-link:hover {
+        background: #7dd3fc;
+        color: #000;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(125, 211, 252, 0.25);
       }
 
       .close-btn {
@@ -503,11 +786,20 @@
       ========================= */
 
       .tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px;
         color: #7dd3fc;
         font-size: 0.85rem;
         margin-top: 24px;
         border-top: 1px solid rgba(255, 255, 255, 0.08);
         padding-top: 20px;
+      }
+
+      .tags i {
+        font-size: 1.2rem;
+        color: #7dd3fc;
       }
 
       /* =========================
@@ -518,6 +810,17 @@
         display: flex;
         flex-direction: column;
         gap: 24px;
+      }
+
+      #certificates-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      #certificates-list .list-item {
+        display: flex;
+        flex-direction: column;
       }
 
       .list-item {
@@ -537,6 +840,118 @@
         color: #f3f4f6;
         display: block;
         margin-bottom: 8px;
+      }
+
+      .list-item a {
+        text-decoration: none;
+        display: block;
+        color: inherit;
+        transition: all 0.3s;
+      }
+
+      .list-item a:hover strong {
+        color: #7dd3fc;
+      }
+
+      .list-item a:hover .muted {
+        color: #cbd5e1;
+      }
+
+      .cert-item {
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 0;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .cert-item:hover {
+        border-color: rgba(125, 211, 252, 0.3);
+        transform: translateY(-4px);
+        box-shadow:
+          0 12px 24px rgba(0, 0, 0, 0.4),
+          0 0 0 1px rgba(125, 211, 252, 0.1);
+      }
+
+      .cert-item a {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .cert-image {
+        width: 100%;
+        height: 140px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        background-color: #1e293b;
+      }
+
+      .cert-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 50%, #0f172a 100%);
+      }
+
+      .cert-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .cert-item strong {
+        font-size: 1rem;
+        color: #f3f4f6;
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+
+      .cert-item .muted {
+        color: #64748b;
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      .cert-item .cert-link-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: auto;
+        padding: 10px 16px;
+        background: rgba(125, 211, 252, 0.1);
+        border-radius: 8px;
+        font-family: "Space Mono", monospace;
+        font-size: 0.75rem;
+        color: #7dd3fc;
+        border: 1px solid rgba(125, 211, 252, 0.2);
+        transition: all 0.3s;
+      }
+
+      .cert-item:hover .cert-link-btn {
+        background: #7dd3fc;
+        color: #0f172a;
+      }
+
+      .cert-item .cert-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        color: #7dd3fc;
+        z-index: 10;
       }
 
       #tech-list,
@@ -717,6 +1132,17 @@
     ></iframe>
   </div>
   <body>
+    <nav class="nav">
+      <span class="nav-logo">LF</span>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#experiencia">Experiência</a></li>
+        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
     <div class="container">
       <header class="scroll-reveal">
         <div class="avatar">
@@ -746,9 +1172,9 @@
         </div>
       </header>
 
-      <section class="scroll-reveal">
+      <section class="scroll-reveal" id="sobre">
         <h2>Sobre</h2>
-        <p class="about" id="about-text">
+        <p class="about anim-init" id="about-text">
           Estudante de Ciência da Computação, análise de dados e de
           desenvolvimento web com forte competência voltada ao backend.
           Arquiteto de APIs e sistemas web escaláveis com o proposito atual de
@@ -756,7 +1182,7 @@
         </p>
       </section>
 
-      <section class="scroll-reveal">
+      <section class="scroll-reveal" id="projetos">
         <h2>Projetos em destaque</h2>
         <div class="projects reveal-stagger" id="projectsContainer"></div>
       </section>
@@ -767,65 +1193,57 @@
         </div>
       </div>
 
-      <section class="scroll-reveal">
+      <section class="scroll-reveal" id="experiencia">
         <h2>Experiência</h2>
         <div class="list reveal-stagger" id="experience-list">
           <div class="list-item">
             <strong>Projetos acadêmicos e pessoais</strong>
-            <p class="muted" data-text="Construção de APIs, aplicações web e ferramentas focadas em backend, com atenção a estrutura, legibilidade e decisões técnicas.">
-              Construção de APIs, aplicações web e ferramentas focadas em
-              backend, com atenção a estrutura, legibilidade e decisões
-              técnicas.
+            <p class="muted anim-init">
+              Desenvolvimento de ecossistemas digitais, incluindo sistemas web,
+              APIs RESTful, chatbots e ferramentas utilitárias. Foco central na
+              entrega de soluções escaláveis, priorizando arquitetura limpa,
+              legibilidade de código e tomadas de decisão técnicas fundamentadas
+              para otimizar resultados.
             </p>
           </div>
           <div class="list-item">
-            <strong>Objetivo profissional</strong>
-            <p class="muted" data-text="Atuar como desenvolvedor backend júnior ou estagiário, aprofundando conhecimentos em arquitetura, domínio de negócio e boas práticas de engenharia.">
-              Atuar como desenvolvedor backend júnior ou estagiário,
-              aprofundando conhecimentos em arquitetura, domínio de negócio e
-              boas práticas de engenharia.
+            <strong>Objetivo profissional e futuro</strong>
+            <p class="muted anim-init">
+              Evoluir como desenvolvedor em ambientes que valorizem boas
+              práticas de engenharia, permitindo o refinamento técnico em
+              arquitetura e processos de negócio.
             </p>
           </div>
         </div>
       </section>
 
-      <section class="scroll-reveal">
+      <section class="scroll-reveal" id="habilidades">
         <h2>Habilidades</h2>
         <div class="skills reveal-stagger">
           <div class="skill-box">
-            <h4>Linguagens</h4>
+            <h4 class="anim-init">Linguagens</h4>
             <div class="muted" id="tech-list"></div>
           </div>
           <div class="skill-box">
-            <h4>GitHub Stats</h4>
+            <h4 class="anim-init">GitHub Stats</h4>
             <div class="muted">
               <span id="repo-count">0</span>
               <p>Repositórios Públicos</p>
             </div>
           </div>
           <div class="skill-box">
-            <h4>Dados & Infra</h4>
-            <div class="muted" id="data-list">
-              MySQL, Git, Linux, AWS Fundamentals
-            </div>
+            <h4 class="anim-init">Dados & Infra</h4>
+            <div class="muted" id="data-list"></div>
           </div>
         </div>
       </section>
 
       <section class="scroll-reveal">
         <h2>Certificados</h2>
-        <div class="list">
-          <div class="list-item">
-            <strong>AWS Well-Architected Framework</strong>
-            <p class="muted">
-              Estudo focado em trade-offs de custo, confiabilidade e
-              escalabilidade.
-            </p>
-          </div>
-        </div>
+        <div class="list" id="certificates-list"></div>
       </section>
 
-      <section class="scroll-reveal">
+      <section class="scroll-reveal" id="contato">
         <h2>Contato</h2>
         <p class="contact">
           Interessado em conversar sobre oportunidades ou projetos? Me encontre
@@ -852,12 +1270,22 @@
 
       // Mecanismo Engine de Animação por Scroll (Intersection Observer)
       const initScrollAnimations = () => {
-        const observerOptions = { threshold: 0.12 };
+        const observerOptions = {
+          threshold: 0.3,
+          rootMargin: "-10% 0px -10% 0px",
+        };
 
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("revealed");
+
+              let currentDelay = 0;
+              entry.target.querySelectorAll(".anim-init").forEach((el) => {
+                slideInFromTop(el, currentDelay);
+                currentDelay += 200;
+              });
+
               const repoCount = entry.target.querySelector("#repo-count");
               if (repoCount && repoCount.dataset.target) {
                 const target = parseInt(repoCount.dataset.target);
@@ -874,6 +1302,35 @@
             observer.observe(el);
           });
       };
+
+      async function loadCertificates() {
+        try {
+          const response = await fetch("./data/certificates.json");
+          if (!response.ok) throw new Error();
+          const certificates = await response.json();
+
+          const container = document.getElementById("certificates-list");
+
+          container.innerHTML = certificates
+            .map((cert) => {
+              const hasUrl = cert.url && cert.url.trim();
+              const hasImage = cert.image;
+              const content = `
+                ${hasImage ? `<div class="cert-image" style="background-image: url('${cert.image}')"></div>` : `<div class="cert-image"></div>`}
+                <div class="cert-content">
+                  <strong>${cert.title}</strong>
+                  <p class="muted">${cert.description}</p>
+                  ${hasUrl ? `<span class="cert-link-btn">Ver Certificado ↗</span>` : ""}
+                </div>`;
+              return hasUrl
+                ? `<div class="list-item cert-item"><a href="${cert.url}" target="_blank" rel="noopener">${content}</a></div>`
+                : `<div class="list-item cert-item">${content}</div>`;
+            })
+            .join("");
+        } catch (e) {
+          console.warn("Falha ao carregar certificados");
+        }
+      }
 
       async function loadProjects() {
         let projects;
@@ -913,8 +1370,11 @@
 
           card.innerHTML = `
                     <img src="assets/${project.id}/0.png" onerror="this.style.display='none'">
-                    <h3>${project.title}</h3>
-                    <p class="project-summary">${project.summary}</p>
+                    <div class="project-card-overlay">
+                      <h3>${project.title}</h3>
+                      <p class="project-summary">${project.summary}</p>
+                      <span class="view-btn">Ver Projeto ↗</span>
+                    </div>
                   `;
 
           card.addEventListener("click", () => openModal(project));
@@ -923,8 +1383,8 @@
           setTimeout(() => {
             const title = card.querySelector("h3");
             const summary = card.querySelector("p");
-            if (title) typeWriter(title, project.title, 20);
-            if (summary) setTimeout(() => typeWriter(summary, project.summary, 8), 150);
+            if (title) slideInFromTop(title, 0);
+            if (summary) slideInFromTop(summary, 50);
           }, 200);
         });
 
@@ -935,24 +1395,31 @@
       function closeModal() {
         modal.classList.remove("active");
         document.body.style.overflow = "auto";
-        modal.scrollTop = 0;
+        setTimeout(() => {
+          modalContent.scrollTop = 0;
+        }, 100);
       }
 
       function openModal(project) {
         let currentIndex = 0;
+        modal.classList.add("active");
+
+        setTimeout(() => {
+          modalContent.scrollTop = 0;
+        }, 50);
 
         modalContent.innerHTML = `
                 <div class="close-btn" id="closeModal">×</div>
-                <h3>${project.title}</h3>
-                <p class="muted" style="text-align: center;">${project.summary}</p>
-                <p><strong>Problema:</strong> ${project.problem}</p>
-                <p><strong>Solução:</strong> ${project.solution}</p>
-                <p><strong>Aprendizado:</strong> ${project.learning}</p>
-                <div class="tags">${project.tags.join(" · ")}</div>
+                <h3 class="anim-init">${project.title}</h3>
+                <p class="muted anim-init" style="text-align: center;">${project.summary}</p>
+                <p class="anim-init"><strong>Problema:</strong> ${project.problem}</p>
+                <p class="anim-init"><strong>Solução:</strong> ${project.solution}</p>
+                <p class="anim-init"><strong>Aprendizado:</strong> ${project.learning}</p>
+                <div class="tags">${renderTagsWithIcons(project.tags)}</div>
 
                 <div style="display: flex; justify-content: center; margin-top:24px; gap: 40px">
-                  ${project.github ? `<a href="${project.github}" target="_blank" style="font-family:'Space Mono',monospace; font-weight:700;">[ VER CÓDIGO ]</a>` : ""}
-                  ${project.demo ? `<a href="${project.demo}" target="_blank" style="font-family:'Space Mono',monospace; font-weight:700;">[ VER DEMO ]</a>` : ""}
+                  ${project.github ? `<a href="${project.github}" target="_blank" class="modal-link">[ VER CÓDIGO ]</a>` : ""}
+                  ${project.demo ? `<a href="${project.demo}" target="_blank" class="modal-link">[ VER DEMO ]</a>` : ""}
                 </div>
               `;
 
@@ -1017,20 +1484,15 @@
           const modalTitle = modalContent.querySelector("h3");
           const modalSummary = modalContent.querySelector(".muted");
           if (modalTitle) {
-            setTimeout(() => typeWriter(modalTitle, modalTitle.textContent, 20), delay);
+            slideInFromTop(modalTitle, delay);
             delay += 150;
           }
           if (modalSummary) {
-            setTimeout(() => typeWriter(modalSummary, modalSummary.textContent, 8), delay);
+            slideInFromTop(modalSummary, delay);
             delay += 150;
           }
           modalContent.querySelectorAll("p:not(.muted)").forEach((p) => {
-            const text = p.textContent;
-            const label = p.querySelector("strong");
-            const labelText = label ? label.textContent : "";
-            p.textContent = "";
-            if (label) p.innerHTML = `<strong>${labelText}</strong> `;
-            setTimeout(() => typeWriter(p, p.textContent + text, 5), delay);
+            slideInFromTop(p, delay);
             delay += 100;
           });
         }, 200);
@@ -1085,54 +1547,15 @@
         if (e.key === "Escape") closeModal();
       });
 
-      function typeWriter(element, text, speed = 3) {
-        if (element.dataset.typed === "true") return;
-        element.dataset.typed = "true";
+      function slideInFromTop(element, delay = 0) {
+        if (element.dataset.slid === "true") return;
+        element.dataset.slid = "true";
 
-        element.textContent = "";
-        let i = 0;
-
-        function type() {
-          if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(type, speed + Math.random() * 2);
-          }
-        }
-        type();
-      }
-
-      function initTypeWriterEffects() {
-        const delay = 100;
-        let currentDelay = 0;
-
-        const aboutText = document.getElementById("about-text");
-        if (aboutText) {
-          setTimeout(() => typeWriter(aboutText, aboutText.textContent, 2), currentDelay);
-          currentDelay += delay;
-        }
-
-        document.querySelectorAll("#experience-list p").forEach((p) => {
-          const text = p.dataset.text || p.textContent;
-          p.textContent = "";
-          setTimeout(() => typeWriter(p, text, 2), currentDelay);
-          currentDelay += delay;
-        });
-
-        document.querySelectorAll(".skill-box h4").forEach((h4) => {
-          setTimeout(() => typeWriter(h4, h4.textContent, 3), currentDelay);
-          currentDelay += delay;
-        });
-
-        document.querySelectorAll(".project-card").forEach((card) => {
-          setTimeout(() => {
-            const h3 = card.querySelector("h3");
-            const p = card.querySelector("p");
-            if (h3) typeWriter(h3, h3.textContent, 3);
-            if (p) setTimeout(() => typeWriter(p, p.textContent, 2), 100);
-          }, currentDelay);
-          currentDelay += delay;
-        });
+        setTimeout(() => {
+          element.style.transition =
+            "opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1), transform 1.5s cubic-bezier(0.22, 1, 0.36, 1)";
+          element.classList.add("visible");
+        }, delay);
       }
 
       function animateCounter(elementId, targetValue) {
@@ -1177,91 +1600,188 @@
       }
 
       const GITHUB_USERNAME = "Luiz-Fernando-Policarpo-Leandro";
-        const CACHE_KEY = "github_data";
+      const CACHE_KEY = "github_data";
 
-        const FALLBACK_DATA = {
-          public_repos: 29,
-          languages: ["Python", "JavaScript", "HTML", "CSS", "C#", "C++", "Shell"],
-          data_info: ["MySQL", "PostgreSQL", "Redis", "Docker", "AWS", "Git", "Linux"]
-        };
+      const FALLBACK_DATA = {
+        public_repos: 29,
+        languages: [
+          "Python",
+          "JavaScript",
+          "HTML",
+          "CSS",
+          "C#",
+          "C++",
+          "Shell",
+        ],
+        data_info: [
+          "MySQL",
+          "PostgreSQL",
+          "Redis",
+          "Docker",
+          "AWS",
+          "Git",
+          "Linux",
+        ],
+      };
 
-        const ICON_MAP = {
-          html: "html5",
-          css: "css3",
-          "c#": "csharp",
-          "c++": "cplusplus",
-          javascript: "javascript",
-          shell: "bash",
-          "jupyter notebook": "jupyter",
-          aws: "amazonwebservices"
-        };
+      const ICON_MAP = {
+        html: "html5",
+        css: "css3",
+        "c#": "csharp",
+        "c++": "cplusplus",
+        shell: "bash",
+        "jupyter notebook": "jupyter",
+        aws: "amazonwebservices",
+        "ruby on rails": "rails",
+        postgresql: "postgresql",
+        nodejs: "nodejs",
+        "api rest": "json",
+        "ci/cd": "jenkins",
+      };
 
-        function getIconName(lang) {
-          return ICON_MAP[lang.toLowerCase()] || lang.toLowerCase();
-        }
+      function getIconName(lang) {
+        const key = lang.toLowerCase().trim();
+        return ICON_MAP[key] || key;
+      }
 
-        function renderIconList(items, containerId) {
-          const container = document.getElementById(containerId);
-          container.innerHTML = items.map(lang => `
+      function renderTagsWithIcons(tags) {
+        return tags
+          .map((tag) => {
+            const icon = getIconName(tag);
+            return `<span style="display: inline-flex; align-items: center; gap: 6px; margin: 4px;">
+              <i class="devicon-${icon}-plain"></i>
+              <span>${tag}</span>
+            </span>`;
+          })
+          .join("");
+      }
+
+      function renderIconList(items, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = items
+          .map(
+            (lang) => `
             <div style="display: flex; align-items: center; gap: 8px;">
               <i class="devicon-${getIconName(lang)}-plain colored"></i>
-              <span style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span>
+              <span class="anim-init" style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span>
             </div>
-          `).join("");
+          `,
+          )
+          .join("");
 
-          container.querySelectorAll("span").forEach((span, i) => {
-            setTimeout(() => typeWriter(span, span.textContent, 15), i * 80);
-          });
+        container.querySelectorAll(".anim-init").forEach((span, i) => {
+          slideInFromTop(span, i * 200);
+        });
+      }
+
+      async function fetchJSON(url) {
+        try {
+          const res = await fetch(url);
+          return res.ok ? await res.json() : null;
+        } catch {
+          return null;
         }
+      }
 
-        async function fetchJSON(url) {
-          try {
-            const res = await fetch(url);
-            return res.ok ? await res.json() : null;
-          } catch {
-            return null;
+      async function updateGitHubInfo() {
+        let data = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+        data = data || (await fetchJSON("./data/github-fallback.json"));
+        data = data || FALLBACK_DATA;
+
+        document
+          .getElementById("repo-count")
+          .setAttribute("data-target", data.public_repos);
+        document.getElementById("repo-count").innerText = "0";
+        renderIconList(data.languages || [], "tech-list");
+        renderIconList(data.data_info || [], "data-list");
+
+        const skillBoxes = document.querySelectorAll(".skill-box");
+        skillBoxes.forEach((box, index) => {
+          setTimeout(() => {
+            let delay = 0;
+            box.querySelectorAll(".anim-init").forEach((el) => {
+              slideInFromTop(el, delay);
+              delay += 200;
+            });
+          }, index * 800);
+        });
+
+        try {
+          const [userRes, reposRes] = await Promise.all([
+            fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, {
+              headers: { Accept: "application/vnd.github.v3+json" },
+            }),
+            fetch(
+              `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`,
+              { headers: { Accept: "application/vnd.github.v3+json" } },
+            ),
+          ]);
+
+          if (!userRes.ok) throw new Error();
+
+          const [userData, reposData] = await Promise.all([
+            userRes.json(),
+            reposRes.json(),
+          ]);
+
+          if (Array.isArray(reposData)) {
+            const languages = [
+              ...new Set(reposData.map((r) => r.language).filter(Boolean)),
+            ];
+            const newData = {
+              public_repos: userData.public_repos,
+              languages,
+              data_info: data.data_info,
+              updated_at: new Date().toISOString(),
+            };
+            localStorage.setItem(CACHE_KEY, JSON.stringify(newData));
+            document
+              .getElementById("repo-count")
+              .setAttribute("data-target", newData.public_repos);
+            renderIconList(newData.languages, "tech-list");
+
+            setTimeout(() => {
+              document.querySelectorAll(".skill-box").forEach((box, index) => {
+                setTimeout(() => {
+                  let delay = 0;
+                  box.querySelectorAll(".anim-init").forEach((el) => {
+                    slideInFromTop(el, delay);
+                    delay += 200;
+                  });
+                }, index * 600);
+              });
+            }, 100);
           }
+        } catch (e) {
+          console.warn("API offline, usando cache");
         }
-
-        async function updateGitHubInfo() {
-          let data = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
-          data = data || await fetchJSON("./data/github-fallback.json");
-          data = data || FALLBACK_DATA;
-
-          document.getElementById("repo-count").setAttribute("data-target", data.public_repos);
-          document.getElementById("repo-count").innerText = "0";
-          renderIconList(data.languages || [], "tech-list");
-          renderIconList(data.data_info || [], "data-list");
-
-          try {
-            const [userRes, reposRes] = await Promise.all([
-              fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, { headers: { Accept: "application/vnd.github.v3+json" } }),
-              fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`, { headers: { Accept: "application/vnd.github.v3+json" } })
-            ]);
-
-            if (!userRes.ok) throw new Error();
-
-            const [userData, reposData] = await Promise.all([userRes.json(), reposRes.json()]);
-
-            if (Array.isArray(reposData)) {
-              const languages = [...new Set(reposData.map(r => r.language).filter(Boolean))];
-              const newData = { public_repos: userData.public_repos, languages, data_info: data.data_info, updated_at: new Date().toISOString() };
-              localStorage.setItem(CACHE_KEY, JSON.stringify(newData));
-              document.getElementById("repo-count").setAttribute("data-target", newData.public_repos);
-              renderIconList(newData.languages, "tech-list");
-            }
-          } catch (e) {
-            console.warn("API offline, usando cache");
-          }
-        }
+      }
 
       // Inicialização controlada
       document.addEventListener("DOMContentLoaded", () => {
         loadProjects();
+        loadCertificates();
         updateGitHubInfo();
         document.getElementById("year").innerHTML = new Date().getFullYear();
         setTimeout(initScrollAnimations, 300);
-        setTimeout(initTypeWriterEffects, 800);
+
+        // Menu mobile
+        const navToggle = document.querySelector(".nav-toggle");
+        const navLinks = document.querySelector(".nav-links");
+
+        navToggle.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+          navToggle.textContent = navLinks.classList.contains("active")
+            ? "✕"
+            : "☰";
+        });
+
+        document.querySelectorAll(".nav-links a").forEach((link) => {
+          link.addEventListener("click", () => {
+            navLinks.classList.remove("active");
+            navToggle.textContent = "☰";
+          });
+        });
       });
     </script>
   </body>
