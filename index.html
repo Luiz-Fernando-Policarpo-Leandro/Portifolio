@@ -1358,17 +1358,16 @@ const FALLBACK_DATA = {
         if (elements.length === 0) return;
         
         const direction = getScrollDirection();
-        
-        if (direction === "up") {
-          elements.reverse();
-        }
+        const orderedElements = direction === "up" ? [...elements].reverse() : elements;
 
-        elements.forEach((el, index) => {
+        let currentDelay = 0;
+        orderedElements.forEach((el) => {
+          if (el.dataset.slid === "true") return;
           el.dataset.slid = "false";
           el.style.opacity = "0";
           el.style.transform = "";
-          slideIn(el, index === 0 ? 0 : delayStep);
-          delayStep += 150;
+          slideIn(el, currentDelay);
+          currentDelay += delayStep;
         });
       }
 
@@ -1421,14 +1420,45 @@ const FALLBACK_DATA = {
 
       const initScrollAnimations = (() => {
         const observerOptions = { threshold: 0.2, rootMargin: "-10% 0px -10% 0px" };
+        let skillsAnimated = false;
+
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               if (!entry.target.classList.contains("revealed")) {
                 entry.target.classList.add("revealed");
-                animateElements(entry.target, CONFIG.ANIMATION_DELAY);
-                const repoCount = entry.target.querySelector("#repo-count");
-                if (repoCount?.dataset.target) animateCounter("repo-count", parseInt(repoCount.dataset.target));
+
+                if (entry.target.id === "habilidades" && !skillsAnimated) {
+                  skillsAnimated = true;
+                  const direction = getScrollDirection();
+                  const skillBoxes = Array.from(entry.target.querySelectorAll(".skill-box"));
+                  const orderedBoxes = direction === "up" ? [...skillBoxes].reverse() : skillBoxes;
+
+                  orderedBoxes.forEach((box) => {
+                    box.classList.add("revealed");
+                    const elements = Array.from(box.querySelectorAll(".anim-init"));
+                    const orderedElements = direction === "up" ? [...elements].reverse() : elements;
+                    let currentDelay = 0;
+                    orderedElements.forEach((el) => {
+                      el.dataset.slid = "false";
+                      el.style.opacity = "0";
+                      el.style.transform = direction === "up" ? "translateY(40px)" : "translateY(-40px)";
+                      setTimeout(() => {
+                        el.style.transition = "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)";
+                        el.style.opacity = "1";
+                        el.style.transform = "translateY(0)";
+                      }, currentDelay);
+                      currentDelay += 120;
+                    });
+                  });
+
+                  const repoCount = entry.target.querySelector("#repo-count");
+                  if (repoCount?.dataset.target) animateCounter("repo-count", parseInt(repoCount.dataset.target));
+                } else if (entry.target.id !== "habilidades") {
+                  animateElements(entry.target, CONFIG.ANIMATION_DELAY);
+                  const repoCount = entry.target.querySelector("#repo-count");
+                  if (repoCount?.dataset.target) animateCounter("repo-count", parseInt(repoCount.dataset.target));
+                }
               }
             } else if (entry.target.classList.contains("revealed")) {
               entry.target.classList.remove("revealed");
@@ -1437,11 +1467,16 @@ const FALLBACK_DATA = {
                 el.style.transition = "opacity 0.4s ease-out";
                 el.style.opacity = "0";
               });
+              if (entry.target.id === "habilidades") {
+                skillsAnimated = false;
+              }
             }
           });
         }, observerOptions);
 
-        return () => document.querySelectorAll(".scroll-reveal, .reveal-stagger, .skill-box").forEach((el) => observer.observe(el));
+        return () => {
+          document.querySelectorAll(".scroll-reveal, .reveal-stagger, #habilidades").forEach((el) => observer.observe(el));
+        };
       })();
 
       async function loadCertificates() {
@@ -1616,6 +1651,30 @@ const FALLBACK_DATA = {
             localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(newData));
             document.getElementById("repo-count").setAttribute("data-target", newData.public_repos);
             renderIconList(newData.languages, "tech-list");
+
+            const skillsSection = document.getElementById("habilidades");
+            if (skillsSection && skillsSection.classList.contains("revealed")) {
+              const direction = getScrollDirection();
+              const skillBoxes = Array.from(skillsSection.querySelectorAll(".skill-box"));
+              const orderedBoxes = direction === "up" ? [...skillBoxes].reverse() : skillBoxes;
+
+              orderedBoxes.forEach((box) => {
+                const elements = Array.from(box.querySelectorAll(".anim-init"));
+                const orderedElements = direction === "up" ? [...elements].reverse() : elements;
+                let currentDelay = 0;
+                orderedElements.forEach((el) => {
+                  el.dataset.slid = "false";
+                  el.style.opacity = "0";
+                  el.style.transform = direction === "up" ? "translateY(40px)" : "translateY(-40px)";
+                  setTimeout(() => {
+                    el.style.transition = "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)";
+                    el.style.opacity = "1";
+                    el.style.transform = "translateY(0)";
+                  }, currentDelay);
+                  currentDelay += 120;
+                });
+              });
+            }
           }
         } catch (e) {
           console.warn("API offline, usando cache");
