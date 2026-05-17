@@ -1,6 +1,6 @@
 {
   "public_repos": 37,
-  "languages": ["Python","Ruby","Typescript", "JavaScript", "HTML", "CSS","PHP", "java"],
+  "languages": ["Python", "JavaScript", "HTML", "CSS", "PHP"],
   "data_info": ["MySQL", "PostgreSQL", "Redis", "Docker", "AWS", "Git", "Linux"],
   "updated_at": null
 }

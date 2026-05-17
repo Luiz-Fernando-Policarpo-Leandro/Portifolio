@@ -508,7 +508,13 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: all 0.4s;
+        opacity: 0;
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      }
+
+      .project-card img.loaded {
+        opacity: 1;
+        transform: scale(1);
       }
 
       .project-card-overlay {
@@ -1227,8 +1233,8 @@
           <div class="skill-box">
             <h4 class="anim-init">GitHub Stats</h4>
             <div class="muted">
-              <span id="repo-count">0</span>
-              <p>Repositórios Públicos</p>
+              <span class="anim-init" id="repo-count">0</span>
+              <p class="anim-init">Repositórios Públicos</p>
             </div>
           </div>
           <div class="skill-box">
@@ -1263,415 +1269,145 @@
       </footer>
     </div>
 
-    <script>
-      const projectsContainer = document.getElementById("projectsContainer");
-      const modal = document.getElementById("projectModal");
-      const modalContent = document.getElementById("modalContent");
-
-      // Mecanismo Engine de Animação por Scroll (Intersection Observer)
-      const initScrollAnimations = () => {
-        const observerOptions = {
-          threshold: 0.3,
-          rootMargin: "-10% 0px -10% 0px",
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("revealed");
-
-              let currentDelay = 0;
-              entry.target.querySelectorAll(".anim-init").forEach((el) => {
-                slideInFromTop(el, currentDelay);
-                currentDelay += 200;
-              });
-
-              const repoCount = entry.target.querySelector("#repo-count");
-              if (repoCount && repoCount.dataset.target) {
-                const target = parseInt(repoCount.dataset.target);
-                animateCounter("repo-count", target);
-              }
-            }
-          });
-        }, observerOptions);
-
-        // Certifique-se de observar as seções ou especificamente a skill-box
-        document
-          .querySelectorAll(".scroll-reveal, .reveal-stagger, .skill-box")
-          .forEach((el) => {
-            observer.observe(el);
-          });
+<script>
+      const CONFIG = {
+        GITHUB_USERNAME: "Luiz-Fernando-Policarpo-Leandro",
+        CACHE_KEY: "github_data",
+        ANIMATION_DELAY: 150,
+        MODAL_ANIMATION_DELAY: 200,
+        COUNTER_DURATION: 2500,
+        COUNTER_DELAY: 500,
+        AUTO_SLIDE_INTERVAL: 4000,
       };
 
-      async function loadCertificates() {
-        try {
-          const response = await fetch("./data/certificates.json");
-          if (!response.ok) throw new Error();
-          const certificates = await response.json();
+const FALLBACK_DATA = {
+        public_repos: 29,
+        languages: ["Python", "JavaScript", "HTML", "CSS", "C#", "C++", "Shell"],
+        data_info: ["MySQL", "PostgreSQL", "Redis", "Docker", "AWS", "Git", "Linux"],
+      };
 
-          const container = document.getElementById("certificates-list");
+      const ICON_MAP = {
+        html: "html5", css: "css3", javascript: "javascript", python: "python",
+        typescript: "typescript", java: "java", "c#": "csharp", "c++": "cplusplus",
+        shell: "bash", "jupyter notebook": "jupyter", aws: "amazonwebservices",
+        "ruby on rails": "rails", postgresql: "postgresql", nodejs: "nodejs",
+        "api rest": "json", "ci/cd": "jenkins",
+      };
 
-          container.innerHTML = certificates
-            .map((cert) => {
-              const hasUrl = cert.url && cert.url.trim();
-              const hasImage = cert.image;
-              const content = `
-                ${hasImage ? `<div class="cert-image" style="background-image: url('${cert.image}')"></div>` : `<div class="cert-image"></div>`}
-                <div class="cert-content">
-                  <strong>${cert.title}</strong>
-                  <p class="muted">${cert.description}</p>
-                  ${hasUrl ? `<span class="cert-link-btn">Ver Certificado ↗</span>` : ""}
-                </div>`;
-              return hasUrl
-                ? `<div class="list-item cert-item"><a href="${cert.url}" target="_blank" rel="noopener">${content}</a></div>`
-                : `<div class="list-item cert-item">${content}</div>`;
-            })
-            .join("");
-        } catch (e) {
-          console.warn("Falha ao carregar certificados");
+      const FALLBACK_PROJECT = {
+        id: "portfolio",
+        title: "Portfolio Pessoal",
+        summary: "Site pessoal para apresentação de projetos e habilidades.",
+        problem: "Necessidade de apresentar projetos de forma clara.",
+        solution: "Aplicação estática com dados desacoplados em JSON.",
+        learning: "Separação entre dados e interface.",
+        tags: ["HTML", "CSS", "JavaScript"],
+        github: "https://github.com/Luiz-Fernando-Policarpo-Leandro",
+        demo: null,
+        images: [],
+      };
+
+      const elements = {
+        projectsContainer: document.getElementById("projectsContainer"),
+        modal: document.getElementById("projectModal"),
+        modalContent: document.getElementById("modalContent"),
+      };
+
+      let lastScrollY = window.scrollY;
+      let scrollDirection = null;
+      let hasScrolled = false;
+      let autoSlideTimer = null;
+
+      window.addEventListener("scroll", () => {
+        const currentScrollY = window.scrollY;
+        if (hasScrolled) {
+          scrollDirection = currentScrollY >= lastScrollY ? "down" : "up";
         }
+        lastScrollY = currentScrollY;
+        hasScrolled = true;
+      }, { passive: true });
+
+      function getScrollDirection() {
+        if (!hasScrolled) return "down";
+        
+        const currentScrollY = window.scrollY;
+        if (currentScrollY < lastScrollY) return "up";
+        if (currentScrollY > lastScrollY) return "down";
+        return scrollDirection || "down";
       }
 
-      async function loadProjects() {
-        let projects;
-        try {
-          const response = await fetch("./data/projects.json");
-          if (!response.ok) {
-            throw new Error("HTTP " + response.status);
-          }
-          projects = await response.json();
-        } catch (error) {
-          console.warn(
-            "Falha ao carregar projects.json. Usando fallback.",
-            error,
-          );
-          projects = [
-            {
-              id: "portfolio",
-              title: "Portfolio Pessoal",
-              summary:
-                "Site pessoal para apresentação de projetos e habilidades.",
-              problem: "Necessidade de apresentar projetos de forma clara.",
-              solution: "Aplicação estática com dados desacoplados em JSON.",
-              learning: "Separação entre dados e interface.",
-              tags: ["HTML", "CSS", "JavaScript"],
-              github: "https://github.com/Luiz-Fernando-Policarpo-Leandro",
-              demo: null,
-              images: [],
-            },
-          ];
-        }
-
-        projectsContainer.innerHTML = "";
-
-        projects.forEach((project) => {
-          const card = document.createElement("div");
-          card.className = "project-card";
-
-          card.innerHTML = `
-                    <img src="assets/${project.id}/0.png" onerror="this.style.display='none'">
-                    <div class="project-card-overlay">
-                      <h3>${project.title}</h3>
-                      <p class="project-summary">${project.summary}</p>
-                      <span class="view-btn">Ver Projeto ↗</span>
-                    </div>
-                  `;
-
-          card.addEventListener("click", () => openModal(project));
-          projectsContainer.appendChild(card);
-
-          setTimeout(() => {
-            const title = card.querySelector("h3");
-            const summary = card.querySelector("p");
-            if (title) slideInFromTop(title, 0);
-            if (summary) slideInFromTop(summary, 50);
-          }, 200);
-        });
-
-        // Re-dispara a leitura de animações caso os elementos dinâmicos tenham entrado na árvore DOM
-        initScrollAnimations();
-      }
-
-      function closeModal() {
-        modal.classList.remove("active");
-        document.body.style.overflow = "auto";
-        setTimeout(() => {
-          modalContent.scrollTop = 0;
-        }, 100);
-      }
-
-      function openModal(project) {
-        let currentIndex = 0;
-        modal.classList.add("active");
-
-        setTimeout(() => {
-          modalContent.scrollTop = 0;
-        }, 50);
-
-        modalContent.innerHTML = `
-                <div class="close-btn" id="closeModal">×</div>
-                <h3 class="anim-init">${project.title}</h3>
-                <p class="muted anim-init" style="text-align: center;">${project.summary}</p>
-                <p class="anim-init"><strong>Problema:</strong> ${project.problem}</p>
-                <p class="anim-init"><strong>Solução:</strong> ${project.solution}</p>
-                <p class="anim-init"><strong>Aprendizado:</strong> ${project.learning}</p>
-                <div class="tags">${renderTagsWithIcons(project.tags)}</div>
-
-                <div style="display: flex; justify-content: center; margin-top:24px; gap: 40px">
-                  ${project.github ? `<a href="${project.github}" target="_blank" class="modal-link">[ VER CÓDIGO ]</a>` : ""}
-                  ${project.demo ? `<a href="${project.demo}" target="_blank" class="modal-link">[ VER DEMO ]</a>` : ""}
-                </div>
-              `;
-
-        if (project.images && project.images.length > 0) {
-          modalContent.innerHTML += `
-                  <div class="carousel">
-                    <button class="prev">‹</button>
-                    <img id="carousel-img" src="assets/${project.id}/${project.images[0]}.png" alt="Screenshot do projeto" />
-                    <button class="next">›</button>
-                  </div>
-                `;
-
-          const img = document.getElementById("carousel-img");
-
-          // Adicionamos o parâmetro 'direcao'
-          function updateImage(direcao) {
-            const img = document.getElementById("carousel-img");
-
-            // Limpa as classes de animação antigas
-            img.classList.remove("slide-from-right", "slide-from-left");
-
-            void img.offsetWidth; // Truque do reflow para resetar animação
-
-            img.src = `assets/${project.id}/${project.images[currentIndex]}.png`;
-
-            // Aplica a classe baseada na direção que veio do clique
-            if (direcao === "dir") {
-              img.classList.add("slide-from-right");
-            } else {
-              img.classList.add("slide-from-left");
-            }
-          }
-
-          // Nos botões, você passa o aviso de qual direção usar:
-          modalContent.querySelector(".prev").onclick = (e) => {
-            e.stopPropagation();
-            currentIndex =
-              (currentIndex - 1 + project.images.length) %
-              project.images.length;
-            updateImage("esq"); // Passa 'esq' para vir da esquerda
-          };
-
-          modalContent.querySelector(".next").onclick = (e) => {
-            e.stopPropagation();
-            currentIndex = (currentIndex + 1) % project.images.length;
-            updateImage("dir"); // Passa 'dir' para vir da direita
-          };
-
-          img.addEventListener("click", () => {
-            img.classList.toggle("zoomed");
-          });
-        }
-
-        modalContent.querySelector("#closeModal").onclick = closeModal;
-
-        modal.classList.add("active");
-        document.body.style.overflow = "hidden";
-        modal.scrollTop = 0;
-
-        setTimeout(() => {
-          let delay = 0;
-          const modalTitle = modalContent.querySelector("h3");
-          const modalSummary = modalContent.querySelector(".muted");
-          if (modalTitle) {
-            slideInFromTop(modalTitle, delay);
-            delay += 150;
-          }
-          if (modalSummary) {
-            slideInFromTop(modalSummary, delay);
-            delay += 150;
-          }
-          modalContent.querySelectorAll("p:not(.muted)").forEach((p) => {
-            slideInFromTop(p, delay);
-            delay += 100;
-          });
-        }, 200);
-
-        let autoSlideTimer;
-
-        function startAutoSlide() {
-          stopAutoSlide();
-
-          autoSlideTimer = setInterval(() => {
-            currentIndex = (currentIndex + 1) % project.images.length;
-            updateImage("dir");
-          }, 4000);
-        }
-
-        function stopAutoSlide() {
-          clearInterval(autoSlideTimer);
-        }
-
-        if (project.images && project.images.length > 1) {
-          startAutoSlide();
-        }
-
-        modalContent.querySelector(".prev").onclick = (e) => {
-          e.stopPropagation();
-          stopAutoSlide();
-          currentIndex =
-            (currentIndex - 1 + project.images.length) % project.images.length;
-          updateImage("esq");
-        };
-
-        modalContent.querySelector(".next").onclick = (e) => {
-          e.stopPropagation();
-          stopAutoSlide();
-          currentIndex = (currentIndex + 1) % project.images.length;
-          updateImage("dir");
-        };
-
-        // IMPORTANTE: Limpar o timer quando fechar o modal
-        const originalClose = modalContent.querySelector("#closeModal").onclick;
-        modalContent.querySelector("#closeModal").onclick = () => {
-          stopAutoSlide();
-          originalClose();
-        };
-      }
-
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
-      });
-
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
-      });
-
-      function slideInFromTop(element, delay = 0) {
-        if (element.dataset.slid === "true") return;
+      function slideIn(element, delay = 0) {
+        const direction = getScrollDirection() === "up" ? 40 : -40;
+        
+        element.style.visibility = "visible";
+        element.style.opacity = "0";
+        element.style.transform = `translateY(${direction}px)`;
         element.dataset.slid = "true";
 
         setTimeout(() => {
           element.style.transition =
-            "opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1), transform 1.5s cubic-bezier(0.22, 1, 0.36, 1)";
-          element.classList.add("visible");
+            "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)";
+          element.style.opacity = "1";
+          element.style.transform = "translateY(0)";
         }, delay);
+      }
+
+      function animateElements(container, delayStep = 150) {
+        const elements = Array.from(container.querySelectorAll(".anim-init"));
+        
+        if (elements.length === 0) return;
+        
+        const direction = getScrollDirection();
+        
+        if (direction === "up") {
+          elements.reverse();
+        }
+
+        elements.forEach((el, index) => {
+          el.dataset.slid = "false";
+          el.style.opacity = "0";
+          el.style.transform = "";
+          slideIn(el, index === 0 ? 0 : delayStep);
+          delayStep += 150;
+        });
       }
 
       function animateCounter(elementId, targetValue) {
         const el = document.getElementById(elementId);
-
         if (el.dataset.animated === "true") return;
         el.dataset.animated = "true";
-
         el.style.color = "#fff";
 
-        const duration = 2500;
-        const delay = 500;
-        const startTime = performance.now() + delay;
+        const startTime = performance.now() + CONFIG.COUNTER_DELAY;
+        const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
-        function easeInOutQuad(t) {
-          return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-        }
-
-        function update(currentTime) {
+        const update = (currentTime) => {
           const elapsed = currentTime - startTime;
-
           if (elapsed < 0) {
             requestAnimationFrame(update);
             return;
           }
-
-          const progress = Math.min(elapsed / duration, 1);
-          const easedProgress = easeInOutQuad(progress);
-          const currentValue = Math.floor(easedProgress * targetValue);
-
-          el.innerText = currentValue;
-
-          if (progress < 1) {
-            requestAnimationFrame(update);
-          } else {
-            el.innerText = targetValue;
-            el.style.color = "";
-          }
-        }
-
+          const progress = Math.min(elapsed / CONFIG.COUNTER_DURATION, 1);
+          el.innerText = Math.floor(ease(progress) * targetValue);
+          progress < 1 ? requestAnimationFrame(update) : ((el.innerText = targetValue), (el.style.color = ""));
+        };
         requestAnimationFrame(update);
       }
 
-      const GITHUB_USERNAME = "Luiz-Fernando-Policarpo-Leandro";
-      const CACHE_KEY = "github_data";
-
-      const FALLBACK_DATA = {
-        public_repos: 29,
-        languages: [
-          "Python",
-          "JavaScript",
-          "HTML",
-          "CSS",
-          "C#",
-          "C++",
-          "Shell",
-        ],
-        data_info: [
-          "MySQL",
-          "PostgreSQL",
-          "Redis",
-          "Docker",
-          "AWS",
-          "Git",
-          "Linux",
-        ],
-      };
-
-      const ICON_MAP = {
-        html: "html5",
-        css: "css3",
-        "c#": "csharp",
-        "c++": "cplusplus",
-        shell: "bash",
-        "jupyter notebook": "jupyter",
-        aws: "amazonwebservices",
-        "ruby on rails": "rails",
-        postgresql: "postgresql",
-        nodejs: "nodejs",
-        "api rest": "json",
-        "ci/cd": "jenkins",
-      };
-
       function getIconName(lang) {
-        const key = lang.toLowerCase().trim();
-        return ICON_MAP[key] || key;
+        return ICON_MAP[lang.toLowerCase().trim()] || lang.toLowerCase().trim();
       }
 
       function renderTagsWithIcons(tags) {
         return tags
-          .map((tag) => {
-            const icon = getIconName(tag);
-            return `<span style="display: inline-flex; align-items: center; gap: 6px; margin: 4px;">
-              <i class="devicon-${icon}-plain"></i>
-              <span>${tag}</span>
-            </span>`;
-          })
+          .map((tag) => `<span style="display: inline-flex; align-items: center; gap: 6px; margin: 4px;"><i class="devicon-${getIconName(tag)}-plain"></i><span>${tag}</span></span>`)
           .join("");
       }
 
       function renderIconList(items, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = items
-          .map(
-            (lang) => `
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <i class="devicon-${getIconName(lang)}-plain colored"></i>
-              <span class="anim-init" style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span>
-            </div>
-          `,
-          )
+        document.getElementById(containerId).innerHTML = items
+          .map((lang) => `<div class="anim-init" style="display: flex; align-items: center; gap: 8px;"><i class="devicon-${getIconName(lang)}-plain colored"></i><span style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span></div>`)
           .join("");
-
-        container.querySelectorAll(".anim-init").forEach((span, i) => {
-          slideInFromTop(span, i * 200);
-        });
       }
 
       async function fetchJSON(url) {
@@ -1683,99 +1419,222 @@
         }
       }
 
-      async function updateGitHubInfo() {
-        let data = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
-        data = data || (await fetchJSON("./data/github-fallback.json"));
-        data = data || FALLBACK_DATA;
+      const initScrollAnimations = (() => {
+        const observerOptions = { threshold: 0.2, rootMargin: "-10% 0px -10% 0px" };
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              if (!entry.target.classList.contains("revealed")) {
+                entry.target.classList.add("revealed");
+                animateElements(entry.target, CONFIG.ANIMATION_DELAY);
+                const repoCount = entry.target.querySelector("#repo-count");
+                if (repoCount?.dataset.target) animateCounter("repo-count", parseInt(repoCount.dataset.target));
+              }
+            } else if (entry.target.classList.contains("revealed")) {
+              entry.target.classList.remove("revealed");
+              entry.target.querySelectorAll(".anim-init").forEach((el) => {
+                el.dataset.slid = "false";
+                el.style.transition = "opacity 0.4s ease-out";
+                el.style.opacity = "0";
+              });
+            }
+          });
+        }, observerOptions);
 
-        document
-          .getElementById("repo-count")
-          .setAttribute("data-target", data.public_repos);
+        return () => document.querySelectorAll(".scroll-reveal, .reveal-stagger, .skill-box").forEach((el) => observer.observe(el));
+      })();
+
+      async function loadCertificates() {
+        try {
+          const certificates = await fetch("./data/certificates.json").then((r) => r.json());
+          document.getElementById("certificates-list").innerHTML = certificates
+            .map((cert) => {
+              const hasUrl = cert.url?.trim();
+              const content = `${cert.image ? `<div class="cert-image" style="background-image: url('${cert.image}')"></div>` : `<div class="cert-image"></div>`}<div class="cert-content"><strong>${cert.title}</strong><p class="muted">${cert.description}</p>${hasUrl ? `<span class="cert-link-btn">Ver Certificado ↗</span>` : ""}</div>`;
+              return hasUrl ? `<div class="list-item cert-item"><a href="${cert.url}" target="_blank" rel="noopener">${content}</a></div>` : `<div class="list-item cert-item">${content}</div>`;
+            })
+            .join("");
+        } catch (e) {
+          console.warn("Falha ao carregar certificados");
+        }
+      }
+
+      async function loadProjects() {
+        let projects;
+        try {
+          projects = await fetch("./data/projects.json").then((r) => {
+            if (!r.ok) throw new Error();
+            return r.json();
+          });
+        } catch {
+          projects = [FALLBACK_PROJECT];
+        }
+
+        elements.projectsContainer.innerHTML = "";
+        const direction = getScrollDirection();
+        const delayMultiplier = direction === "up" ? -1 : 1;
+
+        projects.forEach((project, index) => {
+          const card = document.createElement("div");
+          card.className = "project-card";
+
+          const img = document.createElement("img");
+          img.src = `assets/${project.id}/0.png`;
+          img.onerror = () => img.style.display = "none";
+
+          const overlay = document.createElement("div");
+          overlay.className = "project-card-overlay";
+          overlay.innerHTML = `<h3>${project.title}</h3><p class="project-summary">${project.summary}</p><span class="view-btn">Ver Projeto ↗</span>`;
+
+          card.appendChild(img);
+          card.appendChild(overlay);
+          card.addEventListener("click", () => openModal(project));
+          elements.projectsContainer.appendChild(card);
+
+          const cardDelay = 300 + Math.abs(index * delayMultiplier * CONFIG.ANIMATION_DELAY);
+
+          setTimeout(() => {
+            const dir = getScrollDirection();
+            img.style.transform = `translateY(${dir === "down" ? -30 : 30}px)`;
+            img.style.opacity = "0";
+
+            setTimeout(() => {
+              const applyTransition = () => {
+                img.style.transition = "opacity 0.5s ease-out, transform 0.5s ease-out";
+                img.style.opacity = "1";
+                img.style.transform = "translateY(0)";
+              };
+              img.complete ? applyTransition() : (img.onload = applyTransition);
+            }, 50);
+
+            card.querySelectorAll("h3, p").forEach((el, i) => slideIn(el, i * 50));
+          }, cardDelay);
+        });
+
+        initScrollAnimations();
+      }
+
+      function stopAutoSlide() {
+        clearInterval(autoSlideTimer);
+      }
+
+      function closeModal() {
+        stopAutoSlide();
+        elements.modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+        setTimeout(() => (elements.modalContent.scrollTop = 0), 100);
+      }
+
+      function openModal(project) {
+        elements.modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+        elements.modal.scrollTop = 0;
+
+        elements.modalContent.innerHTML = `
+          <div class="close-btn" id="closeModal">×</div>
+          <h3 class="anim-init">${project.title}</h3>
+          <p class="muted anim-init" style="text-align: center;">${project.summary}</p>
+          <p class="anim-init"><strong>Problema:</strong> ${project.problem}</p>
+          <p class="anim-init"><strong>Solução:</strong> ${project.solution}</p>
+          <p class="anim-init"><strong>Aprendizado:</strong> ${project.learning}</p>
+          <div class="tags">${renderTagsWithIcons(project.tags)}</div>
+          <div style="display: flex; justify-content: center; margin-top:24px; gap: 40px">
+            ${project.github ? `<a href="${project.github}" target="_blank" class="modal-link">[ VER CÓDIGO ]</a>` : ""}
+            ${project.demo ? `<a href="${project.demo}" target="_blank" class="modal-link">[ VER DEMO ]</a>` : ""}
+          </div>`;
+
+        let currentIndex = 0;
+
+        if (project.images?.length > 0) {
+          elements.modalContent.innerHTML += `
+            <div class="carousel">
+              <button class="prev">‹</button>
+              <img id="carousel-img" src="assets/${project.id}/${project.images[0]}.png" alt="Screenshot do projeto" />
+              <button class="next">›</button>
+            </div>`;
+
+          const img = document.getElementById("carousel-img");
+
+          const updateImage = (slideDirection) => {
+            img.classList.remove("slide-from-right", "slide-from-left");
+            void img.offsetWidth;
+            img.src = `assets/${project.id}/${project.images[currentIndex]}.png`;
+            img.classList.add(slideDirection === "next" ? "slide-from-right" : "slide-from-left");
+          };
+
+          const handleSlide = (direction) => {
+            stopAutoSlide();
+            currentIndex = (currentIndex + direction + project.images.length) % project.images.length;
+            updateImage(direction === 1 ? "next" : "prev");
+          };
+
+          elements.modalContent.querySelector(".prev").onclick = () => handleSlide(-1);
+          elements.modalContent.querySelector(".next").onclick = () => handleSlide(1);
+          img.onclick = () => img.classList.toggle("zoomed");
+
+          if (project.images.length > 1) {
+            autoSlideTimer = setInterval(() => {
+              currentIndex = (currentIndex + 1) % project.images.length;
+              updateImage("next");
+            }, CONFIG.AUTO_SLIDE_INTERVAL);
+          }
+        }
+
+        const closeBtn = elements.modalContent.querySelector("#closeModal");
+        closeBtn.onclick = () => {
+          stopAutoSlide();
+          closeModal();
+        };
+
+        setTimeout(() => animateElements(elements.modalContent, 100), CONFIG.MODAL_ANIMATION_DELAY);
+      }
+
+      elements.modal.addEventListener("click", (e) => e.target === elements.modal && closeModal());
+      window.addEventListener("keydown", (e) => e.key === "Escape" && closeModal());
+
+      async function updateGitHubInfo() {
+        let data = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY) || "null");
+        data = data || (await fetchJSON("./data/github-fallback.json")) || FALLBACK_DATA;
+
+        document.getElementById("repo-count").setAttribute("data-target", data.public_repos);
         document.getElementById("repo-count").innerText = "0";
         renderIconList(data.languages || [], "tech-list");
         renderIconList(data.data_info || [], "data-list");
 
-        const skillBoxes = document.querySelectorAll(".skill-box");
-        skillBoxes.forEach((box, index) => {
-          setTimeout(() => {
-            let delay = 0;
-            box.querySelectorAll(".anim-init").forEach((el) => {
-              slideInFromTop(el, delay);
-              delay += 200;
-            });
-          }, index * 800);
-        });
-
         try {
           const [userRes, reposRes] = await Promise.all([
-            fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, {
-              headers: { Accept: "application/vnd.github.v3+json" },
-            }),
-            fetch(
-              `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`,
-              { headers: { Accept: "application/vnd.github.v3+json" } },
-            ),
+            fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}`, { headers: { Accept: "application/vnd.github.v3+json" } }),
+            fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}/repos?per_page=100`, { headers: { Accept: "application/vnd.github.v3+json" } }),
           ]);
 
           if (!userRes.ok) throw new Error();
 
-          const [userData, reposData] = await Promise.all([
-            userRes.json(),
-            reposRes.json(),
-          ]);
-
+          const reposData = await reposRes.json();
           if (Array.isArray(reposData)) {
-            const languages = [
-              ...new Set(reposData.map((r) => r.language).filter(Boolean)),
-            ];
-            const newData = {
-              public_repos: userData.public_repos,
-              languages,
-              data_info: data.data_info,
-              updated_at: new Date().toISOString(),
-            };
-            localStorage.setItem(CACHE_KEY, JSON.stringify(newData));
-            document
-              .getElementById("repo-count")
-              .setAttribute("data-target", newData.public_repos);
+            const languages = [...new Set(reposData.map((r) => r.language).filter(Boolean))];
+            const newData = { public_repos: (await userRes.json()).public_repos, languages, data_info: data.data_info, updated_at: new Date().toISOString() };
+            localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(newData));
+            document.getElementById("repo-count").setAttribute("data-target", newData.public_repos);
             renderIconList(newData.languages, "tech-list");
-
-            setTimeout(() => {
-              document.querySelectorAll(".skill-box").forEach((box, index) => {
-                setTimeout(() => {
-                  let delay = 0;
-                  box.querySelectorAll(".anim-init").forEach((el) => {
-                    slideInFromTop(el, delay);
-                    delay += 200;
-                  });
-                }, index * 600);
-              });
-            }, 100);
           }
         } catch (e) {
           console.warn("API offline, usando cache");
         }
       }
 
-      // Inicialização controlada
       document.addEventListener("DOMContentLoaded", () => {
         loadProjects();
         loadCertificates();
         updateGitHubInfo();
-        document.getElementById("year").innerHTML = new Date().getFullYear();
+        document.getElementById("year").innerText = new Date().getFullYear();
         setTimeout(initScrollAnimations, 300);
 
-        // Menu mobile
         const navToggle = document.querySelector(".nav-toggle");
         const navLinks = document.querySelector(".nav-links");
-
         navToggle.addEventListener("click", () => {
           navLinks.classList.toggle("active");
-          navToggle.textContent = navLinks.classList.contains("active")
-            ? "✕"
-            : "☰";
+          navToggle.textContent = navLinks.classList.contains("active") ? "✕" : "☰";
         });
-
         document.querySelectorAll(".nav-links a").forEach((link) => {
           link.addEventListener("click", () => {
             navLinks.classList.remove("active");
