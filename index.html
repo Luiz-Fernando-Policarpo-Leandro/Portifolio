@@ -1405,7 +1405,7 @@ const FALLBACK_DATA = {
 
       function renderIconList(items, containerId) {
         document.getElementById(containerId).innerHTML = items
-          .map((lang) => `<div class="anim-init" style="display: flex; align-items: center; gap: 8px;"><i class="devicon-${getIconName(lang)}-plain colored"></i><span style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span></div>`)
+          .map((lang) => `<div style="display: flex; align-items: center; gap: 8px;"><i class="devicon-${getIconName(lang)}-plain colored"></i><span style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span></div>`)
           .join("");
       }
 
@@ -1436,11 +1436,21 @@ const FALLBACK_DATA = {
 
                   orderedBoxes.forEach((box) => {
                     box.classList.add("revealed");
-                    const elements = Array.from(box.querySelectorAll(".anim-init"));
-                    const orderedElements = direction === "up" ? [...elements].reverse() : elements;
+                    const h4 = box.querySelector("h4.anim-init");
+                    const listItems = Array.from(box.querySelectorAll("#tech-list > div, #data-list > div"));
+                    const repoElements = Array.from(box.querySelectorAll("#repo-count, #repo-count + p"));
+
+                    let allElements = [];
+                    if (h4) allElements.push(h4);
+                    allElements.push(...listItems);
+                    allElements.push(...repoElements);
+
+                    if (direction === "up") {
+                      allElements.reverse();
+                    }
+
                     let currentDelay = 0;
-                    orderedElements.forEach((el) => {
-                      el.dataset.slid = "false";
+                    allElements.forEach((el) => {
                       el.style.opacity = "0";
                       el.style.transform = direction === "up" ? "translateY(40px)" : "translateY(-40px)";
                       setTimeout(() => {
@@ -1469,6 +1479,10 @@ const FALLBACK_DATA = {
               });
               if (entry.target.id === "habilidades") {
                 skillsAnimated = false;
+                entry.target.querySelectorAll(".skill-box h4, .skill-box #tech-list > div, .skill-box #data-list > div, .skill-box #repo-count, .skill-box #repo-count + p").forEach((el) => {
+                  el.style.transition = "opacity 0.4s ease-out";
+                  el.style.opacity = "0";
+                });
               }
             }
           });
@@ -1659,11 +1673,21 @@ const FALLBACK_DATA = {
               const orderedBoxes = direction === "up" ? [...skillBoxes].reverse() : skillBoxes;
 
               orderedBoxes.forEach((box) => {
-                const elements = Array.from(box.querySelectorAll(".anim-init"));
-                const orderedElements = direction === "up" ? [...elements].reverse() : elements;
+                const h4 = box.querySelector("h4.anim-init");
+                const listItems = Array.from(box.querySelectorAll("#tech-list > div, #data-list > div"));
+                const repoElements = Array.from(box.querySelectorAll("#repo-count, #repo-count + p"));
+
+                let allElements = [];
+                if (h4) allElements.push(h4);
+                allElements.push(...listItems);
+                allElements.push(...repoElements);
+
+                if (direction === "up") {
+                  allElements.reverse();
+                }
+
                 let currentDelay = 0;
-                orderedElements.forEach((el) => {
-                  el.dataset.slid = "false";
+                allElements.forEach((el) => {
                   el.style.opacity = "0";
                   el.style.transform = direction === "up" ? "translateY(40px)" : "translateY(-40px)";
                   setTimeout(() => {
