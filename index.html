@@ -2,10 +2,17 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+    />
     <title>Luiz Fernando — Desenvolvedor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
@@ -18,8 +25,11 @@
         padding: 0;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
-        margin-top: 60px;
         font-family:
           "Inter",
           system-ui,
@@ -27,10 +37,15 @@
           sans-serif;
         background: #000;
         color: #e5e7eb;
-        line-height: 1.6;
+        line-height: 1.7;
         position: relative;
         overflow-x: hidden;
+        padding-top: 60px;
       }
+
+      /* =========================
+         TIPOGRAFIA
+      ========================= */
 
       h1,
       h2,
@@ -48,12 +63,113 @@
         letter-spacing: 0.05em;
       }
 
+      h1,
+      h2,
+      h3,
+      h4,
+      p,
+      .subtitle,
+      .about,
+      .contact,
+      .project-summary,
+      .muted,
+      .tags,
+      .list-item,
+      .skill-box {
+        text-align: center;
+      }
+
+      p {
+        font-size: clamp(1rem, 2vw, 1.1rem);
+        color: #d1d5db;
+      }
+
+      /* =========================
+         SISTEMA DE ANIMAÇÃO AO ROLAR (SCROLL)
+      ========================= */
+
+      .scroll-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 1s cubic-bezier(0.215, 0.61, 0.355, 1),
+          transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+        will-change: transform, opacity;
+      }
+
+      .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Efeito de revelação escalonada (Stagger) para grids */
+      .reveal-stagger > * {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1),
+          transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+
+      .reveal-stagger.revealed > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Adicionando atraso calculado para os filhos no grid */
+      .reveal-stagger.revealed > *:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+      .reveal-stagger.revealed > *:nth-child(2) {
+        transition-delay: 0.2s;
+      }
+      .reveal-stagger.revealed > *:nth-child(3) {
+        transition-delay: 0.3s;
+      }
+      .reveal-stagger.revealed > *:nth-child(4) {
+        transition-delay: 0.4s;
+      }
+
+      /* =========================
+         LAYOUT
+      ========================= */
+
       .container {
-        max-width: 960px;
+        width: 100%;
+        max-width: 1200px;
         margin: 0 auto;
+        padding: 0 24px;
         position: relative;
         z-index: 2;
       }
+
+      section {
+        margin-bottom: 140px;
+      }
+
+      section h2 {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        margin-bottom: 48px;
+        color: #7dd3fc;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      section h2::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 25%;
+        width: 50%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #7dd3fc, transparent);
+      }
+
+      /* =========================
+         MATRIX BG
+      ========================= */
 
       .matrix-bg {
         position: fixed;
@@ -61,21 +177,28 @@
         z-index: 1;
         overflow: hidden;
         background: #000;
+        pointer-events: none; /* Garante que não interfira nos cliques */
       }
 
       .matrix-bg iframe {
         width: 100vw;
         height: 100vh;
         border: none;
-        filter: brightness(0.3) contrast(1.1);
+        filter: brightness(0.25) contrast(1.1);
       }
 
+      /* =========================
+         HEADER
+      ========================= */
+
       header {
-        display: grid;
-        grid-template-columns: 180px 1fr;
-        gap: 48px;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        margin-bottom: 120px;
+        justify-content: center;
+        gap: 32px;
+        margin-bottom: 140px;
+        text-align: center;
       }
 
       .avatar {
@@ -85,6 +208,13 @@
         overflow: hidden;
         border: 1px solid rgba(125, 211, 252, 0.3);
         background: #020617;
+        flex-shrink: 0;
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .avatar:hover {
+        transform: scale(1.05) rotate(2deg);
+        border-color: #7dd3fc;
       }
 
       .avatar img {
@@ -94,22 +224,33 @@
       }
 
       h1 {
-        font-size: clamp(2.5rem, 8vw, 3.5rem);
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
         font-weight: 800;
         margin-bottom: 16px;
         letter-spacing: -0.05em;
         line-height: 1.1;
+        background: linear-gradient(180deg, #ffffff 60%, #9ca3af);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .subtitle {
-        font-size: 1.25rem;
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
         color: #9ca3af;
         font-weight: 300;
+        max-width: 700px;
+        margin: 0 auto;
       }
 
+      /* =========================
+         LINKS
+      ========================= */
+
       .links {
-        margin-top: 28px;
+        margin-top: 32px;
         display: flex;
+        justify-content: center;
+        align-items: center;
         gap: 16px;
         flex-wrap: wrap;
       }
@@ -118,66 +259,99 @@
         font-size: 0.875rem;
         font-weight: 700;
         border: 1px solid rgba(125, 211, 252, 0.2);
-        padding: 12px 20px;
-        background: rgba(125, 211, 252, 0.05);
+        padding: 12px 24px;
+        background: rgba(125, 211, 252, 0.03);
         color: #7dd3fc;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         min-height: 44px;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        backdrop-filter: blur(4px);
       }
 
       .links a:hover {
         background: #7dd3fc;
         color: #000;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(125, 211, 252, 0.15);
       }
 
-      section {
-        margin-bottom: 120px;
+      /* =========================
+         TEXTOS GERAIS
+      ========================= */
+
+      .about,
+      .contact,
+      .muted {
+        max-width: 850px;
+        margin: 0 auto;
       }
 
-      section h2 {
-        font-size: 1.5rem;
-        margin-bottom: 40px;
-        color: #7dd3fc;
-      }
+      /* =========================
+         PROJETOS
+      ========================= */
 
       .projects {
-        
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 32px;
+        align-items: stretch;
       }
 
       .project-card {
-        
-        background: rgba(15, 23, 42, 0.7);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        padding: 24px;
+        background: rgba(15, 23, 42, 0.4);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 18px;
+        padding: 28px;
         border: 1px solid rgba(255, 255, 255, 0.05);
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .project-card:hover {
-        transform: translateY(-5px);
-        border-color: #7dd3fc;
-        background: rgba(15, 23, 42, 0.9);
+        transform: translateY(-8px);
+        border-color: rgba(125, 211, 252, 0.5);
+        background: rgba(15, 23, 42, 0.75);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
       }
 
       .project-card img {
         width: 100%;
-        border-radius: 6px;
-        margin-bottom: 16px;
-        filter: grayscale(0.5);
-        transition: 0.3s;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        filter: grayscale(0.4);
+        transition:
+          transform 0.4s ease,
+          filter 0.4s ease;
       }
 
       .project-card:hover img {
         filter: grayscale(0);
+        transform: scale(1.02);
       }
+
+      .project-card h3 {
+        margin-bottom: 12px;
+        font-size: 1.25rem;
+        color: #f3f4f6;
+      }
+
+      .project-summary {
+        max-width: 95%;
+        font-size: 0.95rem;
+      }
+
+      /* =========================
+         MODAL
+      ========================= */
 
       .project-modal {
         position: fixed;
@@ -186,8 +360,9 @@
         display: none;
         justify-content: center;
         align-items: center;
-        background: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(12px);
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         padding: 20px;
       }
 
@@ -197,241 +372,339 @@
 
       .modal-content {
         background: #0f172a;
-        border: 1px solid #1e293b;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 20px;
         width: 100%;
-        max-width: 800px;
-        max-height: 90vh;
+        max-width: 900px;
+        max-height: 85vh;
         padding: 40px;
         position: relative;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        animation: modalFade 0.3s ease-out;
         overflow-y: auto;
         scrollbar-width: none;
-        -ms-overflow-style: none;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
       }
 
       .modal-content::-webkit-scrollbar {
         display: none;
       }
 
-      @keyframes modalFade {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .modal-content h3 {
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        margin-bottom: 24px;
+        color: #7dd3fc;
+      }
+
+      .modal-content p {
+        margin-bottom: 20px;
+        text-align: left;
       }
 
       .close-btn {
-        position: sticky;
-        top: 0;
-        float: right;
+        position: absolute;
+        top: 24px;
+        right: 24px;
         font-size: 2rem;
         color: #9ca3af;
         cursor: pointer;
-        line-height: 1;
-        z-index: 10;
-        min-width: 44px;
-        min-height: 44px;
+        width: 44px;
+        height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: color 0.2s;
+        z-index: 10;
       }
 
       .close-btn:hover {
         color: #fff;
       }
 
+      /* =========================
+         CAROUSEL
+      ========================= */
+
       .carousel {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 15px;
-        margin: 30px 0;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 15px;
-        border-radius: 12px;
+        margin: 32px 0;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 20px;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
       }
 
       .carousel img {
-        max-width: 100%;
+        width: 100%;
+        max-width: 700px;
         max-height: 400px;
         object-fit: contain;
         border-radius: 8px;
         cursor: zoom-in;
-        transition: transform 0.3s ease;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .carousel img.zoomed {
-        transform: scale(1.1);
+        transform: scale(1.05);
         cursor: zoom-out;
       }
 
       .carousel button {
-        background: rgba(125, 211, 252, 0.1);
+        background: rgba(125, 211, 252, 0.08);
         border: 1px solid rgba(125, 211, 252, 0.2);
         color: #7dd3fc;
-        font-size: 1.5rem;
-        padding: 5px 15px;
+        font-size: 1.7rem;
+        padding: 12px 18px;
         cursor: pointer;
-        border-radius: 6px;
-        transition: 0.2s;
+        border-radius: 8px;
+        transition: all 0.2s;
       }
 
       .carousel button:hover {
         background: #7dd3fc;
         color: #000;
       }
-
-      .modal-content h3 {
-        font-size: 1.8rem;
-        margin-bottom: 10px;
-        color: #fff;
+      /* Classe que será aplicada via JS para animar */
+      /* Animação para quando apertar "Próximo" (Vem da Direita) */
+      .slide-from-right {
+        animation: slideRight 0.4s ease-out forwards;
       }
 
-      .modal-content p {
-        margin-bottom: 15px;
-        color: #d1d5db;
-        font-size: 1rem;
+      /* Animação para quando apertar "Anterior" (Vem da Esquerda) */
+      .slide-from-left {
+        animation: slideLeft 0.4s ease-out forwards;
       }
+
+      @keyframes slideRight {
+        from {
+          opacity: 0;
+          transform: translateX(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* =========================
+         TAGS
+      ========================= */
 
       .tags {
         color: #7dd3fc;
-        font-size: 0.8rem;
-        margin-top: 20px;
-        border-top: 1px solid #1e293b;
-        padding-top: 15px;
+        font-size: 0.85rem;
+        margin-top: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 20px;
       }
 
-      .skills {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
+      /* =========================
+         EXPERIÊNCIA / LISTAS
+      ========================= */
+
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
       }
 
-      .skill-box {
-        padding: 24px;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 8px;
-        border-left: 3px solid #7dd3fc;
+      .list-item {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 14px;
+        padding: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+        transition: border-color 0.3s;
       }
 
-      a {
+      .list-item:hover {
+        border-color: rgba(125, 211, 252, 0.15);
+      }
+
+      .list-item strong {
+        font-size: 1.1rem;
+        color: #f3f4f6;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      #tech-list,
+      #data-list {
+        display: flex !important; /* Muda de grid para flex */
+        flex-direction: column; /* Alinha os itens em coluna (um embaixo do outro) */
+        gap: 12px; /* Espaço entre cada linha */
+        width: fit-content; /* Ajusta a largura ao conteúdo */
+        margin: 12px auto 0; /* Centraliza a lista horizontalmente */
+        text-align: left; /* Alinha o texto à esquerda dentro da lista */
+      }
+
+      /* Ajuste para que o ícone e o nome fiquem lado a lado na mesma linha */
+      #tech-list > div,
+      #data-list > div {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Alinha o ícone e texto à esquerda */
+        gap: 10px;
+        width: 100%;
+      }
+
+      #tech-list i,
+      #data-list i {
+        font-size: 1.4rem;
         color: #7dd3fc;
       }
 
-      footer {
-        margin-top: 120px;
-        padding: 60px 0;
-        text-align: center;
-        border-top: 1px solid #111827;
-        color: #4b5563;
-        font-size: 0.8rem;
+      /* =========================
+         SKILLS
+      ========================= */
+
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 28px;
       }
 
-      @media (max-width: 720px) {
+      .skill-box {
+        padding: 32px 24px;
+        background: rgba(255, 255, 255, 0.01);
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        border-left: 3px solid #7dd3fc;
+
+        display: flex;
+        flex-direction: column;
+        /* Alinha os itens no topo por padrão */
+        justify-content: flex-start;
+        align-items: center;
+
+        gap: 16px;
+        transition: all 0.3s;
+        min-height: 250px; /* Definir uma altura mínima ajuda a ver o efeito */
+      }
+
+      .skill-box h4 {
+        color: #f3f4f6;
+        width: 100%;
+        text-align: center;
+        /* O h4 fica parado aqui no topo */
+      }
+
+      /* O elemento que vem logo após o h4 (o #tech-list ou o p) */
+      .skill-box h4 + div,
+      .skill-box h4 + p {
+        margin-top: auto; /* Empurra o item para longe do topo */
+        margin-bottom: auto; /* Empurra o item para longe do fundo */
+        /* Resultado: ele fica perfeitamente centralizado no espaço vazio */
+      }
+
+      #repo-count {
+        color: #38bdf8;
+        font-size: 8.4rem;
+      }
+
+      /* =========================
+         LINKS GERAIS
+      ========================= */
+
+      a {
+        color: #7dd3fc;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      a:hover {
+        color: #38bdf8;
+      }
+
+      /* =========================
+         FOOTER
+      ========================= */
+
+      footer {
+        margin-top: 140px;
+        padding: 60px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        color: #4b5563;
+        font-size: 0.85rem;
+      }
+
+      /* =========================
+         RESPONSIVIDADE AJUSTADA
+      ========================= */
+
+      @media (max-width: 768px) {
+        body {
+          padding-top: 40px;
+        }
+
         .container {
-          padding: 0 16px;
+          padding: 0 20px;
         }
 
         header {
-          grid-template-columns: 1fr;
-          text-align: center;
           gap: 24px;
-          margin-bottom: 60px;
+          margin-bottom: 100px;
         }
 
         .avatar {
-          margin: 0 auto;
-          width: 120px;
-          height: 120px;
-        }
-
-        h1 {
-          font-size: clamp(2rem, 6vw, 2.5rem);
-        }
-
-        .subtitle {
-          font-size: 1rem;
-        }
-
-        .links {
-          justify-content: center;
-        }
-
-        .links a {
-          padding: 12px 20px;
-          min-height: 44px;
-          min-width: 44px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
+          width: 140px;
+          height: 140px;
         }
 
         section {
-          margin-bottom: 60px;
+          margin-bottom: 100px;
         }
 
-        section h2 {
-          font-size: 1.25rem;
-          margin-bottom: 24px;
-        }
-
-        .projects {
-          grid-template-columns: 1fr;
-          gap: 24px;
-        }
-
-        .project-card {
-          padding: 16px;
-        }
-
-        .modal-content {
-          padding: 20px;
-          width: 95%;
-          border-radius: 16px;
-        }
-
-        .carousel {
-          padding: 10px;
-          gap: 10px;
-        }
-
-        .carousel img {
-          max-height: 200px;
-        }
-
-        .carousel button {
-          padding: 10px 12px;
-          min-width: 44px;
-          min-height: 44px;
-        }
-
+        .projects,
         .skills {
           grid-template-columns: 1fr;
         }
 
-        footer {
-          margin-top: 60px;
-          padding: 40px 0;
+        .modal-content {
+          padding: 32px 20px;
+          max-height: 90vh;
+        }
+
+        .carousel {
+          flex-direction: column;
+          padding: 10px;
+        }
+
+        .carousel img {
+          max-height: 250px;
+        }
+
+        .carousel button {
+          width: 100%;
+          padding: 10px;
         }
       }
 
       @media (max-width: 480px) {
-        h1 {
-          font-size: 1.75rem;
+        .links {
+          flex-direction: column;
+          width: 100%;
+          gap: 12px;
         }
 
-        .modal-content h3 {
-          font-size: 1.4rem;
+        .links a {
+          width: 100%;
         }
 
-        .tags {
-          font-size: 0.75rem;
+        .list-item,
+        .skill-box {
+          padding: 20px;
         }
       }
     </style>
@@ -445,7 +718,7 @@
   </div>
   <body>
     <div class="container">
-      <header>
+      <header class="scroll-reveal">
         <div class="avatar">
           <img
             src="https://avatars.githubusercontent.com/u/105563531?v=4"
@@ -454,9 +727,7 @@
         </div>
         <div>
           <h1>Luiz Fernando</h1>
-          <p class="subtitle">
-            Desenvolvedor com foco em backend e produtos web.
-          </p>
+          <p class="subtitle">| Desenvolvedor Web | Cientista de Dados |</p>
           <div class="links">
             <a
               href="https://github.com/Luiz-Fernando-Policarpo-Leandro"
@@ -475,19 +746,19 @@
         </div>
       </header>
 
-      <section>
-        <h2>Desenvolvedor Web | Ciêntista de Dados</h2>
-        <p class="about">
-          Estudante de Ciência da Computação, analise de dados e de
+      <section class="scroll-reveal">
+        <h2>Sobre</h2>
+        <p class="about" id="about-text">
+          Estudante de Ciência da Computação, análise de dados e de
           desenvolvimento web com forte competência voltada ao backend.
-          Habilidades em projetar APIs e sistemas web escalveis com o objetivo
-          atual de atuar como desenvolvedor web.
+          Arquiteto de APIs e sistemas web escaláveis com o proposito atual de
+          atuar como desenvolvedor web.
         </p>
       </section>
 
-      <section>
+      <section class="scroll-reveal">
         <h2>Projetos em destaque</h2>
-        <div class="projects" id="projectsContainer"></div>
+        <div class="projects reveal-stagger" id="projectsContainer"></div>
       </section>
 
       <div class="project-modal" id="projectModal">
@@ -496,12 +767,12 @@
         </div>
       </div>
 
-      <section>
+      <section class="scroll-reveal">
         <h2>Experiência</h2>
-        <div class="list">
+        <div class="list reveal-stagger" id="experience-list">
           <div class="list-item">
             <strong>Projetos acadêmicos e pessoais</strong>
-            <p class="muted">
+            <p class="muted" data-text="Construção de APIs, aplicações web e ferramentas focadas em backend, com atenção a estrutura, legibilidade e decisões técnicas.">
               Construção de APIs, aplicações web e ferramentas focadas em
               backend, com atenção a estrutura, legibilidade e decisões
               técnicas.
@@ -509,7 +780,7 @@
           </div>
           <div class="list-item">
             <strong>Objetivo profissional</strong>
-            <p class="muted">
+            <p class="muted" data-text="Atuar como desenvolvedor backend júnior ou estagiário, aprofundando conhecimentos em arquitetura, domínio de negócio e boas práticas de engenharia.">
               Atuar como desenvolvedor backend júnior ou estagiário,
               aprofundando conhecimentos em arquitetura, domínio de negócio e
               boas práticas de engenharia.
@@ -518,25 +789,30 @@
         </div>
       </section>
 
-      <section>
+      <section class="scroll-reveal">
         <h2>Habilidades</h2>
-        <div class="skills">
+        <div class="skills reveal-stagger">
           <div class="skill-box">
             <h4>Linguagens</h4>
-            <p class="muted">Ruby on Rails, Python, PHP</p>
+            <div class="muted" id="tech-list"></div>
           </div>
           <div class="skill-box">
-            <h4>Dados</h4>
-            <p class="muted">MySQL, modelagem relacional</p>
+            <h4>GitHub Stats</h4>
+            <div class="muted">
+              <span id="repo-count">0</span>
+              <p>Repositórios Públicos</p>
+            </div>
           </div>
           <div class="skill-box">
-            <h4>Outros</h4>
-            <p class="muted">Git, Linux, fundamentos de arquitetura</p>
+            <h4>Dados & Infra</h4>
+            <div class="muted" id="data-list">
+              MySQL, Git, Linux, AWS Fundamentals
+            </div>
           </div>
         </div>
       </section>
 
-      <section>
+      <section class="scroll-reveal">
         <h2>Certificados</h2>
         <div class="list">
           <div class="list-item">
@@ -549,7 +825,7 @@
         </div>
       </section>
 
-      <section>
+      <section class="scroll-reveal">
         <h2>Contato</h2>
         <p class="contact">
           Interessado em conversar sobre oportunidades ou projetos? Me encontre
@@ -564,13 +840,40 @@
         </p>
       </section>
 
-      <footer>© <span id="year"></span> — Luiz Fernando</footer>
+      <footer class="scroll-reveal">
+        © <span id="year"></span> — Luiz Fernando
+      </footer>
     </div>
 
     <script>
       const projectsContainer = document.getElementById("projectsContainer");
       const modal = document.getElementById("projectModal");
       const modalContent = document.getElementById("modalContent");
+
+      // Mecanismo Engine de Animação por Scroll (Intersection Observer)
+      const initScrollAnimations = () => {
+        const observerOptions = { threshold: 0.12 };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("revealed");
+              const repoCount = entry.target.querySelector("#repo-count");
+              if (repoCount && repoCount.dataset.target) {
+                const target = parseInt(repoCount.dataset.target);
+                animateCounter("repo-count", target);
+              }
+            }
+          });
+        }, observerOptions);
+
+        // Certifique-se de observar as seções ou especificamente a skill-box
+        document
+          .querySelectorAll(".scroll-reveal, .reveal-stagger, .skill-box")
+          .forEach((el) => {
+            observer.observe(el);
+          });
+      };
 
       async function loadProjects() {
         let projects;
@@ -587,6 +890,7 @@
           );
           projects = [
             {
+              id: "portfolio",
               title: "Portfolio Pessoal",
               summary:
                 "Site pessoal para apresentação de projetos e habilidades.",
@@ -608,14 +912,24 @@
           card.className = "project-card";
 
           card.innerHTML = `
-              <img src="assets/${project.id}/0.png" >
-              <h3>${project.title}</h3>
-              <p class="project-summary">${project.summary}</p>
-            `;
+                    <img src="assets/${project.id}/0.png" onerror="this.style.display='none'">
+                    <h3>${project.title}</h3>
+                    <p class="project-summary">${project.summary}</p>
+                  `;
 
           card.addEventListener("click", () => openModal(project));
           projectsContainer.appendChild(card);
+
+          setTimeout(() => {
+            const title = card.querySelector("h3");
+            const summary = card.querySelector("p");
+            if (title) typeWriter(title, project.title, 20);
+            if (summary) setTimeout(() => typeWriter(summary, project.summary, 8), 150);
+          }, 200);
         });
+
+        // Re-dispara a leitura de animações caso os elementos dinâmicos tenham entrado na árvore DOM
+        initScrollAnimations();
       }
 
       function closeModal() {
@@ -623,57 +937,73 @@
         document.body.style.overflow = "auto";
         modal.scrollTop = 0;
       }
+
       function openModal(project) {
         let currentIndex = 0;
 
         modalContent.innerHTML = `
-          <div class="close-btn" id="closeModal">×</div>
-          <h3>${project.title}</h3>
-          <p class="muted">${project.summary}</p>
-          <p><strong>Problema:</strong> ${project.problem}</p>
-          <p><strong>Solução:</strong> ${project.solution}</p>
-          <p><strong>Aprendizado:</strong> ${project.learning}</p>
-          <div class="tags">${project.tags.join(" · ")}</div>
+                <div class="close-btn" id="closeModal">×</div>
+                <h3>${project.title}</h3>
+                <p class="muted" style="text-align: center;">${project.summary}</p>
+                <p><strong>Problema:</strong> ${project.problem}</p>
+                <p><strong>Solução:</strong> ${project.solution}</p>
+                <p><strong>Aprendizado:</strong> ${project.learning}</p>
+                <div class="tags">${project.tags.join(" · ")}</div>
 
-          <div style="display: flex; justify-content: center; margin-top:16px; gap: 40px">
-            ${project.github ? `<a href="${project.github}" target="_blank">Ver código</a>` : ""}
-            ${project.demo ? `<a href="${project.demo}" target="_blank">Ver demo</a>` : ""}
-          </div>
-        `;
+                <div style="display: flex; justify-content: center; margin-top:24px; gap: 40px">
+                  ${project.github ? `<a href="${project.github}" target="_blank" style="font-family:'Space Mono',monospace; font-weight:700;">[ VER CÓDIGO ]</a>` : ""}
+                  ${project.demo ? `<a href="${project.demo}" target="_blank" style="font-family:'Space Mono',monospace; font-weight:700;">[ VER DEMO ]</a>` : ""}
+                </div>
+              `;
 
         if (project.images && project.images.length > 0) {
           modalContent.innerHTML += `
-            <div class="carousel">
-              <button class="prev">‹</button>
-              <img id="carousel-img" src="assets/${project.id}/${project.images[0]}.png" alt="Screenshot do projeto" />
-              <button class="next">›</button>
-            </div>
-          `;
+                  <div class="carousel">
+                    <button class="prev">‹</button>
+                    <img id="carousel-img" src="assets/${project.id}/${project.images[0]}.png" alt="Screenshot do projeto" />
+                    <button class="next">›</button>
+                  </div>
+                `;
 
           const img = document.getElementById("carousel-img");
 
-          function updateImage() {
+          // Adicionamos o parâmetro 'direcao'
+          function updateImage(direcao) {
+            const img = document.getElementById("carousel-img");
+
+            // Limpa as classes de animação antigas
+            img.classList.remove("slide-from-right", "slide-from-left");
+
+            void img.offsetWidth; // Truque do reflow para resetar animação
+
             img.src = `assets/${project.id}/${project.images[currentIndex]}.png`;
-            img.classList.remove("zoomed");
+
+            // Aplica a classe baseada na direção que veio do clique
+            if (direcao === "dir") {
+              img.classList.add("slide-from-right");
+            } else {
+              img.classList.add("slide-from-left");
+            }
           }
 
-          img.addEventListener("click", () => {
-            img.classList.toggle("zoomed");
-          });
-
+          // Nos botões, você passa o aviso de qual direção usar:
           modalContent.querySelector(".prev").onclick = (e) => {
             e.stopPropagation();
             currentIndex =
               (currentIndex - 1 + project.images.length) %
               project.images.length;
-            updateImage();
+            updateImage("esq"); // Passa 'esq' para vir da esquerda
           };
 
           modalContent.querySelector(".next").onclick = (e) => {
             e.stopPropagation();
             currentIndex = (currentIndex + 1) % project.images.length;
-            updateImage();
+            updateImage("dir"); // Passa 'dir' para vir da direita
           };
+
+          img.addEventListener("click", () => {
+            img.classList.toggle("zoomed");
+          });
         }
 
         modalContent.querySelector("#closeModal").onclick = closeModal;
@@ -681,6 +1011,70 @@
         modal.classList.add("active");
         document.body.style.overflow = "hidden";
         modal.scrollTop = 0;
+
+        setTimeout(() => {
+          let delay = 0;
+          const modalTitle = modalContent.querySelector("h3");
+          const modalSummary = modalContent.querySelector(".muted");
+          if (modalTitle) {
+            setTimeout(() => typeWriter(modalTitle, modalTitle.textContent, 20), delay);
+            delay += 150;
+          }
+          if (modalSummary) {
+            setTimeout(() => typeWriter(modalSummary, modalSummary.textContent, 8), delay);
+            delay += 150;
+          }
+          modalContent.querySelectorAll("p:not(.muted)").forEach((p) => {
+            const text = p.textContent;
+            const label = p.querySelector("strong");
+            const labelText = label ? label.textContent : "";
+            p.textContent = "";
+            if (label) p.innerHTML = `<strong>${labelText}</strong> `;
+            setTimeout(() => typeWriter(p, p.textContent + text, 5), delay);
+            delay += 100;
+          });
+        }, 200);
+
+        let autoSlideTimer;
+
+        function startAutoSlide() {
+          stopAutoSlide();
+
+          autoSlideTimer = setInterval(() => {
+            currentIndex = (currentIndex + 1) % project.images.length;
+            updateImage("dir");
+          }, 4000);
+        }
+
+        function stopAutoSlide() {
+          clearInterval(autoSlideTimer);
+        }
+
+        if (project.images && project.images.length > 1) {
+          startAutoSlide();
+        }
+
+        modalContent.querySelector(".prev").onclick = (e) => {
+          e.stopPropagation();
+          stopAutoSlide();
+          currentIndex =
+            (currentIndex - 1 + project.images.length) % project.images.length;
+          updateImage("esq");
+        };
+
+        modalContent.querySelector(".next").onclick = (e) => {
+          e.stopPropagation();
+          stopAutoSlide();
+          currentIndex = (currentIndex + 1) % project.images.length;
+          updateImage("dir");
+        };
+
+        // IMPORTANTE: Limpar o timer quando fechar o modal
+        const originalClose = modalContent.querySelector("#closeModal").onclick;
+        modalContent.querySelector("#closeModal").onclick = () => {
+          stopAutoSlide();
+          originalClose();
+        };
       }
 
       modal.addEventListener("click", (e) => {
@@ -691,9 +1085,184 @@
         if (e.key === "Escape") closeModal();
       });
 
-      loadProjects();
+      function typeWriter(element, text, speed = 3) {
+        if (element.dataset.typed === "true") return;
+        element.dataset.typed = "true";
 
-      document.getElementById("year").innerHTML = new Date().getFullYear();
+        element.textContent = "";
+        let i = 0;
+
+        function type() {
+          if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed + Math.random() * 2);
+          }
+        }
+        type();
+      }
+
+      function initTypeWriterEffects() {
+        const delay = 100;
+        let currentDelay = 0;
+
+        const aboutText = document.getElementById("about-text");
+        if (aboutText) {
+          setTimeout(() => typeWriter(aboutText, aboutText.textContent, 2), currentDelay);
+          currentDelay += delay;
+        }
+
+        document.querySelectorAll("#experience-list p").forEach((p) => {
+          const text = p.dataset.text || p.textContent;
+          p.textContent = "";
+          setTimeout(() => typeWriter(p, text, 2), currentDelay);
+          currentDelay += delay;
+        });
+
+        document.querySelectorAll(".skill-box h4").forEach((h4) => {
+          setTimeout(() => typeWriter(h4, h4.textContent, 3), currentDelay);
+          currentDelay += delay;
+        });
+
+        document.querySelectorAll(".project-card").forEach((card) => {
+          setTimeout(() => {
+            const h3 = card.querySelector("h3");
+            const p = card.querySelector("p");
+            if (h3) typeWriter(h3, h3.textContent, 3);
+            if (p) setTimeout(() => typeWriter(p, p.textContent, 2), 100);
+          }, currentDelay);
+          currentDelay += delay;
+        });
+      }
+
+      function animateCounter(elementId, targetValue) {
+        const el = document.getElementById(elementId);
+
+        if (el.dataset.animated === "true") return;
+        el.dataset.animated = "true";
+
+        el.style.color = "#fff";
+
+        const duration = 2500;
+        const delay = 500;
+        const startTime = performance.now() + delay;
+
+        function easeInOutQuad(t) {
+          return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+
+          if (elapsed < 0) {
+            requestAnimationFrame(update);
+            return;
+          }
+
+          const progress = Math.min(elapsed / duration, 1);
+          const easedProgress = easeInOutQuad(progress);
+          const currentValue = Math.floor(easedProgress * targetValue);
+
+          el.innerText = currentValue;
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            el.innerText = targetValue;
+            el.style.color = "";
+          }
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      const GITHUB_USERNAME = "Luiz-Fernando-Policarpo-Leandro";
+        const CACHE_KEY = "github_data";
+
+        const FALLBACK_DATA = {
+          public_repos: 29,
+          languages: ["Python", "JavaScript", "HTML", "CSS", "C#", "C++", "Shell"],
+          data_info: ["MySQL", "PostgreSQL", "Redis", "Docker", "AWS", "Git", "Linux"]
+        };
+
+        const ICON_MAP = {
+          html: "html5",
+          css: "css3",
+          "c#": "csharp",
+          "c++": "cplusplus",
+          javascript: "javascript",
+          shell: "bash",
+          "jupyter notebook": "jupyter",
+          aws: "amazonwebservices"
+        };
+
+        function getIconName(lang) {
+          return ICON_MAP[lang.toLowerCase()] || lang.toLowerCase();
+        }
+
+        function renderIconList(items, containerId) {
+          const container = document.getElementById(containerId);
+          container.innerHTML = items.map(lang => `
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <i class="devicon-${getIconName(lang)}-plain colored"></i>
+              <span style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span>
+            </div>
+          `).join("");
+
+          container.querySelectorAll("span").forEach((span, i) => {
+            setTimeout(() => typeWriter(span, span.textContent, 15), i * 80);
+          });
+        }
+
+        async function fetchJSON(url) {
+          try {
+            const res = await fetch(url);
+            return res.ok ? await res.json() : null;
+          } catch {
+            return null;
+          }
+        }
+
+        async function updateGitHubInfo() {
+          let data = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+          data = data || await fetchJSON("./data/github-fallback.json");
+          data = data || FALLBACK_DATA;
+
+          document.getElementById("repo-count").setAttribute("data-target", data.public_repos);
+          document.getElementById("repo-count").innerText = "0";
+          renderIconList(data.languages || [], "tech-list");
+          renderIconList(data.data_info || [], "data-list");
+
+          try {
+            const [userRes, reposRes] = await Promise.all([
+              fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, { headers: { Accept: "application/vnd.github.v3+json" } }),
+              fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`, { headers: { Accept: "application/vnd.github.v3+json" } })
+            ]);
+
+            if (!userRes.ok) throw new Error();
+
+            const [userData, reposData] = await Promise.all([userRes.json(), reposRes.json()]);
+
+            if (Array.isArray(reposData)) {
+              const languages = [...new Set(reposData.map(r => r.language).filter(Boolean))];
+              const newData = { public_repos: userData.public_repos, languages, data_info: data.data_info, updated_at: new Date().toISOString() };
+              localStorage.setItem(CACHE_KEY, JSON.stringify(newData));
+              document.getElementById("repo-count").setAttribute("data-target", newData.public_repos);
+              renderIconList(newData.languages, "tech-list");
+            }
+          } catch (e) {
+            console.warn("API offline, usando cache");
+          }
+        }
+
+      // Inicialização controlada
+      document.addEventListener("DOMContentLoaded", () => {
+        loadProjects();
+        updateGitHubInfo();
+        document.getElementById("year").innerHTML = new Date().getFullYear();
+        setTimeout(initScrollAnimations, 300);
+        setTimeout(initTypeWriterEffects, 800);
+      });
     </script>
   </body>
 </html>

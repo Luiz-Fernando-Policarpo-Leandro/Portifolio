@@ -1,7 +1,0 @@
-[
-  {
-    "linguagens": ["Ruby on Rails", "Python", "PHP", "nodeJs"],
-    "dados": ["Mysql", "PostgreSQL"],
-    "SO": ["Linux", "Windowns"]
-  }
-]
