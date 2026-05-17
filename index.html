@@ -1018,7 +1018,16 @@
         color: #f3f4f6;
         width: 100%;
         text-align: center;
-        /* O h4 fica parado aqui no topo */
+      }
+
+      .skill-item {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+
+      #habilidades .reveal-stagger > * {
+        opacity: 1;
+        transform: none;
       }
 
       /* O elemento que vem logo após o h4 (o #tech-list ou o p) */
@@ -1405,7 +1414,7 @@ const FALLBACK_DATA = {
 
       function renderIconList(items, containerId) {
         document.getElementById(containerId).innerHTML = items
-          .map((lang) => `<div style="display: flex; align-items: center; gap: 8px;"><i class="devicon-${getIconName(lang)}-plain colored"></i><span style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span></div>`)
+          .map((lang) => `<div class="skill-item" style="display: flex; align-items: center; gap: 8px;"><i class="devicon-${getIconName(lang)}-plain colored"></i><span style="font-family: 'Space Mono', monospace; font-size: 0.85rem;">${lang}</span></div>`)
           .join("");
       }
 
@@ -1430,38 +1439,7 @@ const FALLBACK_DATA = {
 
                 if (entry.target.id === "habilidades" && !skillsAnimated) {
                   skillsAnimated = true;
-                  const direction = getScrollDirection();
-                  const skillBoxes = Array.from(entry.target.querySelectorAll(".skill-box"));
-                  const orderedBoxes = direction === "up" ? [...skillBoxes].reverse() : skillBoxes;
-
-                  orderedBoxes.forEach((box) => {
-                    box.classList.add("revealed");
-                    const h4 = box.querySelector("h4.anim-init");
-                    const listItems = Array.from(box.querySelectorAll("#tech-list > div, #data-list > div"));
-                    const repoElements = Array.from(box.querySelectorAll("#repo-count, #repo-count + p"));
-
-                    let allElements = [];
-                    if (h4) allElements.push(h4);
-                    allElements.push(...listItems);
-                    allElements.push(...repoElements);
-
-                    if (direction === "up") {
-                      allElements.reverse();
-                    }
-
-                    let currentDelay = 0;
-                    allElements.forEach((el) => {
-                      el.style.opacity = "0";
-                      el.style.transform = direction === "up" ? "translateY(40px)" : "translateY(-40px)";
-                      setTimeout(() => {
-                        el.style.transition = "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)";
-                        el.style.opacity = "1";
-                        el.style.transform = "translateY(0)";
-                      }, currentDelay);
-                      currentDelay += 120;
-                    });
-                  });
-
+                  animateSkills(getScrollDirection());
                   const repoCount = entry.target.querySelector("#repo-count");
                   if (repoCount?.dataset.target) animateCounter("repo-count", parseInt(repoCount.dataset.target));
                 } else if (entry.target.id !== "habilidades") {
@@ -1479,7 +1457,7 @@ const FALLBACK_DATA = {
               });
               if (entry.target.id === "habilidades") {
                 skillsAnimated = false;
-                entry.target.querySelectorAll(".skill-box h4, .skill-box #tech-list > div, .skill-box #data-list > div, .skill-box #repo-count, .skill-box #repo-count + p").forEach((el) => {
+                entry.target.querySelectorAll(".skill-box h4, .skill-box .skill-item").forEach((el) => {
                   el.style.transition = "opacity 0.4s ease-out";
                   el.style.opacity = "0";
                 });
@@ -1489,9 +1467,44 @@ const FALLBACK_DATA = {
         }, observerOptions);
 
         return () => {
-          document.querySelectorAll(".scroll-reveal, .reveal-stagger, #habilidades").forEach((el) => observer.observe(el));
+          document.querySelectorAll(".scroll-reveal").forEach((el) => observer.observe(el));
+          document.querySelectorAll(".reveal-stagger").forEach((el) => {
+            if (!el.closest("#habilidades")) observer.observe(el);
+          });
+          document.querySelectorAll("#habilidades").forEach((el) => observer.observe(el));
         };
       })();
+
+      function animateSkills(direction) {
+        const skillBoxes = Array.from(document.querySelectorAll("#habilidades .skill-box"));
+
+        skillBoxes.forEach((box) => {
+          const h4 = box.querySelector("h4.anim-init");
+          const listItems = Array.from(box.querySelectorAll(".skill-item"));
+          const repoCount = box.querySelector("#repo-count");
+          const repoLabel = repoCount?.nextElementSibling;
+
+          let elements = [];
+          if (h4) elements.push(h4);
+          elements.push(...listItems);
+          if (repoCount) elements.push(repoCount);
+          if (repoLabel) elements.push(repoLabel);
+
+          if (direction === "up") {
+            elements = elements.reverse();
+          }
+
+          elements.forEach((el, i) => {
+            el.style.opacity = "0";
+            el.style.transform = direction === "up" ? "translateY(40px)" : "translateY(-40px)";
+            setTimeout(() => {
+              el.style.transition = "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)";
+              el.style.opacity = "1";
+              el.style.transform = "translateY(0)";
+            }, i * 100);
+          });
+        });
+      }
 
       async function loadCertificates() {
         try {
@@ -1668,36 +1681,7 @@ const FALLBACK_DATA = {
 
             const skillsSection = document.getElementById("habilidades");
             if (skillsSection && skillsSection.classList.contains("revealed")) {
-              const direction = getScrollDirection();
-              const skillBoxes = Array.from(skillsSection.querySelectorAll(".skill-box"));
-              const orderedBoxes = direction === "up" ? [...skillBoxes].reverse() : skillBoxes;
-
-              orderedBoxes.forEach((box) => {
-                const h4 = box.querySelector("h4.anim-init");
-                const listItems = Array.from(box.querySelectorAll("#tech-list > div, #data-list > div"));
-                const repoElements = Array.from(box.querySelectorAll("#repo-count, #repo-count + p"));
-
-                let allElements = [];
-                if (h4) allElements.push(h4);
-                allElements.push(...listItems);
-                allElements.push(...repoElements);
-
-                if (direction === "up") {
-                  allElements.reverse();
-                }
-
-                let currentDelay = 0;
-                allElements.forEach((el) => {
-                  el.style.opacity = "0";
-                  el.style.transform = direction === "up" ? "translateY(40px)" : "translateY(-40px)";
-                  setTimeout(() => {
-                    el.style.transition = "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)";
-                    el.style.opacity = "1";
-                    el.style.transform = "translateY(0)";
-                  }, currentDelay);
-                  currentDelay += 120;
-                });
-              });
+              animateSkills(getScrollDirection());
             }
           }
         } catch (e) {
