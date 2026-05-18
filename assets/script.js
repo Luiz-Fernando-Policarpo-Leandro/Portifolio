@@ -79,7 +79,8 @@ function animateElements(container, delayStep = 150) {
   if (elements.length === 0) return;
 
   const direction = getScrollDirection();
-  const orderedElements = direction === "up" ? [...elements].reverse() : elements;
+  const orderedElements =
+    direction === "up" ? [...elements].reverse() : elements;
 
   let currentDelay = 0;
   orderedElements.forEach((el) => {
@@ -127,7 +128,7 @@ function renderTagsWithIcons(tags) {
   return tags
     .map(
       (tag) =>
-        `<span class="tag-item"><i class="devicon-${getIconName(tag)}-plain"></i><span>${tag}</span></span>`
+        `<span class="tag-item"><i class="devicon-${getIconName(tag)}-plain"></i><span>${tag}</span></span>`,
     )
     .join("");
 }
@@ -136,7 +137,7 @@ function renderIconList(items, containerId) {
   document.getElementById(containerId).innerHTML = items
     .map(
       (lang) =>
-        `<div class="skill-item"><i class="devicon-${getIconName(lang)}-plain colored"></i><span class="skill-item-text">${lang}</span></div>`
+        `<div class="skill-item"><i class="devicon-${getIconName(lang)}-plain colored"></i><span class="skill-item-text">${lang}</span></div>`,
     )
     .join("");
 }
@@ -156,13 +157,16 @@ function stopAutoSlide() {
 
 function closeModal() {
   stopAutoSlide();
+  const modalInner = document.querySelector(".modal-inner");
+  if (modalInner) modalInner.scrollTop = 0;
   document.getElementById("projectModal").classList.remove("active");
   document.body.style.overflow = "auto";
-  setTimeout(() => (document.getElementById("modalContent").scrollTop = 0), 100);
 }
 
 function animateSkills(direction) {
-  const skillBoxes = Array.from(document.querySelectorAll("#habilidades .skill-box"));
+  const skillBoxes = Array.from(
+    document.querySelectorAll("#habilidades .skill-box"),
+  );
 
   skillBoxes.forEach((box) => {
     const h4 = box.querySelector("h4.anim-init");
@@ -182,7 +186,8 @@ function animateSkills(direction) {
 
     elements.forEach((el, i) => {
       el.style.opacity = "0";
-      el.style.transform = direction === "up" ? "translateY(40px)" : "translateY(-40px)";
+      el.style.transform =
+        direction === "up" ? "translateY(40px)" : "translateY(-40px)";
       setTimeout(() => {
         el.style.transition =
           "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)";
@@ -239,17 +244,23 @@ const initScrollAnimations = (() => {
   }, observerOptions);
 
   return () => {
-    document.querySelectorAll(".scroll-reveal").forEach((el) => observer.observe(el));
+    document
+      .querySelectorAll(".scroll-reveal")
+      .forEach((el) => observer.observe(el));
     document.querySelectorAll(".reveal-stagger").forEach((el) => {
       if (!el.closest("#habilidades")) observer.observe(el);
     });
-    document.querySelectorAll("#habilidades").forEach((el) => observer.observe(el));
+    document
+      .querySelectorAll("#habilidades")
+      .forEach((el) => observer.observe(el));
   };
 })();
 
 async function loadCertificates() {
   try {
-    const certificates = await fetch("./data/certificates.json").then((r) => r.json());
+    const certificates = await fetch("./data/certificates.json").then((r) =>
+      r.json(),
+    );
     const container = document.getElementById("certificates-list");
     container.innerHTML = certificates
       .map((cert) => {
@@ -291,7 +302,8 @@ function createProjectCard(project, index, direction) {
   card.addEventListener("click", () => openModal(project));
 
   const delayMultiplier = direction === "up" ? -1 : 1;
-  const cardDelay = 300 + Math.abs(index * delayMultiplier * CONFIG.ANIMATION_DELAY);
+  const cardDelay =
+    300 + Math.abs(index * delayMultiplier * CONFIG.ANIMATION_DELAY);
 
   setTimeout(() => {
     const dir = getScrollDirection();
@@ -300,9 +312,10 @@ function createProjectCard(project, index, direction) {
 
     setTimeout(() => {
       const applyTransition = () => {
-        img.style.transition = "opacity 0.5s ease-out, transform 0.5s ease-out";
+        img.style.transition =
+          "opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
         img.style.opacity = "1";
-        img.style.transform = "translateY(0)";
+        img.style.transform = "scale(1)";
       };
       if (img.complete) {
         applyTransition();
@@ -310,8 +323,6 @@ function createProjectCard(project, index, direction) {
         img.onload = applyTransition;
       }
     }, 50);
-
-    card.querySelectorAll("h3, p").forEach((el, i) => slideIn(el, i * 50));
   }, cardDelay);
 
   return card;
@@ -341,26 +352,50 @@ async function loadProjects() {
 }
 
 function buildModalContent(project) {
+  const links = [];
+  if (project.github)
+    links.push(
+      `<a href="${project.github}" target="_blank" class="modal-link">GitHub ↗</a>`,
+    );
+  if (project.demo)
+    links.push(
+      `<a href="${project.demo}" target="_blank" class="modal-link">Demo ↗</a>`,
+    );
+
   return `
     <div class="close-btn" id="closeModal">×</div>
-    <h3 class="anim-init">${project.title}</h3>
-    <p class="muted anim-init" style="text-align: center;">${project.summary}</p>
-    <p class="anim-init"><strong>Problema:</strong> ${project.problem}</p>
-    <p class="anim-init"><strong>Solução:</strong> ${project.solution}</p>
-    <p class="anim-init"><strong>Aprendizado:</strong> ${project.learning}</p>
-    <div class="tags">${renderTagsWithIcons(project.tags)}</div>
-    <div style="display: flex; justify-content: center; margin-top:24px; gap: 40px">
-      ${project.github ? `<a href="${project.github}" target="_blank" class="modal-link">[ VER CÓDIGO ]</a>` : ""}
-      ${project.demo ? `<a href="${project.demo}" target="_blank" class="modal-link">[ VER DEMO ]</a>` : ""}
+    <div class="modal-inner">
+      <div class="modal-header">
+        <h3 class="anim-init">${project.title}</h3>
+        <p class="modal-summary anim-init">${project.summary}</p>
+      </div>
+      <div class="modal-section anim-init">
+        <div class="modal-section-label">Relatorio</div>
+        <p>${project.problem}
+        ${project.solution}
+        Ao processo do projeto, aprimorei e aprimorei o meu conenhecimento em: ${project.learning}</p>
+      </div>
+      <div class="modal-tags">${renderTagsWithIcons(project.tags)}</div>
+      ${links.length > 0 ? `<div class="modal-links">${links.join("")}</div>` : ""}
     </div>`;
 }
 
 function buildCarouselHtml(projectId, images, initialIndex = 0) {
+  const dots = images
+    .map(
+      (_, i) =>
+        `<button class="carousel-dot${i === initialIndex ? " active" : ""}" data-index="${i}"></button>`,
+    )
+    .join("");
+
   return `
     <div class="carousel">
-      <button class="prev">‹</button>
-      <img id="carousel-img" src="assets/${projectId}/${images[initialIndex]}.png" alt="Screenshot do projeto" />
-      <button class="next">›</button>
+      <div class="carousel-image-wrapper">
+        <button class="prev" aria-label="Anterior">‹</button>
+        <img id="carousel-img" src="assets/${projectId}/${images[initialIndex]}.png" alt="Screenshot do projeto" />
+        <button class="next" aria-label="Próximo">›</button>
+      </div>
+      <div class="carousel-dots">${dots}</div>
     </div>`;
 }
 
@@ -368,29 +403,75 @@ function setupCarousel(project, currentIndex) {
   const img = document.getElementById("carousel-img");
   const prevBtn = document.querySelector(".carousel .prev");
   const nextBtn = document.querySelector(".carousel .next");
+  const dots = document.querySelectorAll(".carousel-dot");
+
+  const updateUI = () => {
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === currentIndex);
+    });
+  };
 
   const updateImage = (slideDirection) => {
     img.classList.remove("slide-from-right", "slide-from-left");
     void img.offsetWidth;
     img.src = `assets/${project.id}/${project.images[currentIndex]}.png`;
-    img.classList.add(slideDirection === "next" ? "slide-from-right" : "slide-from-left");
+    img.classList.add(
+      slideDirection === "next" ? "slide-from-right" : "slide-from-left",
+    );
+    updateUI();
   };
 
   const handleSlide = (direction) => {
     stopAutoSlide();
-    currentIndex = (currentIndex + direction + project.images.length) % project.images.length;
+    currentIndex =
+      (currentIndex + direction + project.images.length) %
+      project.images.length;
     updateImage(direction === 1 ? "next" : "prev");
+    if (project.images.length > 1) startAutoSlide();
   };
 
-  prevBtn.onclick = () => handleSlide(-1);
-  nextBtn.onclick = () => handleSlide(1);
-  img.onclick = () => img.classList.toggle("zoomed");
-
-  if (project.images.length > 1) {
+  const startAutoSlide = () => {
+    if (project.images.length <= 1) return;
     autoSlideTimer = setInterval(() => {
       currentIndex = (currentIndex + 1) % project.images.length;
       updateImage("next");
     }, CONFIG.AUTO_SLIDE_INTERVAL);
+  };
+
+  prevBtn.onclick = (e) => {
+    e.stopPropagation();
+    handleSlide(-1);
+  };
+  nextBtn.onclick = (e) => {
+    e.stopPropagation();
+    handleSlide(1);
+  };
+
+  img.onclick = (e) => {
+    e.stopPropagation();
+    const rect = img.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const half = rect.width / 2;
+    if (project.images.length > 1) {
+      if (clickX < half) {
+        handleSlide(-1);
+      } else {
+        handleSlide(1);
+      }
+    }
+  };
+
+  dots.forEach((dot) => {
+    dot.onclick = () => {
+      stopAutoSlide();
+      currentIndex = parseInt(dot.dataset.index);
+      updateImage("next");
+      startAutoSlide();
+    };
+  });
+
+  if (project.images.length > 1) {
+    startAutoSlide();
   }
 }
 
@@ -400,27 +481,36 @@ function openModal(project) {
 
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
-  modal.scrollTop = 0;
 
   modalContent.innerHTML = buildModalContent(project);
 
   let currentIndex = 0;
   if (project.images?.length > 0) {
-    modalContent.innerHTML += buildCarouselHtml(project.id, project.images);
+    const modalInner = modalContent.querySelector(".modal-inner");
+    const tags = modalInner.querySelector(".modal-tags");
+    const carouselHtml = buildCarouselHtml(project.id, project.images);
+    tags.insertAdjacentHTML("beforebegin", carouselHtml);
     setupCarousel(project, currentIndex);
   }
 
   const closeBtn = modalContent.querySelector("#closeModal");
   closeBtn.onclick = closeModal;
 
-  setTimeout(() => animateElements(modalContent, 100), CONFIG.MODAL_ANIMATION_DELAY);
+  setTimeout(() => {
+    const modalInner = modalContent.querySelector(".modal-inner");
+    modalInner.scrollTop = 0;
+    animateElements(modalInner, 100);
+  }, CONFIG.MODAL_ANIMATION_DELAY);
 }
 
 async function updateGitHubInfo() {
   let data = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY) || "null");
-  data = data || (await fetchJSON("./data/github-fallback.json")) || FALLBACK_DATA;
+  data =
+    data || (await fetchJSON("./data/github-fallback.json")) || FALLBACK_DATA;
 
-  document.getElementById("repo-count").setAttribute("data-target", data.public_repos);
+  document
+    .getElementById("repo-count")
+    .setAttribute("data-target", data.public_repos);
   document.getElementById("repo-count").innerText = "0";
   renderIconList(data.languages || [], "tech-list");
   renderIconList(data.data_info || [], "data-list");
@@ -430,16 +520,21 @@ async function updateGitHubInfo() {
       fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}`, {
         headers: { Accept: "application/vnd.github.v3+json" },
       }),
-      fetch(`https://api.github.com/users/${CONFIG.GITHUB_USERNAME}/repos?per_page=100`, {
-        headers: { Accept: "application/vnd.github.v3+json" },
-      }),
+      fetch(
+        `https://api.github.com/users/${CONFIG.GITHUB_USERNAME}/repos?per_page=100`,
+        {
+          headers: { Accept: "application/vnd.github.v3+json" },
+        },
+      ),
     ]);
 
     if (!userRes.ok) throw new Error();
 
     const reposData = await reposRes.json();
     if (Array.isArray(reposData)) {
-      const languages = [...new Set(reposData.map((r) => r.language).filter(Boolean))];
+      const languages = [
+        ...new Set(reposData.map((r) => r.language).filter(Boolean)),
+      ];
       const userData = await userRes.json();
       const newData = {
         public_repos: userData.public_repos,
@@ -448,7 +543,9 @@ async function updateGitHubInfo() {
         updated_at: new Date().toISOString(),
       };
       localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(newData));
-      document.getElementById("repo-count").setAttribute("data-target", newData.public_repos);
+      document
+        .getElementById("repo-count")
+        .setAttribute("data-target", newData.public_repos);
       renderIconList(newData.languages, "tech-list");
 
       const skillsSection = document.getElementById("habilidades");
@@ -485,6 +582,11 @@ function setupModalEvents() {
   });
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeModal();
+    if (!modal.classList.contains("active")) return;
+    const prevBtn = modal.querySelector(".carousel .prev");
+    const nextBtn = modal.querySelector(".carousel .next");
+    if (e.key === "ArrowLeft" && prevBtn) prevBtn.click();
+    if (e.key === "ArrowRight" && nextBtn) nextBtn.click();
   });
 }
 
@@ -498,7 +600,7 @@ window.addEventListener(
     lastScrollY = currentScrollY;
     hasScrolled = true;
   },
-  { passive: true }
+  { passive: true },
 );
 
 document.addEventListener("DOMContentLoaded", () => {
