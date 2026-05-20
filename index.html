@@ -56,13 +56,28 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://avatars.githubusercontent.com" />
+    <link
+      rel="preload"
+      as="image"
+      href="https://avatars.githubusercontent.com/u/105563531?v=4"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/devicon@2.16.0/devicon.min.css"
+      media="print"
+      onload="this.media = 'all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/devicon@2.16.0/devicon.min.css"
+      />
+    </noscript>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
+      loading="lazy"
     />
 
     <link rel="stylesheet" href="assets/styles.css" />
@@ -71,7 +86,7 @@
   <body>
     <div class="matrix-bg">
       <iframe
-        src="https://rezmason.github.io/matrix/?skipIntro=false&numColumns=120&bloomStrength=0,7"
+        src="https://rezmason.github.io/matrix/?skipIntro=false&numColumns=120&bloomStrength=0,7?effect=image&url=https://upload.wikimedia.org/wikipedia/commons/f/f5/EagleRock.jpg"
         frameborder="0"
       ></iframe>
     </div>
@@ -92,6 +107,10 @@
           <img
             src="https://avatars.githubusercontent.com/u/105563531?v=4"
             alt="Luiz Fernando"
+            width="160"
+            height="160"
+            fetchpriority="high"
+            decoding="async"
           />
         </div>
         <div>

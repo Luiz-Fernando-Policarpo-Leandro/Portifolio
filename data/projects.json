@@ -9,20 +9,30 @@
     "tags": ["Ruby on Rails", "API REST", "RSpec", "CI/CD", "PostgreSQL"],
     "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/onibus_app",
     "demo": null,
-    "img_folder": null,
     "images": ["0","1"]
   },
   {
     "id": "data_analisys",
-    "title": "Data Analisys - Sitemas de despesas e arrecadações da ANS",
+    "title": "Sitemas de despesas e arrecadações da ANS",
     "summary": "Pipeline completo de engenharia de dados para ingestão, normalização, validação e análise de dados públicos da ANS.",
     "problem": "Dados públicos distribuídos em múltiplos formatos, inconsistentes e sem padronização, dificultando análise confiável.",
     "solution": "a construção de pipeline idempotente com extração automatizada, normalização dinâmica, validação de regras de negócio e carga em PostgreSQL para análise estruturada.",
     "learning": "Engenharia de dados real (ETL), tratamento de inconsistência, paralelismo, modelagem relacional e construção de APIs para exposição de dados.",
-    "tags": ["Python", "Pandas", "  PostgreSQL", "NodeJs"],
+    "tags": ["Python", "Pandas", "PostgreSQL", "NodeJs"],
     "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/data_analisys_test",
     "demo": "https://data-analisys-test-luiz-fernando-policarpo-leandros-projects.vercel.app?_vercel_share=kG73QlCZXF6FrjYHJ5WgG1ymlhbK5SL3",
-    "img_folder": "data_analisys",
     "images": ["0","1","2","3"]
+  },
+  {
+    "id": "astro_blasters",
+    "title": "Astro Blasters - hackathon Nasa space apps 2025",
+    "summary": "Simulador de impacto de asteroids existentes com dados reais da Nasa.",
+    "problem": "Há uma carência de aplicações simples e funcionais para a área academica no que se diz sobre a simulação e visuaização de desastrestres causados por queda de asteroids, para fins educativos e acadêmicos",
+    "solution": "Para a solução, apresentado uma aplicação web em NextJS, biblioteca React e Typescript, que por meio de calculos gerados pelo backend renderiza e simula os impactos gerados pro asteroids e seus detritos. e adicionando o modo realista ao globo",
+    "learning": "Modelagem e tratamento de dados de apis oficiais da Nasa, renderização e animação de modelos 3D",
+    "tags": ["Typescript", "React", "Python"],
+    "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/Astro_blaster",
+    "demo": "https://astro-blaster.vercel.app/",
+    "images": ["0", "1", "2"]
   }
 ]

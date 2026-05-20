@@ -285,13 +285,22 @@ async function loadCertificates() {
   }
 }
 
+function getProjectImagePath(projectId, index) {
+  return `assets/imgs/${projectId}/${index}.webp`;
+}
+
 function createProjectCard(project, index, direction) {
   const card = document.createElement("div");
   card.className = "project-card";
 
   const img = document.createElement("img");
-  img.src = `assets/${project.id}/0.png`;
-  img.onerror = () => (img.style.display = "none");
+  img.src = getProjectImagePath(project.id, 0);
+  img.loading = "lazy";
+  img.decoding = "async";
+  img.onerror = () => {
+    img.src = `assets/${project.id}/0.png`;
+    img.onerror = () => (img.style.display = "none");
+  };
 
   const overlay = document.createElement("div");
   overlay.className = "project-card-overlay";
@@ -392,7 +401,7 @@ function buildCarouselHtml(projectId, images, initialIndex = 0) {
     <div class="carousel">
       <div class="carousel-image-wrapper">
         <button class="prev" aria-label="Anterior">‹</button>
-        <img id="carousel-img" src="assets/${projectId}/${images[initialIndex]}.png" alt="Screenshot do projeto" />
+        <img id="carousel-img" src="${getProjectImagePath(projectId, images[initialIndex])}" alt="Screenshot do projeto" onerror="this.src='assets/imgs/${projectId}/${images[initialIndex]}.png'" />
         <button class="next" aria-label="Próximo">›</button>
       </div>
       <div class="carousel-dots">${dots}</div>
@@ -414,7 +423,10 @@ function setupCarousel(project, currentIndex) {
   const updateImage = (slideDirection) => {
     img.classList.remove("slide-from-right", "slide-from-left");
     void img.offsetWidth;
-    img.src = `assets/${project.id}/${project.images[currentIndex]}.png`;
+    img.src = getProjectImagePath(project.id, project.images[currentIndex]);
+    img.onerror = () => {
+      img.src = `assets/imgs/${project.id}/${project.images[currentIndex]}.png`;
+    };
     img.classList.add(
       slideDirection === "next" ? "slide-from-right" : "slide-from-left",
     );
