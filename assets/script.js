@@ -304,7 +304,24 @@ function createProjectCard(project, index, direction) {
 
   const overlay = document.createElement("div");
   overlay.className = "project-card-overlay";
-  overlay.innerHTML = `<h3>${project.title}</h3><p class="project-summary">${project.summary}</p><span class="view-btn">Ver Projeto ↗</span>`;
+
+  const badgesHtml = project.tags
+    ? `<div class="project-card-badges">
+        ${project.tags.slice(0, 3).map(tag => `<span class="project-badge">${tag}</span>`).join('')}
+      </div>`
+    : '';
+
+  const imagesCount = project.images?.length > 0
+    ? `<div class="project-card-images-count">${project.images.length} 📷</div>`
+    : '';
+
+  overlay.innerHTML = `
+    ${imagesCount}
+    <h3>${project.title}</h3>
+    ${badgesHtml}
+    <p class="project-summary">${project.summary}</p>
+    <span class="view-btn">Ver Projeto ↗</span>
+  `;
 
   card.appendChild(img);
   card.appendChild(overlay);
@@ -623,4 +640,46 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(initScrollAnimations, 300);
   setupNavigation();
   setupModalEvents();
+  initTypingEffect();
 });
+
+function initTypingEffect() {
+  const texts = [
+    "Desenvolvedor Web",
+    "Cientista de Dados",
+    "Especialista em Backend",
+    "Criador de APIs"
+  ];
+  const element = document.getElementById("typingText");
+  let textIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let typingSpeed = 100;
+
+  function type() {
+    const currentText = texts[textIndex];
+
+    if (isDeleting) {
+      element.textContent = currentText.substring(0, charIndex - 1);
+      charIndex--;
+      typingSpeed = 50;
+    } else {
+      element.textContent = currentText.substring(0, charIndex + 1);
+      charIndex++;
+      typingSpeed = 100;
+    }
+
+    if (!isDeleting && charIndex === currentText.length) {
+      typingSpeed = 2000;
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      textIndex = (textIndex + 1) % texts.length;
+      typingSpeed = 500;
+    }
+
+    setTimeout(type, typingSpeed);
+  }
+
+  setTimeout(type, 1000);
+}
