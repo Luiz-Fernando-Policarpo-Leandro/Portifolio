@@ -332,6 +332,8 @@ function createProjectCard(project, index, direction) {
     300 + Math.abs(index * delayMultiplier * CONFIG.ANIMATION_DELAY);
 
   setTimeout(() => {
+    card.classList.add("revealed");
+    
     const dir = getScrollDirection();
     img.style.transform = `translateY(${dir === "down" ? -30 : 30}px)`;
     img.style.opacity = "0";
@@ -588,20 +590,31 @@ async function updateGitHubInfo() {
 }
 
 function setupNavigation() {
-  const navToggle = document.querySelector(".nav-toggle");
-  const navLinks = document.querySelector(".nav-links");
+// Bootstrap navbar já gerencia o toggle automaticamente
+// Fechar menu mobile ao clicar em link
+document.querySelectorAll(".navbar-nav .nav-link").forEach((link) => {
+link.addEventListener("click", () => {
+const navbarCollapse = document.querySelector(".navbar-collapse");
+if (navbarCollapse.classList.contains("show")) {
+const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+bsCollapse?.hide();
+}
+});
+});
 
-  navToggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-    navToggle.textContent = navLinks.classList.contains("active") ? "✕" : "☰";
-  });
-
-  document.querySelectorAll(".nav-links a").forEach((link) => {
-    link.addEventListener("click", () => {
-      navLinks.classList.remove("active");
-      navToggle.textContent = "☰";
-    });
-  });
+// Smooth scroll para links âncora
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+const href = this.getAttribute('href');
+if (href !== '#') {
+e.preventDefault();
+const target = document.querySelector(href);
+if (target) {
+target.scrollIntoView({ behavior: 'smooth' });
+}
+}
+});
+});
 }
 
 function setupModalEvents() {
