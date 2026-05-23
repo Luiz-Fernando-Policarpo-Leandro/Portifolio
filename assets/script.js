@@ -642,6 +642,31 @@ function setupModalEvents() {
   });
 }
 
+function updateScrollProgress() {
+  const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const progress = (winScroll / height) * 100;
+  document.getElementById("scrollProgress").style.width = progress + "%";
+}
+
+function updateActiveNav() {
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+  let current = "";
+  sections.forEach((section) => {
+    const top = section.offsetTop - 150;
+    if (window.scrollY >= top) {
+      current = section.getAttribute("id");
+    }
+  });
+  navLinks.forEach((link) => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === "#" + current) {
+      link.classList.add("active");
+    }
+  });
+}
+
 window.addEventListener(
 "scroll",
 () => {
@@ -652,6 +677,8 @@ scrollDirection = currentScrollY >= lastScrollY ? "down" : "up";
 lastScrollY = currentScrollY;
 hasScrolled = true;
 animateTimeline();
+updateScrollProgress();
+updateActiveNav();
 },
 { passive: true },
 );
