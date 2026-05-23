@@ -276,8 +276,8 @@ async function loadCertificates() {
             ${hasUrl ? `<span class="cert-link-btn">Ver Certificado ↗</span>` : ""}
           </div>`;
         return hasUrl
-          ? `<div class="list-item cert-item"><a href="${cert.url}" target="_blank" rel="noopener">${contentHtml}</a></div>`
-          : `<div class="list-item cert-item">${contentHtml}</div>`;
+          ? `<div class="list-item cert-item col"><a href="${cert.url}" target="_blank" rel="noopener">${contentHtml}</a></div>`
+          : `<div class="list-item cert-item col">${contentHtml}</div>`;
       })
       .join("");
   } catch (e) {
@@ -291,7 +291,7 @@ function getProjectImagePath(projectId, index) {
 
 function createProjectCard(project, index, direction) {
   const card = document.createElement("div");
-  card.className = "project-card";
+  card.className = "project-card col";
 
   const img = document.createElement("img");
   img.src = getProjectImagePath(project.id, 0);
