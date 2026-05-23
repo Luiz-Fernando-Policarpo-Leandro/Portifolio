@@ -107,7 +107,20 @@ function animateCounter(elementId, targetValue) {
   const el = document.getElementById(elementId);
   if (el.dataset.animated === "true") return;
   el.dataset.animated = "true";
-  el.style.color = "#fff";
+
+  el.style.color = "#ffffff";
+  el.style.webkitTextFillColor = "#ffffff";
+  el.style.background = "none";
+
+  const CYAN = { r: 6, g: 182, b: 212 };
+  const WHITE = { r: 255, g: 255, b: 255 };
+
+  function lerpColor(t) {
+    const r = Math.round(WHITE.r + (CYAN.r - WHITE.r) * t);
+    const g = Math.round(WHITE.g + (CYAN.g - WHITE.g) * t);
+    const b = Math.round(WHITE.b + (CYAN.b - WHITE.b) * t);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
 
   const startTime = performance.now() + CONFIG.COUNTER_DELAY;
   const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
@@ -119,12 +132,20 @@ function animateCounter(elementId, targetValue) {
       return;
     }
     const progress = Math.min(elapsed / CONFIG.COUNTER_DURATION, 1);
-    el.innerText = Math.floor(ease(progress) * targetValue);
+    const easedProgress = ease(progress);
+    el.innerText = Math.floor(easedProgress * targetValue);
+
+    const colorT = Math.pow(easedProgress, 0.6);
+    el.style.color = lerpColor(colorT);
+    el.style.webkitTextFillColor = lerpColor(colorT);
+
     if (progress < 1) {
       requestAnimationFrame(update);
     } else {
       el.innerText = targetValue;
       el.style.color = "";
+      el.style.webkitTextFillColor = "";
+      el.style.background = "";
     }
   };
   requestAnimationFrame(update);

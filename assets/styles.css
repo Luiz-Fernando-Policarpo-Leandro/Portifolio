@@ -227,93 +227,22 @@ color: var(--text-muted);
 }
 
 /* =========================
-   ABOUT CARD
+   ABOUT
 ========================= */
 
-.about-card {
-background: rgba(255, 255, 255, 0.02);
-border: 1px solid var(--border-subtle);
-border-radius: 16px;
-padding: 40px 36px;
-position: relative;
-overflow: hidden;
-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.about-card::before {
-content: "";
-position: absolute;
-inset: -1px;
-border-radius: 17px;
-background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-teal) 50%, var(--matrix-green) 100%);
--webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
--webkit-mask-composite: xor;
-mask-composite: exclude;
-opacity: 0;
-transition: opacity 0.4s ease;
-pointer-events: none;
-}
-
-.about-card:hover {
-background: rgba(6, 182, 212, 0.05);
-border-color: var(--accent-cyan-dim);
-transform: translateY(-3px);
-box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.about-card:hover::before {
-opacity: 1;
-}
-
-.about-card-inner {
-display: flex;
-flex-direction: column;
-gap: 24px;
-}
-
 .about-text {
-font-size: clamp(1rem, 1.8vw, 1.1rem);
-line-height: 1.8;
+font-size: clamp(1rem, 1.8vw, 1.15rem);
+line-height: 1.9;
 color: var(--text-primary);
 text-align: center;
-max-width: 650px;
+max-width: 700px;
 margin: 0 auto;
+padding: 0 16px;
 }
 
 .about-text strong {
 color: var(--accent-cyan-light);
 font-weight: 600;
-}
-
-.about-highlights {
-display: flex;
-justify-content: center;
-gap: 24px;
-flex-wrap: wrap;
-padding-top: 8px;
-border-top: 1px solid var(--border-subtle);
-}
-
-.about-highlight {
-display: flex;
-align-items: center;
-gap: 8px;
-padding: 8px 16px;
-background: rgba(255, 255, 255, 0.03);
-border-radius: 8px;
-border: 1px solid var(--border-subtle);
-}
-
-.highlight-icon {
-font-size: 1.2rem;
-}
-
-.highlight-label {
-font-family: "Space Mono", monospace;
-font-size: 0.75rem;
-color: var(--text-muted);
-text-transform: uppercase;
-letter-spacing: 0.05em;
 }
 
 /* =========================
@@ -449,6 +378,10 @@ filter: drop-shadow(0 0 10px var(--accent-cyan));
 section {
 margin-bottom: clamp(280px, 30vh, 480px);
 position: relative;
+}
+
+#contato {
+margin-bottom: clamp(40px, 6vh, 80px);
 }
 
 section::after {
@@ -2101,12 +2034,17 @@ transform: none;
 }
 
 #repo-count {
-color: var(--matrix-green);
-font-size: clamp(2.5rem, 6vw, 4rem);
-font-weight: 700;
+font-size: clamp(3.5rem, 8vw, 5.5rem);
+font-weight: 800;
 line-height: 1;
 display: block;
 margin: 0;
+background: var(--gradient-text);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-shadow: 0 0 30px var(--accent-cyan-glow);
+letter-spacing: -0.03em;
 }
 
 /* =========================
@@ -2142,50 +2080,18 @@ text-shadow: 0 0 12px var(--matrix-green-glow);
 }
 
 /* =========================
-   CONTACT CARD
+   CONTACT
 ========================= */
 
-.contact-card {
-background: rgba(255, 255, 255, 0.02);
-border: 1px solid var(--border-subtle);
-border-radius: 16px;
-padding: 48px 36px;
-position: relative;
-overflow: hidden;
-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-text-align: center;
-}
-
-.contact-card::before {
-content: "";
-position: absolute;
-inset: -1px;
-border-radius: 17px;
-background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-teal) 50%, var(--matrix-green) 100%);
--webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
--webkit-mask-composite: xor;
-mask-composite: exclude;
-opacity: 0;
-transition: opacity 0.4s ease;
-pointer-events: none;
-}
-
-.contact-card:hover {
-background: rgba(6, 182, 212, 0.05);
-border-color: var(--accent-cyan-dim);
-transform: translateY(-3px);
-box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.contact-card:hover::before {
-opacity: 1;
-}
-
-.contact-text {
+.contact-intro {
 font-size: clamp(1rem, 1.8vw, 1.15rem);
 line-height: 1.8;
 color: var(--text-primary);
-margin-bottom: 32px;
+text-align: center;
+margin-bottom: 36px;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
 }
 
 .contact-links {
@@ -2253,7 +2159,7 @@ FOOTER
 ========================= */
 
 footer {
-margin-top: clamp(120px, 15vh, 200px);
+margin-top: 120px;
 padding: 0 0 40px;
 background: transparent;
 text-align: center;
