@@ -1,104 +1,118 @@
-# Guia de Cores - Portfólio Luiz Fernando
+# Guia de Estilo - Portfólio Luiz Fernando
 
-## 🎨 Paleta Atualizada - CIANO PRINCIPAL
+## 🎨 Paleta - Ciano com Harmonia Tripla
 
-### Cores Base (Verde Matrix)
-- `--matrix-green`: #00ff41 (verde principal)
-- `--matrix-green-light`: #00ff6a (verde claro)
-- `--matrix-green-dark`: #00cc33 (verde escuro)
-- `--matrix-green-dim`: rgba(0, 255, 65, 0.12) (suave)
-- `--matrix-green-glow`: rgba(0, 255, 65, 0.35) (brilho moderado)
+### Hierarquia de Cores
 
-### Accent: Ciano (PRINCIPAL)
-- `--accent-cyan`: #06b6d4 (ciano principal)
-- `--accent-cyan-light`: #22d3ee (ciano claro)
-- `--accent-cyan-dark`: #0891b2 (ciano escuro)
-- `--accent-cyan-dim`: rgba(6, 182, 212, 0.15) (translúcido)
-- `--accent-cyan-glow`: rgba(6, 182, 212, 0.4) (brilho)
+#### 1. Ciano (PRIMÁRIO - 60%)
+- `--accent-cyan`: #06b6d4
+- `--accent-cyan-light`: #67e8f9
+- `--accent-cyan-dark`: #0891b2
+- `--accent-cyan-glow`: rgba(6, 182, 212, 0.3)
 
-### Accent: Rosa/Fúcsia (Secundário - detalhes ocasionais)
-- `--accent-pink`: #ff00ff (rosa principal)
-- `--accent-pink-light`: #ff66ff (rosa claro)
-- `--accent-pink-dark`: #cc00cc (rosa escuro)
-- `--accent-pink-dim`: rgba(255, 0, 255, 0.08) (translúcido)
-- `--accent-pink-glow`: rgba(255, 0, 255, 0.25) (brilho)
+**Papel:** Cor dominante, aparece em todos elementos de destaque
 
-### Neutros
-- Background: #000 (preto puro)
-- Texto: #e5e5e5 (cinza claro)
-- Muted: #a0a0a0 (cinza médio)
+#### 2. Verde Esmeralda (SECUNDÁRIO - 30%)
+- `--matrix-green`: #10b981
+- `--matrix-green-light`: #34d399
+- `--matrix-green-dark`: #059669
+- `--matrix-green-glow`: rgba(16, 185, 129, 0.2)
 
----
+**Papel:** Aparece junto com ciano, mais fraco, cria harmonia
 
-## 🎯 Teoria das Cores Aplicada
+#### 3. Azul Petróleo/Teal (TERCIÁRIO - 10%)
+- `--accent-teal`: #14b8a6
+- `--accent-teal-light`: #5eead4
+- `--accent-teal-glow`: rgba(20, 184, 166, 0.15)
 
-### 1. Cores Análogas
-Ciano e verde são análogos no espectro - criam harmonia visual natural.
-
-### 2. Contraste Moderado
-Rosa como terciário para detalhes que precisam de destaque extra.
-
-### 3. Vibe Tech/Cyber
-Ciano + verde = estética matrix/tech moderna.
-
-### 4. Regra 60-30-10
-- 60% Neutros (preto, cinza)
-- 30% Verde (base)
-- 10% Ciano (destaque principal)
+**Papel:** Conecta ciano e verde, profundidade, aparece mais fraco
 
 ---
 
-## 📍 Onde Cada Cor é Usada
+## 🎯 Gradientes Triplos
 
-### Ciano (COR PRINCIPAL DE DESTAQUE)
+### Gradiente Principal
+```css
+linear-gradient(135deg, 
+  var(--accent-cyan) 0%,      /* Ciano domina */
+  var(--accent-teal) 50%,     /* Teal no meio */
+  var(--matrix-green) 100%    /* Verde fecha */
+)
+```
+
+### Gradiente Texto
+```css
+linear-gradient(135deg, 
+  #ffffff 0%, 
+  var(--accent-cyan-light) 50%, 
+  var(--accent-teal-light) 100%
+)
+```
+
+---
+
+## 📍 Aplicações
+
+### Ciano Predomina (60%)
 - ✅ Navbar brand
-- ✅ Links de navegação
-- ✅ Títulos de seções
-- ✅ Botões
-- ✅ Border de cards
+- ✅ Links hover
+- ✅ Títulos (h1, h2)
+- ✅ Stat numbers (gradiente)
+- ✅ Skill boxes
 - ✅ Timeline
 - ✅ Footer
-- ✅ Cursor de digitação
+- ✅ Cursor
+- ✅ Avatar ring (gradiente)
+- ✅ Botões hover
+- ✅ Cards hover
+- ✅ Badges hover
+
+### Verde Aparece Fraco (30%)
+- ✅ Gradientes (fechando)
 - ✅ Avatar ring
-- ✅ Badges
-- ✅ Stats numbers
-- ✅ Skill boxes
-
-### Rosa (Secundário - Opcional)
-- ✅ Detalhes extras
-- ✅ Gradientes ocasionais
-
-### Verde (Base Identitária)
+- ✅ Detalhes em hover
 - ✅ Matrix background
-- ✅ Efeitos de brilho
-- ✅ Gradientes combinados
-- ✅ Ícones de tech
+
+### Azul Petróleo Conecta (10%)
+- ✅ Meio dos gradientes
+- ✅ Sombras suaves
+- ✅ Transições de cor
+- ✅ Profundidade
 
 ---
 
 ## ✨ Efeitos
 
-### Transições
-- Hover suave em elementos
-- Glow moderado em hover states
+### Glow Triplo
+- Ciano: 0.3 opacity (forte)
+- Teal: 0.15 opacity (fraco)
+- Verde: 0.2 opacity (médio)
 
-### Sombras e Brilhos
-- Glow moderado (0.4 opacity)
-- Box-shadows controladas
-- Text-shadows sutis
+### Gradientes
+- Sempre 3 cores
+- Ciano sempre primeiro (domina)
+- Teal no meio (conecta)
+- Verde sempre depois (fecha)
 
----
-
-## 💡 Dicas
-
-1. **Manter equilíbrio** - ciano é a cor principal de destaque
-2. **Glow moderado** - usar com propósito
-3. **Contraste** - sempre manter legibilidade
-4. **Profissional** - menos é mais
+### Sombras
+- Baseadas em ciano
+- Toque de teal
+- Verde só no background
 
 ---
 
-## 📁 Arquivos
+## 💡 Princípios
 
-- `assets/styles.css` - Todo o CSS atualizado
-- `index.html` - HTML structure
+1. **Ciano Domina** - Sempre visível primeiro
+2. **Verde Complementa** - Aparece junto, mais fraco
+3. **Azul Conecta** - No meio, faz transição
+4. **Nunca Sozinho** - Sempre em gradiente triplo
+5. **Hierarquia Clara** - 60% / 30% / 10%
+
+---
+
+## 📁 Estrutura
+
+- `assets/styles.css` - CSS completo
+- `index.html` - HTML
+- `CORES.md` - Este guia
