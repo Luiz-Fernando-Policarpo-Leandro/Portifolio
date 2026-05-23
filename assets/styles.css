@@ -187,7 +187,6 @@ h4,
 .links a,
 .tags,
 footer,
-.list-item strong,
 .skill-box h4,
 .close-btn,
 .carousel button {
@@ -207,7 +206,6 @@ p,
 .project-summary,
 .muted,
 .tags,
-.list-item,
 .skill-box {
   text-align: center;
 }
@@ -1731,6 +1729,8 @@ box-shadow:
 0 4px 20px rgba(0, 0, 0, 0.4),
 inset 0 0 20px var(--border-subtle);
 height: 100%;
+display: flex;
+flex-direction: column;
 }
 
 .testimonial-card::before {
@@ -1773,6 +1773,7 @@ inset 0 0 30px var(--border-subtle);
 .testimonial-quote {
   margin-bottom: 24px;
   position: relative;
+  flex: 1;
 }
 
 .quote-icon {
@@ -1953,231 +1954,49 @@ text-align: left;
 
 
 
-#certificates-list {
-  row-gap: 1rem;
-}
-
-#certificates-list .list-item {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.list-item:hover {
-background: rgba(30, 30, 26, 0.6);
-border-color: var(--border-subtle);
-box-shadow:
-0 8px 24px rgba(0, 0, 0, 0.3),
-0 0 15px rgba(184, 150, 87, 0.3);
-}
-
-.list-item strong {
-font-size: 1rem;
-color: var(--text-primary);
-display: block;
-margin-bottom: 10px;
-}
-
-.list-item a {
-text-decoration: none;
-display: block;
-color: inherit;
-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.list-item a:hover strong {
-color: var(--text-primary);
-text-shadow: 0 0 12px rgba(184, 150, 87, 0.4);
-}
-
-.list-item a:hover .muted {
-color: var(--text-muted);
-}
-
-/* =========================
-CERTIFICADOS
-========================= */
-
-.cert-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.75rem;
-}
-
-@media (min-width: 576px) {
-  .cert-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-}
-
-@media (min-width: 992px) {
-  .cert-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-}
-
-#certificates-list .list-item {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.cert-item {
-background: rgba(255, 255, 255, 0.02);
-border: 1px solid var(--border-subtle);
-border-radius: 12px;
-padding: 0;
-position: relative;
-overflow: hidden;
-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.cert-item::before {
-content: "";
-position: absolute;
-inset: -1px;
-border-radius: 13px;
-background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-teal) 50%, var(--matrix-green) 100%);
--webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
--webkit-mask-composite: xor;
-mask-composite: exclude;
-opacity: 0;
-transition: opacity 0.4s ease;
-pointer-events: none;
-z-index: 2;
-}
-
-.cert-item:hover {
-border-color: var(--accent-cyan);
-transform: translateY(-4px);
-box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.15);
-}
-
-.cert-item:hover::before {
-opacity: 1;
-}
-
-.cert-item a {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  text-decoration: none;
-  color: inherit;
-}
-
-.cert-image {
-  width: 100%;
-  height: 90px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  background-color: #0a0a0a;
-}
-
-.cert-image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, #0a0a0a 100%);
-}
-
-.cert-content {
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 6px;
-}
-
-.cert-item strong {
-  font-size: 0.85rem;
-  color: #f0fdf4;
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  line-height: 1.3;
-  background: var(--gradient-cyan-dominant);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.cert-item .muted {
-  color: #94a3b8;
-  font-size: 0.75rem;
-  line-height: 1.4;
-}
-
-.cert-link-btn {
+/* Cert link inside testimonial cards */
+.testimonial-card .cert-link-btn {
 display: flex;
 align-items: center;
 justify-content: center;
 gap: 6px;
-margin-top: auto;
-padding: 8px 12px;
+padding: 10px 16px;
 background: rgba(255, 255, 255, 0.03);
-border-radius: 6px;
+border-radius: 8px;
 font-family: "Inter", sans-serif;
 font-size: 0.75rem;
-color: var(--text-primary);
+color: var(--text-muted);
 border: 1px solid var(--border-subtle);
-transition: all 0.2s ease;
+transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 letter-spacing: 0.02em;
 text-decoration: none;
-margin-top: 8px;
 font-weight: 500;
-}
-
-.cert-item:hover .cert-link-btn {
-background: rgba(6, 182, 212, 0.2);
-border-color: transparent;
-color: var(--accent-cyan-light);
+margin-top: 20px;
 position: relative;
-}
-
-.cert-item:hover .cert-link-btn::before {
-content: "";
-position: absolute;
-inset: -1px;
-border-radius: 7px;
-background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal), var(--matrix-green));
--webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
--webkit-mask-composite: xor;
-mask-composite: exclude;
-pointer-events: none;
-}
-
-.cert-badge {
-position: absolute;
-top: 10px;
-right: 10px;
-background: rgba(255, 255, 255, 0.05);
-padding: 4px 8px;
-border-radius: 6px;
-font-size: 0.65rem;
-color: var(--text-muted);
-z-index: 10;
-border: 1px solid transparent;
-font-weight: 500;
 overflow: hidden;
 }
 
-.cert-badge::before {
+.testimonial-card .cert-link-btn::before {
 content: "";
 position: absolute;
 inset: -1px;
-border-radius: 7px;
+border-radius: 9px;
 background: var(--gradient-cyan-dominant);
 -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
 -webkit-mask-composite: xor;
 mask-composite: exclude;
-opacity: 0.5;
+opacity: 0;
+transition: opacity 0.3s ease;
 pointer-events: none;
 }
 
-.cert-item:hover .cert-badge::before {
+.testimonial-card:hover .cert-link-btn {
+background: rgba(6, 182, 212, 0.15);
+color: var(--accent-cyan-light);
+border-color: transparent;
+}
+
+.testimonial-card:hover .cert-link-btn::before {
 opacity: 1;
 }
 
@@ -2693,22 +2512,9 @@ min-height: 200px;
     width: 100%;
   }
 
-  .list-item,
   .skill-box,
   .testimonial-card {
     padding: 16px;
-  }
-
-  .cert-content {
-    padding: 12px;
-  }
-
-  .cert-image {
-    height: 70px;
-  }
-
-  .cert-item {
-    min-height: 150px;
   }
 
   .header-stats {

@@ -287,34 +287,7 @@ const initScrollAnimations = (() => {
   };
 })();
 
-async function loadCertificates() {
-  try {
-    const certificates = await fetch("./data/certificates.json").then((r) =>
-      r.json(),
-    );
-    const container = document.getElementById("certificates-list");
-    container.innerHTML = certificates
-      .map((cert) => {
-        const hasUrl = cert.url?.trim();
-        const imageHtml = cert.image
-          ? `<div class="cert-image" style="background-image: url('${cert.image}')"></div>`
-          : `<div class="cert-image"></div>`;
-        const contentHtml = `
-          ${imageHtml}
-          <div class="cert-content">
-            <strong>${cert.title}</strong>
-            <p class="muted">${cert.description}</p>
-            ${hasUrl ? `<span class="cert-link-btn">Ver Certificado ↗</span>` : ""}
-          </div>`;
-        return hasUrl
-          ? `<div class="list-item cert-item col"><a href="${cert.url}" target="_blank" rel="noopener">${contentHtml}</a></div>`
-          : `<div class="list-item cert-item col">${contentHtml}</div>`;
-      })
-      .join("");
-  } catch (e) {
-    console.warn("Falha ao carregar certificados");
-  }
-}
+
 
 function getProjectImagePath(projectId, index) {
   return `assets/imgs/${projectId}/${index}.webp`;
@@ -706,7 +679,6 @@ updateActiveNav();
 
 document.addEventListener("DOMContentLoaded", () => {
 loadProjects();
-loadCertificates();
 updateGitHubInfo();
 document.getElementById("year").innerText = new Date().getFullYear();
 setTimeout(initScrollAnimations, 300);
