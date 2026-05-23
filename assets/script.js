@@ -75,22 +75,32 @@ function slideIn(element, delay = 0) {
 }
 
 function animateElements(container, delayStep = 150) {
-  const elements = Array.from(container.querySelectorAll(".anim-init"));
-  if (elements.length === 0) return;
+const elements = Array.from(container.querySelectorAll(".anim-init"));
+if (elements.length === 0) return;
 
-  const direction = getScrollDirection();
-  const orderedElements =
-    direction === "up" ? [...elements].reverse() : elements;
+const direction = getScrollDirection();
+const orderedElements =
+direction === "up" ? [...elements].reverse() : elements;
 
-  let currentDelay = 0;
-  orderedElements.forEach((el) => {
-    if (el.dataset.slid === "true") return;
-    el.dataset.slid = "false";
-    el.style.opacity = "0";
-    el.style.transform = "";
-    slideIn(el, currentDelay);
-    currentDelay += delayStep;
-  });
+let currentDelay = 0;
+orderedElements.forEach((el) => {
+if (el.dataset.slid === "true") return;
+el.dataset.slid = "false";
+el.style.opacity = "0";
+el.style.transform = "";
+slideIn(el, currentDelay);
+currentDelay += delayStep;
+});
+}
+
+function animateTimeline() {
+const timelineItems = document.querySelectorAll(".timeline-item");
+timelineItems.forEach((item) => {
+const rect = item.getBoundingClientRect();
+if (rect.top < window.innerHeight * 0.9) {
+item.classList.add("visible");
+}
+});
 }
 
 function animateCounter(elementId, targetValue) {
@@ -633,27 +643,29 @@ function setupModalEvents() {
 }
 
 window.addEventListener(
-  "scroll",
-  () => {
-    const currentScrollY = window.scrollY;
-    if (hasScrolled) {
-      scrollDirection = currentScrollY >= lastScrollY ? "down" : "up";
-    }
-    lastScrollY = currentScrollY;
-    hasScrolled = true;
-  },
-  { passive: true },
+"scroll",
+() => {
+const currentScrollY = window.scrollY;
+if (hasScrolled) {
+scrollDirection = currentScrollY >= lastScrollY ? "down" : "up";
+}
+lastScrollY = currentScrollY;
+hasScrolled = true;
+animateTimeline();
+},
+{ passive: true },
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadProjects();
-  loadCertificates();
-  updateGitHubInfo();
-  document.getElementById("year").innerText = new Date().getFullYear();
-  setTimeout(initScrollAnimations, 300);
-  setupNavigation();
-  setupModalEvents();
-  initTypingEffect();
+loadProjects();
+loadCertificates();
+updateGitHubInfo();
+document.getElementById("year").innerText = new Date().getFullYear();
+setTimeout(initScrollAnimations, 300);
+setupNavigation();
+setupModalEvents();
+initTypingEffect();
+animateTimeline();
 });
 
 function initTypingEffect() {
