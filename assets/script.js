@@ -344,7 +344,8 @@ function createProjectCard(project, index, direction) {
   card.addEventListener("click", () => openModal(project));
 
   const cardDelay =
-    300 + Math.abs(index * (direction === "up" ? -1 : 1) * CONFIG.ANIMATION_DELAY);
+    300 +
+    Math.abs(index * (direction === "up" ? -1 : 1) * CONFIG.ANIMATION_DELAY);
 
   setTimeout(() => {
     card.classList.add("revealed");
@@ -372,7 +373,9 @@ function createProjectCard(project, index, direction) {
 }
 
 async function loadProjects() {
-  const projects = (await fetchJSON("./data/projects.json")) || [FALLBACK_PROJECT];
+  const projects = (await fetchJSON("./data/projects.json")) || [
+    FALLBACK_PROJECT,
+  ];
 
   const container = document.getElementById("projectsContainer");
   container.innerHTML = "";
@@ -546,12 +549,15 @@ function renderCertificates(certificates) {
   const getIcon = (title) => {
     const titleLower = title.toLowerCase();
     if (titleLower.includes("aws")) return "☁️";
-    if (titleLower.includes("nasa") || titleLower.includes("space")) return "🚀";
+    if (titleLower.includes("nasa") || titleLower.includes("space"))
+      return "🚀";
     if (titleLower.includes("php")) return "💼";
     return "📜";
   };
 
-  container.innerHTML = certificates.map(cert => `
+  container.innerHTML = certificates
+    .map((cert) =>
+      `
     <a href="${cert.url}" target="_blank" rel="noopener noreferrer" class="cert-item">
       <div class="cert-icon">${getIcon(cert.title)}</div>
       <div class="cert-content">
@@ -560,7 +566,9 @@ function renderCertificates(certificates) {
       </div>
       <span class="cert-link-text">Ver Certificado →</span>
     </a>
-  `.trim()).join("");
+  `.trim(),
+    )
+    .join("");
 }
 
 async function loadCertificates() {

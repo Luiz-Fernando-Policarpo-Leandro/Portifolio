@@ -9,7 +9,7 @@
     "tags": ["Ruby on Rails", "API REST", "RSpec", "CI/CD", "PostgreSQL"],
     "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/onibus_app",
     "demo": null,
-    "images": ["0","1"]
+    "images": ["0", "1"]
   },
   {
     "id": "data_analisys",
@@ -21,7 +21,7 @@
     "tags": ["Python", "Pandas", "PostgreSQL", "NodeJs"],
     "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/data_analisys_test",
     "demo": "https://data-analisys-test-luiz-fernando-policarpo-leandros-projects.vercel.app?_vercel_share=kG73QlCZXF6FrjYHJ5WgG1ymlhbK5SL3",
-    "images": ["0","1","2","3"]
+    "images": ["0", "1", "2", "3"]
   },
   {
     "id": "astro_blasters",
