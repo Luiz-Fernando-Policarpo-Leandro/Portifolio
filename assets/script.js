@@ -540,10 +540,55 @@ function openModal(project) {
   }, CONFIG.MODAL_ANIMATION_DELAY);
 }
 
+function renderCertificates(certificates) {
+const container = document.getElementById("certificatesContainer");
+if (!container) return;
+
+const icons = {
+AWS: "☁️",
+"NASA": "🚀",
+PHP: "💼",
+default: "📜"
+};
+
+container.innerHTML = certificates.map(cert => {
+const getIcon = () => {
+const title = cert.title.toLowerCase();
+if (title.includes("aws")) return icons.AWS;
+if (title.includes("nasa")) return icons.NASA;
+if (title.includes("php")) return icons.PHP;
+return icons.default;
+};
+
+return `
+<a href="${cert.url}" target="_blank" rel="noopener" class="cert-item">
+<div class="cert-icon">${getIcon()}</div>
+<div class="cert-content">
+<strong>${cert.title}</strong>
+<span class="muted">${cert.description.split(" ").slice(0, 8).join(" ")}...</span>
+<p>${cert.description}</p>
+</div>
+<span class="cert-link-text">Ver Certificado →</span>
+</a>
+`.trim();
+}).join("");
+}
+
+async function loadCertificates() {
+try {
+const certificates = await fetchJSON("./data/certificates.json");
+if (certificates) {
+renderCertificates(certificates);
+}
+} catch (e) {
+console.warn("Erro ao carregar certificados:", e);
+}
+}
+
 async function updateGitHubInfo() {
-  let data = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY) || "null");
-  data =
-    data || (await fetchJSON("./data/github-fallback.json")) || FALLBACK_DATA;
+let data = JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY) || "null");
+data =
+data || (await fetchJSON("./data/github-fallback.json")) || FALLBACK_DATA;
 
   document
     .getElementById("repo-count")
@@ -683,14 +728,15 @@ window.addEventListener(
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadProjects();
-  updateGitHubInfo();
-  document.getElementById("year").innerText = new Date().getFullYear();
-  setTimeout(initScrollAnimations, 300);
-  setupNavigation();
-  setupModalEvents();
-  initTypingEffect();
-  animateTimeline();
+loadProjects();
+loadCertificates();
+updateGitHubInfo();
+document.getElementById("year").innerText = new Date().getFullYear();
+setTimeout(initScrollAnimations, 300);
+setupNavigation();
+setupModalEvents();
+initTypingEffect();
+animateTimeline();
 });
 
 function initTypingEffect() {
