@@ -544,25 +544,17 @@ function renderCertificates(certificates) {
 const container = document.getElementById("certificatesContainer");
 if (!container) return;
 
-const icons = {
-AWS: "☁️",
-"NASA": "🚀",
-PHP: "💼",
-default: "📜"
+const getIcon = (title) => {
+const titleLower = title.toLowerCase();
+if (titleLower.includes("aws")) return "☁️";
+if (titleLower.includes("nasa") || titleLower.includes("space")) return "🚀";
+if (titleLower.includes("php")) return "💼";
+return "📜";
 };
 
-container.innerHTML = certificates.map(cert => {
-const getIcon = () => {
-const title = cert.title.toLowerCase();
-if (title.includes("aws")) return icons.AWS;
-if (title.includes("nasa")) return icons.NASA;
-if (title.includes("php")) return icons.PHP;
-return icons.default;
-};
-
-return `
+container.innerHTML = certificates.map(cert => `
 <a href="${cert.url}" target="_blank" rel="noopener" class="cert-item">
-<div class="cert-icon">${getIcon()}</div>
+<div class="cert-icon">${getIcon(cert.title)}</div>
 <div class="cert-content">
 <strong>${cert.title}</strong>
 <span class="muted">${cert.description.split(" ").slice(0, 8).join(" ")}...</span>
@@ -570,8 +562,7 @@ return `
 </div>
 <span class="cert-link-text">Ver Certificado →</span>
 </a>
-`.trim();
-}).join("");
+`.trim()).join("");
 }
 
 async function loadCertificates() {
