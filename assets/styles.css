@@ -720,12 +720,7 @@ font-weight: 700;
 
 #projectsContainer {
 padding: 10px 0;
-row-gap: 1rem;
-column-gap: 1rem;
-}
-
-#projectsContainer > .col {
-margin-bottom: 0;
+gap: 1rem;
 }
 
 .project-card {
@@ -2373,8 +2368,7 @@ height: 44px;
 }
 
 #projectsContainer {
-row-gap: 2rem;
-column-gap: 1.5rem;
+gap: 2rem 1.5rem;
 }
 
 .project-card {
