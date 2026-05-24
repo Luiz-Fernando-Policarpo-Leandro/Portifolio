@@ -745,16 +745,76 @@ h1::after {
 }
 
 /* =========================
-   LINKS
-========================= */
+LINKS
+======================== */
 
 .links {
-  margin-top: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+margin-top: 24px;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 12px;
+flex-wrap: wrap;
+}
+
+.links a {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 44px;
+height: 44px;
+border-radius: 10px;
+border: 1px solid var(--border-subtle);
+background: rgba(255, 255, 255, 0.02);
+color: var(--text-muted);
+transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+position: relative;
+overflow: hidden;
+padding: 0;
+text-decoration: none;
+}
+
+.links a::before {
+content: "";
+position: absolute;
+inset: -1px;
+border-radius: 11px;
+background: var(--gradient-cyan-dominant);
+-webkit-mask:
+linear-gradient(#fff 0 0) content-box,
+linear-gradient(#fff 0 0);
+-webkit-mask-composite: xor;
+mask-composite: exclude;
+opacity: 0;
+transition: opacity 0.3s ease;
+pointer-events: none;
+}
+
+.links a svg {
+width: 20px;
+height: 20px;
+}
+
+.links a:hover {
+color: var(--accent-cyan-light);
+border-color: transparent;
+background: rgba(6, 182, 212, 0.1);
+transform: translateY(-3px);
+box-shadow: 0 8px 20px rgba(6, 182, 212, 0.2);
+}
+
+.links a:hover::before {
+opacity: 1;
+}
+
+.social-icon {
+width: 20px;
+height: 20px;
+transition: transform 0.3s;
+}
+
+.links a:hover .social-icon {
+transform: scale(1.1);
 }
 
 .social-link {
