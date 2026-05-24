@@ -2265,6 +2265,26 @@ font-family: "Inter", sans-serif;
 letter-spacing: 0.02em;
 }
 
+.footer-credits {
+font-size: 0.7rem;
+color: var(--text-subtle);
+margin: 8px 0 0;
+font-family: "Inter", sans-serif;
+letter-spacing: 0.01em;
+opacity: 0.6;
+}
+
+.footer-credits a {
+color: var(--text-muted);
+border-bottom: 1px solid transparent;
+transition: all 0.2s ease;
+}
+
+.footer-credits a:hover {
+color: var(--accent-cyan-light);
+border-bottom-color: var(--accent-cyan);
+}
+
 /* ========================= BREAKPOINT: SM (576px+) ========================= */
 
 @media (min-width: 576px) {
