@@ -75,32 +75,32 @@ function slideIn(element, delay = 0) {
 }
 
 function animateElements(container, delayStep = 150) {
-const elements = Array.from(container.querySelectorAll(".anim-init"));
-if (elements.length === 0) return;
+  const elements = Array.from(container.querySelectorAll(".anim-init"));
+  if (elements.length === 0) return;
 
-const direction = getScrollDirection();
-const orderedElements =
-direction === "up" ? [...elements].reverse() : elements;
+  const direction = getScrollDirection();
+  const orderedElements =
+    direction === "up" ? [...elements].reverse() : elements;
 
-let currentDelay = 0;
-orderedElements.forEach((el) => {
-if (el.dataset.slid === "true") return;
-el.dataset.slid = "false";
-el.style.opacity = "0";
-el.style.transform = "";
-slideIn(el, currentDelay);
-currentDelay += delayStep;
-});
+  let currentDelay = 0;
+  orderedElements.forEach((el) => {
+    if (el.dataset.slid === "true") return;
+    el.dataset.slid = "false";
+    el.style.opacity = "0";
+    el.style.transform = "";
+    slideIn(el, currentDelay);
+    currentDelay += delayStep;
+  });
 }
 
 function animateTimeline() {
-const timelineItems = document.querySelectorAll(".timeline-item");
-timelineItems.forEach((item) => {
-const rect = item.getBoundingClientRect();
-if (rect.top < window.innerHeight * 0.9) {
-item.classList.add("visible");
-}
-});
+  const timelineItems = document.querySelectorAll(".timeline-item");
+  timelineItems.forEach((item) => {
+    const rect = item.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.9) {
+      item.classList.add("visible");
+    }
+  });
 }
 
 function animateCounter(elementId, targetValue) {
@@ -287,8 +287,6 @@ const initScrollAnimations = (() => {
   };
 })();
 
-
-
 function getProjectImagePath(projectId, index) {
   return `assets/imgs/${projectId}/${index}.webp`;
 }
@@ -311,13 +309,17 @@ function createProjectCard(project, index, direction) {
 
   const badgesHtml = project.tags
     ? `<div class="project-card-badges">
-        ${project.tags.slice(0, 3).map(tag => `<span class="project-badge">${tag}</span>`).join('')}
+        ${project.tags
+          .slice(0, 3)
+          .map((tag) => `<span class="project-badge">${tag}</span>`)
+          .join("")}
       </div>`
-    : '';
+    : "";
 
-  const imagesCount = project.images?.length > 0
-    ? `<div class="project-card-images-count">${project.images.length} 📷</div>`
-    : '';
+  const imagesCount =
+    project.images?.length > 0
+      ? `<div class="project-card-images-count">${project.images.length} 📷</div>`
+      : "";
 
   overlay.innerHTML = `
     ${imagesCount}
@@ -337,7 +339,7 @@ function createProjectCard(project, index, direction) {
 
   setTimeout(() => {
     card.classList.add("revealed");
-    
+
     const dir = getScrollDirection();
     img.style.transform = `translateY(${dir === "down" ? -30 : 30}px)`;
     img.style.opacity = "0";
@@ -594,31 +596,31 @@ async function updateGitHubInfo() {
 }
 
 function setupNavigation() {
-// Bootstrap navbar já gerencia o toggle automaticamente
-// Fechar menu mobile ao clicar em link
-document.querySelectorAll(".navbar-nav .nav-link").forEach((link) => {
-link.addEventListener("click", () => {
-const navbarCollapse = document.querySelector(".navbar-collapse");
-if (navbarCollapse.classList.contains("show")) {
-const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-bsCollapse?.hide();
-}
-});
-});
+  // Bootstrap navbar já gerencia o toggle automaticamente
+  // Fechar menu mobile ao clicar em link
+  document.querySelectorAll(".navbar-nav .nav-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const navbarCollapse = document.querySelector(".navbar-collapse");
+      if (navbarCollapse.classList.contains("show")) {
+        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+        bsCollapse?.hide();
+      }
+    });
+  });
 
-// Smooth scroll para links âncora
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-anchor.addEventListener('click', function (e) {
-const href = this.getAttribute('href');
-if (href !== '#') {
-e.preventDefault();
-const target = document.querySelector(href);
-if (target) {
-target.scrollIntoView({ behavior: 'smooth' });
-}
-}
-});
-});
+  // Smooth scroll para links âncora
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      const href = this.getAttribute("href");
+      if (href !== "#") {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    });
+  });
 }
 
 function setupModalEvents() {
@@ -637,8 +639,11 @@ function setupModalEvents() {
 }
 
 function updateScrollProgress() {
-  const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const winScroll =
+    document.documentElement.scrollTop || document.body.scrollTop;
+  const height =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
   const progress = (winScroll / height) * 100;
   document.getElementById("scrollProgress").style.width = progress + "%";
 }
@@ -662,30 +667,30 @@ function updateActiveNav() {
 }
 
 window.addEventListener(
-"scroll",
-() => {
-const currentScrollY = window.scrollY;
-if (hasScrolled) {
-scrollDirection = currentScrollY >= lastScrollY ? "down" : "up";
-}
-lastScrollY = currentScrollY;
-hasScrolled = true;
-animateTimeline();
-updateScrollProgress();
-updateActiveNav();
-},
-{ passive: true },
+  "scroll",
+  () => {
+    const currentScrollY = window.scrollY;
+    if (hasScrolled) {
+      scrollDirection = currentScrollY >= lastScrollY ? "down" : "up";
+    }
+    lastScrollY = currentScrollY;
+    hasScrolled = true;
+    animateTimeline();
+    updateScrollProgress();
+    updateActiveNav();
+  },
+  { passive: true },
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-loadProjects();
-updateGitHubInfo();
-document.getElementById("year").innerText = new Date().getFullYear();
-setTimeout(initScrollAnimations, 300);
-setupNavigation();
-setupModalEvents();
-initTypingEffect();
-animateTimeline();
+  loadProjects();
+  updateGitHubInfo();
+  document.getElementById("year").innerText = new Date().getFullYear();
+  setTimeout(initScrollAnimations, 300);
+  setupNavigation();
+  setupModalEvents();
+  initTypingEffect();
+  animateTimeline();
 });
 
 function initTypingEffect() {
@@ -693,7 +698,7 @@ function initTypingEffect() {
     "Desenvolvedor Web",
     "Cientista de Dados",
     "Especialista em Backend",
-    "Criador de APIs"
+    "Criador de APIs",
   ];
   const element = document.getElementById("typingText");
   let textIndex = 0;
