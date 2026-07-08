@@ -1279,6 +1279,7 @@ h1::after {
 
 .project-modal.active {
   display: flex;
+  overflow: hidden;
 }
 
 .modal-content {
@@ -1415,8 +1416,9 @@ h1::after {
 .modal-links {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 32px;
   flex-wrap: wrap;
   padding-top: 4px;
 }

@@ -397,7 +397,7 @@ function buildModalContent(project) {
     );
   if (project.demo)
     links.push(
-      `<a href="${project.demo}" target="_blank" rel="noopener noreferrer" class="modal-link">Demo ↗</a>`,
+      `<a href="${project.demo}" target="_blank" rel="noopener noreferrer" class="modal-link">Visitar o Site ↗</a>`,
     );
 
   return `
@@ -411,8 +411,8 @@ function buildModalContent(project) {
       <div class="modal-section-label">Relatorio</div>
       <p>${project.problem} ${project.solution} Ao processo do projeto, aprimorei o meu conhecimento em: ${project.learning}</p>
     </div>
-    <div class="modal-tags">${renderTagsWithIcons(project.tags)}</div>
     ${links.length > 0 ? `<div class="modal-links">${links.join("")}</div>` : ""}
+    <div class="modal-tags">${renderTagsWithIcons(project.tags)}</div>
   </div>`;
 }
 
