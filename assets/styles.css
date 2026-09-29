@@ -59,6 +59,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 112.5%;
 }
 
 body {
@@ -114,7 +115,7 @@ p {
 .about,
 .contact,
 .muted {
-  max-width: 750px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -416,6 +417,7 @@ p {
 /* ========================= LAYOUT ========================= */
 
 .main-container {
+  max-width: 1600px;
   padding: 0 1rem;
   position: relative;
   z-index: 3;
@@ -430,7 +432,7 @@ p {
   font-weight: 500;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 44px;
+  min-height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -574,8 +576,8 @@ header {
 }
 
 .avatar {
-  width: 110px;
-  height: 110px;
+  width: 121px;
+  height: 121px;
   border-radius: 50%;
   overflow: visible;
   position: relative;
@@ -780,7 +782,7 @@ h1::after {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 44px;
+  height: 48px;
   border-radius: 10px;
   border: 1px solid var(--border-subtle);
   background: rgba(255, 255, 255, 0.02);
@@ -809,8 +811,8 @@ h1::after {
 }
 
 .links a svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
 }
 
 .links a:hover {
@@ -826,8 +828,8 @@ h1::after {
 }
 
 .social-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   transition: transform 0.3s;
 }
 
@@ -869,7 +871,7 @@ h1::after {
   line-height: 1.9;
   color: var(--text-primary);
   text-align: center;
-  max-width: 700px;
+  max-width: 850px;
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -904,7 +906,7 @@ h1::after {
   cursor: pointer;
   aspect-ratio: 4 / 3;
   height: 100%;
-  min-height: 160px;
+  min-height: 176px;
   opacity: 0;
   transform: translateY(20px);
 }
@@ -1763,7 +1765,7 @@ h1::after {
 .timeline {
   position: relative;
   padding-left: 32px;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -2393,7 +2395,7 @@ a:hover {
   color: var(--text-primary);
   text-align: center;
   margin-bottom: 36px;
-  max-width: 600px;
+  max-width: 750px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2670,8 +2672,8 @@ footer {
   }
 
   .avatar {
-    width: 160px;
-    height: 160px;
+    width: 176px;
+    height: 176px;
   }
 
   .header-stats {
@@ -2699,8 +2701,8 @@ footer {
   }
 
   .links a {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
   }
 
   #projectsContainer {
@@ -2708,7 +2710,7 @@ footer {
   }
 
   .project-card {
-    min-height: 200px;
+    min-height: 220px;
   }
 
   .modal-inner {
