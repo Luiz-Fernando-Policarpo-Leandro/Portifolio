@@ -34,5 +34,17 @@
     "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/Astro_blaster",
     "demo": "https://astro-blaster.vercel.app/",
     "images": ["0", "1", "2"]
+  },
+  {
+    "id": "sgea",
+    "title": "SGEA — Sistema de Gerenciamento de Eventos Acadêmicos",
+    "summary": "Plataforma fullstack para gerenciamento do ciclo de vida de eventos acadêmicos, desde a criação e inscrição até o controle de presença e emissão de certificados.",
+    "problem": "Necessidade de centralizar e automatizar a gestão de eventos acadêmicos, reduzindo a dependência de processos manuais para inscrições, atividades, presença e certificação.",
+    "solution": "Desenvolvimento de uma plataforma fullstack com React no frontend e Node.js, Express e TypeScript no backend, utilizando Clean Architecture, autenticação JWT com controle de acesso por papéis, validação com Zod e PostgreSQL em Docker. O sistema permite gerenciar eventos e atividades, inscrições, check-in/check-out, certificados com código único e perfis de usuários.",
+    "learning": "Aplicação prática de Clean Architecture, separação entre domínio e infraestrutura, desenvolvimento de APIs REST, autenticação e autorização baseada em papéis, modelagem relacional e organização de aplicações fullstack com TypeScript.",
+    "tags": ["TypeScript", "React", "Node.js", "Express", "PostgreSQL", "JWT", "Clean Architecture", "Docker"],
+    "github": "https://github.com/Luiz-Fernando-Policarpo-Leandro/SGEA",
+    "demo": null,
+    "images": ["0", "1", "2"]
   }
 ]
