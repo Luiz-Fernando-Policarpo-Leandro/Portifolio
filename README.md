@@ -1,21 +1,55 @@
 # Luiz Fernando — Portfólio
 
+<p align="center">
+  <a href="https://drive.google.com/uc?export=download&id=1nEfiAe5Pzxn-KWE9QIY6yZls6I1dEE_N" target="_blank" rel="noopener noreferrer">
+    <svg width="420" height="92" viewBox="0 0 420 92" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Baixar currículo">
+      <defs>
+        <linearGradient id="resumeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#06b6d4">
+            <animate attributeName="stop-color" values="#06b6d4;#14b8a6;#10b981;#06b6d4" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="50%" stop-color="#14b8a6">
+            <animate attributeName="stop-color" values="#14b8a6;#10b981;#06b6d4;#14b8a6" dur="4s" repeatCount="indefinite"/>
+          </stop>
+          <stop offset="100%" stop-color="#10b981">
+            <animate attributeName="stop-color" values="#10b981;#06b6d4;#14b8a6;#10b981" dur="4s" repeatCount="indefinite"/>
+          </stop>
+        </linearGradient>
+      </defs>
+
+      <rect x="2" y="2" width="416" height="88" rx="12" fill="#0a0a0a" stroke="url(#resumeGradient)" stroke-width="2">
+        <animate attributeName="stroke" values="#06b6d4;#14b8a6;#10b981;#06b6d4" dur="4s" repeatCount="indefinite"/>
+      </rect>
+
+      <text x="210" y="56" text-anchor="middle" fill="#ffffff" font-size="23" font-weight="700" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1.5">
+        BAIXAR CURRÍCULO
+      </text>
+    </svg>
+  </a>
+</p>
+
 > Desenvolvedor de Software especializado em backend, APIs e aplicações web modernas.
 
 Este repositório contém o meu portfólio pessoal, com apresentação profissional, projetos em destaque, experiência, habilidades e informações de contato.
 
-## Visão geral
+## Sobre
 
-O site foi desenvolvido em HTML, CSS e JavaScript, com uma interface moderna, responsiva e otimizada para apresentação de perfil profissional em plataformas como GitHub Pages e demais hospedagens estáticas.
+Sou Luiz Fernando, desenvolvedor focado em construir soluções eficientes, escaláveis e com boa experiência de uso. Meu trabalho combina lógica, arquitetura e atenção ao detalhe para entregar sistemas que resolvem problemas reais.
 
-## Destaques
+## Projetos em destaque
 
-- Apresentação pessoal com foto, bio e links de contato
-- Seção de projetos em destaque
-- Experiência profissional e formação
-- Lista de habilidades e tecnologias
-- Layout responsivo com design moderno
-- Estrutura leve e fácil de manter
+- Portfólio pessoal em HTML, CSS e JavaScript
+- Projetos de automação e desenvolvimento web
+- Aplicações com foco em produtividade e UX
+
+## Tecnologias
+
+- HTML5
+- CSS3
+- JavaScript
+- Bootstrap
+- Python
+- APIs REST
 
 ## Estrutura do projeto
 
@@ -25,8 +59,7 @@ Portifolio/
 ├── README.md
 ├── assets/
 │   ├── imgs/
-│   ├── styles.css
-│   └── ...
+│   └── styles.css
 ├── data/
 └── ...
 ```
@@ -39,31 +72,23 @@ Portifolio/
 git clone https://github.com/Luiz-Fernando-Policarpo-Leandro/portifolio.git
 ```
 
-2. Acesse a pasta do projeto:
+2. Entre na pasta:
 
 ```bash
 cd Portifolio
 ```
 
-3. Abra o arquivo `index.html` no navegador ou sirva localmente com um servidor simples:
+3. Abra o arquivo `index.html` no navegador ou rode um servidor local:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Em seguida, acesse:
+Depois acesse:
 
 ```text
 http://localhost:8000
 ```
-
-## Tecnologias utilizadas
-
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap 5
-- Fonts e ícones externos
 
 ## Contato
 
@@ -73,4 +98,4 @@ http://localhost:8000
 
 ## Observação
 
-Este projeto é um portfólio pessoal e pode ser adaptado para uso próprio, estudo ou como base para outros projetos de apresentação profissional.
+Este README inclui uma versão do botão animado compatível com GitHub, usando SVG com animação nativa para funcionar no render do Markdown sem depender de CSS externo.
