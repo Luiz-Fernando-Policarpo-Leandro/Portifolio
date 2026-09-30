@@ -1,32 +1,6 @@
 # Luiz Fernando — Portfólio
 
-<p align="center">
-  <a href="https://drive.google.com/uc?export=download&id=1nEfiAe5Pzxn-KWE9QIY6yZls6I1dEE_N" target="_blank" rel="noopener noreferrer">
-    <svg width="420" height="92" viewBox="0 0 420 92" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Baixar currículo">
-      <defs>
-        <linearGradient id="resumeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#06b6d4">
-            <animate attributeName="stop-color" values="#06b6d4;#14b8a6;#10b981;#06b6d4" dur="4s" repeatCount="indefinite"/>
-          </stop>
-          <stop offset="50%" stop-color="#14b8a6">
-            <animate attributeName="stop-color" values="#14b8a6;#10b981;#06b6d4;#14b8a6" dur="4s" repeatCount="indefinite"/>
-          </stop>
-          <stop offset="100%" stop-color="#10b981">
-            <animate attributeName="stop-color" values="#10b981;#06b6d4;#14b8a6;#10b981" dur="4s" repeatCount="indefinite"/>
-          </stop>
-        </linearGradient>
-      </defs>
-
-      <rect x="2" y="2" width="416" height="88" rx="12" fill="#0a0a0a" stroke="url(#resumeGradient)" stroke-width="2">
-        <animate attributeName="stroke" values="#06b6d4;#14b8a6;#10b981;#06b6d4" dur="4s" repeatCount="indefinite"/>
-      </rect>
-
-      <text x="210" y="56" text-anchor="middle" fill="#ffffff" font-size="23" font-weight="700" font-family="Segoe UI, Arial, sans-serif" letter-spacing="1.5">
-        BAIXAR CURRÍCULO
-      </text>
-    </svg>
-  </a>
-</p>
+[Baixar currículo](https://drive.google.com/uc?export=download&id=1nEfiAe5Pzxn-KWE9QIY6yZls6I1dEE_N)
 
 > Desenvolvedor de Software especializado em backend, APIs e aplicações web modernas.
 
@@ -98,4 +72,4 @@ http://localhost:8000
 
 ## Observação
 
-Este README inclui uma versão do botão animado compatível com GitHub, usando SVG com animação nativa para funcionar no render do Markdown sem depender de CSS externo.
+No GitHub, o README suporta Markdown e alguns elementos HTML simples, mas não aplica CSS customizado do projeto. Por isso, para garantir que o texto e os links funcionem corretamente, o conteúdo foi simplificado para um formato compatível com a renderização do GitHub.
