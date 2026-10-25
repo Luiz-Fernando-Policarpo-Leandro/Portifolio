@@ -231,7 +231,6 @@ p {
 }
 
 @keyframes resumegradient {
-  
   0% {
     color: var(--border-subtle);
   }
